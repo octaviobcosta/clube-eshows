@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- ══════════════════════════════════════════════════════════════════
+     CONFIGURAÇÃO — todos os valores entre colchetes da página em um
+     lugar só. Preencha aqui e o HTML inteiro atualiza.
+     ══════════════════════════════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  clube: {
+    nome: "[NOME]",                 // nome comercial do clube (seção assinatura)
+  },
+  numeros: {
+    showsBase: "[250 mil]",         // toolkit 03: base de shows que alimenta o dado de preço
+    janelaDias: "[90]",             // toolkit 05: janela de recebíveis fechados (dias)
+    multiplicadorCache: "[3x]",     // mercado: quanto evento particular/corporativo paga vs bar
+    turmaArtistas: "[30]",          // primeira turma: artistas
+    turmaCidades: "[3]",            // primeira turma: cidades
+    conversaMin: "[15]",            // seleção: duração da conversa (minutos)
+    custoPorFora: "[R$ X]",         // assinatura: ancoragem do custo montando por fora
+    comissaoEmpresario: "[20%]",    // assinatura: comissão típica de empresário
+    precoMensal: "[valor]",         // assinatura: mensalidade do clube
+    semanasEstrutura: "[X]",        // FAQ: semanas até a estrutura ficar pronta
+    vagasCidade: "[3]",             // fechamento: vagas na cidade do leitor
+    cidade: "[cidade]",             // fechamento: cidade do leitor (ou da campanha)
+  },
+  form: {
+    // PONTO DE INTEGRAÇÃO: URL que recebe POST JSON
+    // { nomeArtistico, cidade, estilo, whatsapp }. Sem backend nesta entrega.
+    endpoint: "",
+  },
+  links: {
+    instagram: "https://instagram.com/eshowsoficial",
+    site: "https://eshows.com.br",
+    // URL pública (GitHub Pages). Usada no og:url; og:image já é absoluta.
+    urlPublica: "https://octaviobcosta.github.io/clube-eshows/",
+  },
+};
+</script>
+
+<title>A estrutura de quem vive de música · Clube de artistas eShows</title>
+<meta name="description" content="Material, orçamento, contrato e acesso ao mercado de eventos particulares e corporativos. Tudo em um lugar só. Entrada por convite, vagas por cidade e estilo. Sua conta eShows continua grátis.">
+
+<!-- Open Graph: a prévia no WhatsApp é a primeira impressão.
+     No deploy, troque og:image por URL ABSOLUTA (WhatsApp não resolve relativa). -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="eshows">
+<meta property="og:title" content="A estrutura de quem vive de música.">
+<meta property="og:description" content="Eventos particulares e corporativos pagam mais e não aceitam improviso. O clube da eShows põe as ferramentas na sua mão: você define o preço, fala com o cliente e fica com 100% do cachê.">
+<meta property="og:url" content="https://octaviobcosta.github.io/clube-eshows/">
+<meta property="og:image" content="https://octaviobcosta.github.io/clube-eshows/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="theme-color" content="#0E0B0A">
+<link rel="icon" type="image/svg+xml" href="assets/eshows-icon.svg">
+
+<!-- marca .js cedo: estados iniciais de animação só existem com JS ativo.
+     O layout do filme NÃO depende desta classe: ele é gateado por .film-on,
+     adicionada só depois que GSAP+ScrollTrigger confirmam carregamento. -->
+<script>document.documentElement.classList.add('js');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" media="(min-width: 861px)" href="assets/film/palco-poster.webp" fetchpriority="high">
+<link rel="preload" as="image" media="(max-width: 860px)" href="assets/film/palco-mobile-poster.webp" fetchpriority="high">
+
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   TOKENS — brandkit eShows v0.39 (design system vivo)
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --ink-400:#0E0B0A; --ink-300:#14110F; --ink-100:#1F1A18; --ink-50:#2A2421;
+  --paper:#FAF6F0;
+  --paper-hi:rgba(250,246,240,.92);
+  --paper-mid:rgba(250,246,240,.75);
+  --hairline:rgba(250,246,240,.12);
+  --orange:#f05a28; --orange-deep:#d63d15; --orange-darker:#b33212;
+  --orange-hover:#c9391b; /* hover de botão: mantém branco AA (~4.7:1) */
+  --amber:#fbaf3f;
+  --gradient-brand:linear-gradient(135deg,#fbaf3f 0%,#f05a28 42%,#d63d15 74%,#b33212 100%);
+  --danger:#ff7a5c; --success:#4cd49a;
+
+  --font-display:'Bebas Neue','Arial Narrow',sans-serif;
+  --font-body:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'Geist Mono','Consolas',monospace;
+
+  --t-hero:clamp(2.9rem,14.2vw,8.6rem);
+  --t-h2:clamp(2.6rem,11vw,5.2rem);
+  --t-h3:clamp(1.5rem,5.4vw,2.1rem);
+  --t-frag:clamp(2.2rem,9.6vw,4.6rem);
+  --t-body:clamp(1rem,2.7vw,1.125rem);
+
+  --sect:clamp(76px,15vw,136px);
+  --gutter:clamp(20px,5vw,40px);
+  --maxw:1120px; --maxw-text:600px;
+
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --d1:120ms; --d2:220ms; --d3:360ms;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  /* grain de filme: assinatura da direção fotográfica eShows */
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ── base ─────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink-400);color:var(--paper);
+  font-family:var(--font-body);font-size:var(--t-body);line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  caret-color:var(--orange);
+}
+::selection{background:var(--orange);color:var(--ink-400)}
+html{scrollbar-color:var(--ink-50) var(--ink-400);scrollbar-width:thin}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+
+h1,h2,h3{
+  font-family:var(--font-display);font-weight:400;
+  letter-spacing:.012em;line-height:.92;margin:0;
+  text-wrap:balance;
+}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--orange-deep);color:var(--paper);padding:12px 20px;z-index:99;border-radius:0 0 var(--r-sm) 0}
+.skip:focus{left:0}
+
+/* palavras-chave em laranja: o único acento da página (estilo B&W + orange) */
+.hl{color:var(--orange)}
+
+/* ── botões ───────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:56px;padding:14px 28px;border-radius:var(--r-md);
+  font-family:var(--font-body);font-weight:600;font-size:1.06rem;
+  text-decoration:none;border:0;cursor:pointer;
+  transition:background var(--d1) var(--ease),transform var(--d1) var(--ease);
+}
+.btn-primary{background:var(--orange-deep);color:var(--paper)}
+.btn-primary:hover{background:var(--orange-hover)}
+.btn-primary:active{background:var(--orange-darker);transform:translateY(1px)}
+.btn-ghost{background:transparent;color:var(--paper);border:1px solid var(--hairline)}
+.btn-ghost:hover{border-color:var(--paper-mid)}
+.btn-block{width:100%}
+.btn .arr{transition:transform var(--d1) var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
+
+/* ── EQ bars: assinatura da marca (logo = equalização) ────────────── */
+.eq{display:inline-flex;align-items:flex-end;gap:4px;height:26px}
+.eq i{width:4px;border-radius:2px;background:var(--orange);display:block;transform-origin:bottom}
+.eq i:nth-child(1){height:38%} .eq i:nth-child(2){height:88%}
+.eq i:nth-child(3){height:55%} .eq i:nth-child(4){height:100%}
+.eq i:nth-child(5){height:65%}
+@keyframes eqpulse{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+html.js .eq.live i{animation:eqpulse 1.15s var(--ease) infinite}
+html.js .eq.live i:nth-child(2){animation-delay:.12s}
+html.js .eq.live i:nth-child(3){animation-delay:.28s}
+html.js .eq.live i:nth-child(4){animation-delay:.05s}
+html.js .eq.live i:nth-child(5){animation-delay:.4s}
+
+/* ── barra de topo: transparente sobre o filme, sólida depois ─────── */
+.topbar{
+  position:fixed;inset-inline:0;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px var(--gutter);
+  background:transparent;border-bottom:1px solid transparent;
+  transition:background var(--d3) var(--ease),border-color var(--d3) var(--ease);
+}
+.topbar.on{
+  background:rgba(14,11,10,.86);backdrop-filter:blur(14px);
+  border-bottom-color:var(--hairline);
+}
+.topbar img{height:24px;width:auto}
+.topbar .btn{
+  min-height:42px;padding:9px 18px;font-size:.92rem;
+  background:transparent;color:var(--paper);border:1px solid var(--hairline);
+}
+.topbar .btn:hover{border-color:var(--paper-mid)}
+.topbar.on .btn{background:var(--orange-deep);border-color:transparent}
+.topbar.on .btn:hover{background:var(--orange-hover)}
+.topbar.on .btn:active{background:var(--orange-darker)}
+
+/* ══════════════════════════════════════════════════════════════════
+   O FILME — cartaz em movimento, scrubbed pelo scroll.
+   Base (sem JS ou reduced motion): capítulos empilham como seções
+   normais, tudo legível. Com .film-on (GSAP confirmado): stage pinado,
+   capítulos absolutos, vídeo dirigido pelo progresso.
+   ══════════════════════════════════════════════════════════════════ */
+.film-section{position:relative;background:var(--ink-400)}
+.stage{position:relative}
+
+.stage__video{display:none}
+.film-on .stage{height:100svh;overflow:hidden}
+.film-on .stage__video{
+  display:block;position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 50%;
+  /* o filme recebe o mesmo tratamento de toda foto da página: P&B + contraste.
+     Comparação: ?filme=cor liga as cores originais; ?filme=mix ganha cor no brinde. */
+  filter:grayscale(1) contrast(1.12) brightness(.88);
+}
+html.film-cor .stage__video{filter:contrast(1.05) brightness(.94)}
+
+.stage__scrim{display:none}
+.film-on .stage__scrim{
+  display:block;position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(14,11,10,.5) 0%,rgba(14,11,10,.12) 30%,rgba(14,11,10,.18) 58%,rgba(14,11,10,.78) 100%);
+}
+.stage__grain{display:none}
+.film-on .stage__grain{
+  display:block;position:absolute;inset:-30%;pointer-events:none;
+  background:var(--grain);opacity:.055;
+  animation:grain-shift .9s steps(4) infinite;
+}
+@keyframes grain-shift{
+  0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}
+  50%{transform:translate(3%,-4%)}75%{transform:translate(-3%,-2%)}
+  100%{transform:translate(0,0)}
+}
+
+/* fallback sem JS / reduced motion: o hero mantém a foto P&B de apoio
+   (compromisso do PRODUCT.md) via poster estático + scrim pesado.
+   Com JS presente o still nunca pinta (html.js vem do <head>, sem FOUC e
+   sem roubar o LCP); reaparece só se o controller declarar .film-off
+   (reduced motion ou GSAP ausente). No modo filme, o poster do <video>
+   cumpre o papel de primeiro frame. */
+.chapter__still{position:absolute;inset:0;z-index:-1;overflow:hidden}
+html.js .chapter__still{display:none}
+html.js.film-off .chapter__still{display:block}
+.chapter__still img{
+  width:100%;height:100%;object-fit:cover;object-position:center 50%;
+  filter:grayscale(1) contrast(1.12) brightness(.8);
+}
+.chapter__still::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,11,10,.4) 0%,rgba(14,11,10,.16) 34%,rgba(14,11,10,.78) 72%,var(--ink-400) 100%);
+}
+.chapter.c-hero{isolation:isolate;min-height:100svh;max-width:none;display:flex;align-items:flex-end}
+.film-on .chapter__still{display:none}
+.film-on .chapter.c-hero{min-height:0;isolation:auto}
+
+/* capítulos: fluxo normal por padrão, absolutos no palco com .film-on */
+.chapter{position:relative;padding:var(--sect) var(--gutter);max-width:var(--maxw);margin-inline:auto}
+.film-on .chapter{
+  position:absolute;inset:0;max-width:none;margin:0;
+  display:flex;align-items:center;
+  padding:clamp(4.5rem,8vw,7rem) clamp(1.25rem,6vw,5rem);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .45s var(--ease),visibility 0s linear .45s;
+}
+.film-on .chapter.is-active{
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .45s var(--ease);
+}
+.film-on .chapter--right{justify-content:flex-end}
+.film-on .chapter--center{justify-content:center;text-align:center}
+
+.chapter__copy{position:relative;max-width:var(--maxw-text)}
+.film-on .chapter__copy{width:min(42rem,48vw);max-width:none}
+/* leitura sobre o filme: scrim LINEAR ancorado no lado do texto,
+   desvanecido em cima/embaixo por máscara (alfa apenas) */
+.film-on .chapter__copy::before{
+  content:"";position:absolute;z-index:-1;inset:-2.5rem -3rem;
+  background:linear-gradient(90deg,rgba(14,11,10,.85),rgba(14,11,10,.52) 62%,transparent);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+  pointer-events:none;
+}
+.film-on .chapter--right .chapter__copy::before{
+  background:linear-gradient(270deg,rgba(14,11,10,.85),rgba(14,11,10,.52) 62%,transparent);
+}
+.film-on .chapter--center .chapter__copy::before{
+  background:linear-gradient(180deg,transparent,rgba(14,11,10,.7) 30%,rgba(14,11,10,.7) 70%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
+}
+
+/* tipografia dos capítulos */
+.ch-title{
+  font-family:var(--font-display);font-size:var(--t-h2);max-width:none;
+  text-transform:uppercase;line-height:.92;letter-spacing:.012em;
+  text-shadow:0 3px 28px rgba(7,6,5,.6);
+}
+.ch-title .line{display:block}
+.c-hero .ch-title{font-size:var(--t-hero)}
+.film-on .c-hero .ch-title{font-size:clamp(2.9rem,8.5vw,6rem)}
+.film-on .ch-title{font-size:clamp(2.2rem,5.4vw,4.2rem)}
+.film-on .c-terceira .ch-title{font-size:clamp(2.6rem,7.6vw,5.4rem)}
+
+.ch-sub{
+  margin-top:clamp(18px,4vw,26px);max-width:34ch;
+  font-size:clamp(1.05rem,3vw,1.25rem);color:var(--paper-hi);
+  text-shadow:0 1px 14px rgba(7,6,5,.7);
+}
+.ch-body{
+  margin-top:clamp(16px,3.5vw,22px);max-width:44ch;color:var(--paper-hi);
+  text-shadow:0 1px 14px rgba(7,6,5,.7);
+}
+.ch-strong{
+  margin-top:clamp(18px,4vw,26px);font-weight:600;color:var(--paper);
+  font-size:clamp(1.05rem,3vw,1.25rem);text-shadow:0 1px 14px rgba(7,6,5,.7);
+}
+.ch-cta{margin-top:clamp(22px,5vw,32px)}
+.ch-attrs{
+  margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;
+  font-size:.9rem;color:var(--paper-mid);text-shadow:0 1px 10px rgba(7,6,5,.8);
+}
+.ch-attrs .dot{color:var(--orange)}
+
+/* cap. 2 · o jeito antigo: dois blocos compactos */
+.ch-duo{margin-top:clamp(20px,4.5vw,30px);display:flex;flex-direction:column;gap:clamp(14px,3vw,20px)}
+.ch-duo-item{max-width:46ch;color:var(--paper-hi);text-shadow:0 1px 14px rgba(7,6,5,.7)}
+.ch-duo-item b{
+  display:block;font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.3rem,4vw,1.7rem);text-transform:uppercase;line-height:1;
+  color:var(--paper-mid);margin-bottom:6px;letter-spacing:.012em;
+}
+
+/* cap. 5 · sua carreira: micro-benefícios sobre o filme */
+.ch-benefits{margin-top:clamp(20px,4.5vw,30px);display:flex;flex-direction:column;gap:clamp(10px,2.2vw,14px)}
+.ch-benefit{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--font-display);font-size:clamp(1.5rem,4.6vw,2.3rem);
+  text-transform:uppercase;line-height:1;text-shadow:0 2px 18px rgba(7,6,5,.65);
+}
+.film-on .chapter--right .ch-benefit{justify-content:flex-end}
+.ch-benefit .eq{flex:none;height:20px}
+
+/* cap. 6 · mercado: o multiplicador gigante */
+.ch-mult{
+  display:block;font-family:var(--font-display);
+  font-size:clamp(5rem,17vw,10rem);color:var(--orange);line-height:.85;
+  margin-top:clamp(18px,4vw,28px);text-shadow:0 4px 40px rgba(7,6,5,.5);
+}
+.ch-close{
+  margin-top:clamp(18px,4vw,26px);font-family:var(--font-display);
+  font-size:clamp(1.5rem,4.6vw,2.4rem);text-transform:uppercase;line-height:1;
+  max-width:18ch;text-shadow:0 2px 18px rgba(7,6,5,.65);
+}
+.film-on .chapter--right .ch-close{margin-inline-start:auto}
+
+/* cap. 7 · compromisso: o par em Geist caixa normal (exceção nomeada:
+   em all-caps o trocadilho "Agente" / "A gente" perde a distinção) */
+.ch-pledge{
+  margin-top:clamp(20px,4.5vw,30px);display:flex;flex-direction:column;gap:6px;
+  font-weight:600;font-size:clamp(1.25rem,4vw,1.9rem);line-height:1.2;letter-spacing:-.01em;
+  text-shadow:0 1px 14px rgba(7,6,5,.7);
+}
+.ch-pledge .no{color:var(--paper-mid)}
+.ch-pledge .yes{color:var(--orange)}
+
+/* EQ flutuante: só no capítulo 1, acompanha o fade do capítulo */
+.hero-eq{display:none;position:absolute;right:var(--gutter);bottom:clamp(30px,6vw,66px)}
+.film-on .c-hero .hero-eq{display:inline-flex}
+
+/* ── entradas por capítulo: cada um com a sua, via CSS ────────────── */
+.film-on .chapter .line{opacity:0;transform:var(--enter,translateY(26px))}
+.film-on .chapter.is-active .line{
+  opacity:1;transform:none;
+  transition:opacity .55s var(--ease),transform .55s var(--ease);
+}
+.film-on .chapter.is-active .d1{transition-delay:.08s}
+.film-on .chapter.is-active .d2{transition-delay:.16s}
+.film-on .chapter.is-active .d3{transition-delay:.24s}
+.film-on .chapter.is-active .d4{transition-delay:.32s}
+.film-on .chapter.is-active .d5{transition-delay:.4s}
+.film-on .chapter.is-active .d6{transition-delay:.48s}
+/* corte seco no jeito antigo: empurrão lateral curto */
+.c-velho{--enter:translateX(-18px)}
+.film-on .c-velho.is-active .line{transition-duration:.38s}
+/* soco único da terceira opção */
+.c-terceira{--enter:scale(.94)}
+/* benefícios entram do lado do texto (direita) */
+.c-jeito{--enter:translateX(24px)}
+/* mercado: o 3x estala */
+.c-mercado .ch-mult{--enter:scale(.88)}
+/* compromisso: levantada curta */
+.c-compromisso{--enter:translateY(12px)}
+/* payoff: linha de acento com um leve overshoot (não elástico) */
+.film-on .c-payoff.is-active .ch-title .line:last-child{
+  transition-timing-function:cubic-bezier(.22,1.18,.36,1);
+}
+
+/* ── rail de progresso do filme ───────────────────────────────────── */
+.rail{display:none}
+.film-on .rail{
+  position:fixed;z-index:40;right:clamp(12px,2vw,26px);top:50%;
+  transform:translateY(-50%);display:flex;align-items:stretch;gap:10px;
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease);
+}
+.film-on .rail.show{opacity:1;pointer-events:auto}
+.rail__track{
+  width:2px;height:min(38vh,340px);border-radius:1px;overflow:hidden;
+  background:rgba(250,246,240,.14);
+}
+.rail__fill{width:100%;height:100%;background:var(--orange);transform:scaleY(0);transform-origin:top center}
+.rail__dots{display:flex;flex-direction:column;justify-content:space-between}
+.rail__dot{width:26px;height:26px;display:grid;place-items:center;padding:0;border:0;background:transparent;cursor:pointer}
+.rail__dot i{width:7px;height:7px;border-radius:50%;background:rgba(250,246,240,.35);transition:transform .25s,background .25s}
+.rail__dot:hover i{background:var(--paper);transform:scale(1.3)}
+.rail__dot.is-active i{background:var(--orange);transform:scale(1.45)}
+.rail__dot:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:50%}
+
+/* mobile: capítulos ancoram embaixo, largura cheia, dots fora */
+@media (max-width:860px){
+  .film-on .chapter,
+  .film-on .chapter--right,
+  .film-on .chapter--center{justify-content:flex-start;align-items:flex-end;text-align:left}
+  .film-on .chapter__copy{width:min(100%,33rem)}
+  .film-on .chapter--right .ch-benefit{justify-content:flex-start}
+  .film-on .chapter--right .ch-close{margin-inline-start:0}
+  .film-on .chapter--right .chapter__copy::before,
+  .film-on .chapter--center .chapter__copy::before{
+    background:linear-gradient(90deg,rgba(14,11,10,.85),rgba(14,11,10,.52) 62%,transparent);
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+    mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+  }
+  .rail__dots{display:none}
+  .film-on .rail{right:8px}
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SEÇÕES (depois do filme)
+   ══════════════════════════════════════════════════════════════════ */
+section{padding-block:var(--sect)}
+.film-section{padding-block:0}
+.sect-alt{background:var(--ink-300)}
+h2{font-size:var(--t-h2);text-transform:uppercase;max-width:14ch}
+.lead{margin-top:22px;max-width:var(--maxw-text);color:var(--paper-hi)}
+
+/* revelação de scroll: base VISÍVEL; escondido só com html.js.
+   Movimento pinado à grade do toolkit; .rv em outro lugar fica inerte. */
+html.js .tool.rv{opacity:0;transform:translateY(18px)}
+html.js .tool.rv.in{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease)}
+html.js .tool.rv.in.rv-d1{transition-delay:.1s}
+html.js .tool.rv.in.rv-d2{transition-delay:.2s}
+html.js .tool.rv.in.rv-d3{transition-delay:.3s}
+html.js .tool.rv.in.rv-d4{transition-delay:.4s}
+html.js .tool.rv.in.rv-d5{transition-delay:.5s}
+
+/* ── toolkit: grade numerada ──────────────────────────────────────── */
+.tools{margin-top:clamp(36px,8vw,64px);display:grid;gap:16px}
+.tool{
+  background:var(--ink-100);border:1px solid var(--hairline);
+  border-radius:var(--r-lg);padding:clamp(24px,5vw,32px);
+  box-shadow:0 14px 34px -18px rgba(0,0,0,.6);
+  transition:transform var(--d2) var(--ease),border-color var(--d2) var(--ease);
+}
+@media (hover:hover){.tool:hover{transform:translateY(-3px);border-color:rgba(250,246,240,.26)}}
+.tool .num{
+  font-family:var(--font-display);font-size:clamp(2.6rem,9vw,3.6rem);
+  color:var(--orange);line-height:1;display:block;
+}
+.tool h3{font-size:var(--t-h3);text-transform:uppercase;margin-top:14px}
+.tool p{margin-top:12px;color:var(--paper-mid);font-size:1rem}
+@media (min-width:700px){.tools{grid-template-columns:1fr 1fr}}
+@media (min-width:1024px){.tools{grid-template-columns:1fr 1fr 1fr}}
+
+/* ── seções com foto de fundo (fechamento) ────────────────────────── */
+.photo-sect{position:relative;isolation:isolate;overflow:hidden}
+.photo-sect .bg{position:absolute;inset:0;z-index:-1}
+.photo-sect .bg img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.12) brightness(.72);
+}
+.photo-sect .bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--ink-400) 0%,rgba(14,11,10,.42) 30%,rgba(14,11,10,.6) 70%,var(--ink-400) 100%),
+             linear-gradient(90deg,rgba(14,11,10,.55) 0%,rgba(14,11,10,.15) 60%);
+}
+.photo-sect .bg::before{
+  content:"";position:absolute;inset:0;z-index:1;background:var(--grain);opacity:.05;
+}
+
+/* ── compromisso: investimento + extrato ──────────────────────────── */
+.invest{margin-top:clamp(28px,6vw,44px);max-width:var(--maxw-text);color:var(--paper-hi)}
+.invest + .invest{margin-top:16px}
+.extrato{
+  margin-top:clamp(28px,6vw,40px);max-width:520px;
+  border:1px solid var(--hairline);border-radius:var(--r-lg);
+  background:var(--ink-100);padding:22px clamp(18px,4vw,28px);
+  font-family:var(--font-mono);font-size:.88rem;font-variant-numeric:tabular-nums;
+  box-shadow:0 14px 34px -18px rgba(0,0,0,.6);
+}
+.extrato-title{color:var(--paper-mid);letter-spacing:.1em;text-transform:uppercase;font-size:.72rem}
+.extrato ul{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.extrato li{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--hairline);padding-top:10px}
+.extrato li b{font-weight:500;color:var(--orange)}
+.pledge-close{
+  margin-top:clamp(32px,7vw,48px);font-family:var(--font-display);
+  font-size:clamp(1.9rem,8vw,3.4rem);text-transform:uppercase;line-height:1;max-width:18ch;
+}
+
+/* ── distribuição ─────────────────────────────────────────────────── */
+.rules{margin-top:clamp(32px,7vw,56px);display:grid;gap:0;max-width:760px}
+.rule{border-top:1px solid var(--hairline);padding:clamp(18px,4vw,26px) 0;display:grid;gap:8px}
+.rule:last-of-type{border-bottom:1px solid var(--hairline)}
+.rule dt{font-family:var(--font-display);font-size:clamp(1.4rem,5.6vw,2rem);text-transform:uppercase}
+.rule dd{margin:0;color:var(--paper-mid)}
+@media (min-width:768px){.rule{grid-template-columns:220px 1fr;align-items:baseline}}
+.rules-close{margin-top:clamp(24px,6vw,36px);color:var(--paper-hi);max-width:var(--maxw-text)}
+.rules-close b{color:var(--orange);font-weight:600}
+
+/* ── accordions (seleção + faq) ───────────────────────────────────── */
+.acc{margin-top:clamp(28px,7vw,48px);max-width:760px;border-top:1px solid var(--hairline)}
+.acc details{border-bottom:1px solid var(--hairline)}
+.acc summary{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:clamp(16px,4vw,22px) 0;cursor:pointer;list-style:none;
+  font-weight:600;font-size:1.05rem;
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .mk{
+  flex:none;width:26px;height:26px;border-radius:50%;
+  border:1px solid var(--hairline);position:relative;
+  transition:transform var(--d2) var(--ease),border-color var(--d2) var(--ease);
+}
+.acc summary .mk::before,.acc summary .mk::after{
+  content:"";position:absolute;background:var(--orange);
+  top:50%;left:50%;translate:-50% -50%;
+}
+.acc summary .mk::before{width:10px;height:2px}
+.acc summary .mk::after{width:2px;height:10px}
+.acc details[open] summary .mk{transform:rotate(45deg);border-color:var(--orange)}
+.acc .acc-body{padding:0 0 clamp(16px,4vw,22px);color:var(--paper-mid);max-width:62ch}
+html.js .acc details[open] .acc-body{animation:accin var(--d3) var(--ease)}
+@keyframes accin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* ── assinatura ───────────────────────────────────────────────────── */
+.anchor-note{margin-top:22px;max-width:var(--maxw-text);color:var(--paper-hi)}
+.plan{
+  margin-top:clamp(36px,8vw,56px);max-width:520px;
+  background:var(--ink-100);border:1px solid var(--hairline);border-radius:var(--r-lg);
+  padding:clamp(26px,6vw,40px);position:relative;overflow:hidden;
+  box-shadow:0 24px 60px -24px rgba(0,0,0,.7);
+}
+.plan::before{ /* hairline-assinatura no topo do card: o gradiente da marca */
+  content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--gradient-brand);
+}
+.plan-name{font-family:var(--font-display);font-size:var(--t-h3);text-transform:uppercase}
+.plan-price{margin-top:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.plan-price b{font-family:var(--font-display);font-weight:400;font-size:clamp(2.8rem,10vw,4rem);line-height:1;color:var(--orange)}
+.plan-price span{color:var(--paper-mid)}
+.plan ul{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.plan li{display:flex;gap:12px;align-items:flex-start;color:var(--paper-hi)}
+.plan li svg{flex:none;margin-top:5px}
+.plan .btn{margin-top:30px}
+.plan-safe{
+  margin-top:16px;display:flex;flex-wrap:wrap;gap:4px 12px;
+  font-size:.85rem;color:var(--paper-mid);
+}
+.plan-safe .dot{color:var(--orange)}
+/* ── sem letra miúda ──────────────────────────────────────────────── */
+.nots{margin-top:clamp(32px,7vw,52px);display:flex;flex-direction:column;max-width:760px}
+.not{border-top:1px solid var(--hairline);padding:clamp(18px,4.5vw,28px) 0}
+.not:last-of-type{border-bottom:1px solid var(--hairline)}
+.not b{font-family:var(--font-display);font-weight:400;font-size:clamp(1.6rem,6.4vw,2.4rem);text-transform:uppercase;display:block;line-height:1}
+.not p{margin-top:8px;color:var(--paper-mid)}
+.plain{margin-top:clamp(28px,6vw,40px);max-width:var(--maxw-text);color:var(--paper-hi);font-size:clamp(1.05rem,3vw,1.25rem)}
+
+/* ── fechamento + formulário ──────────────────────────────────────── */
+.vagas{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.8rem,7.5vw,3rem);text-transform:uppercase;line-height:1;
+  max-width:none;
+}
+.vagas .hl{color:var(--orange)}
+
+.form-card{
+  margin-top:clamp(32px,7vw,48px);max-width:520px;
+  background:rgba(31,26,24,.92);backdrop-filter:blur(8px);
+  border:1px solid var(--hairline);border-radius:var(--r-lg);
+  padding:clamp(24px,6vw,36px);
+  box-shadow:0 24px 60px -24px rgba(0,0,0,.7);
+}
+.form-card h3{font-size:var(--t-h3);text-transform:uppercase}
+.form-card .hint{margin-top:8px;color:var(--paper-mid);font-size:.92rem}
+.field{margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.field label{font-size:.88rem;font-weight:500;color:var(--paper-hi)}
+.field input,.field select{
+  appearance:none;background:var(--ink-300);border:1px solid var(--hairline);
+  border-radius:var(--r-sm);color:var(--paper);font:inherit;font-size:1rem;
+  padding:14px 16px;min-height:52px;width:100%;
+  transition:border-color var(--d1) var(--ease);
+}
+.field select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23f05a28' stroke-width='2'/></svg>");background-repeat:no-repeat;background-position:right 16px center}
+.field input::placeholder{color:var(--paper-mid)}
+.field input:focus,.field select:focus{border-color:var(--orange)}
+.field.err input,.field.err select{border-color:var(--danger)}
+.field .msg{display:none;font-size:.85rem;color:var(--danger)}
+.field.err .msg{display:block}
+html.js .field.err.shake{animation:shake .18s linear}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.form-card .btn{margin-top:26px}
+.form-note{margin-top:14px;font-size:.85rem;color:var(--paper-mid)}
+.form-ok{display:none;text-align:left}
+.form-ok .eq{height:30px;margin-bottom:18px}
+.form-ok b{font-family:var(--font-display);font-weight:400;font-size:var(--t-h3);text-transform:uppercase;display:block;line-height:1.05}
+.form-ok p{margin-top:12px;color:var(--paper-hi)}
+.form-card.done form{display:none}
+.form-card.done .form-ok{display:block}
+.form-err{display:none;margin-top:14px;font-size:.9rem;color:var(--danger)}
+.form-err.on{display:block}
+
+/* ── footer ───────────────────────────────────────────────────────── */
+footer{border-top:1px solid var(--hairline);padding:clamp(40px,8vw,64px) 0}
+.foot{display:flex;flex-direction:column;gap:22px}
+.foot img{height:24px;width:auto}
+.foot .tese{color:var(--paper-mid);max-width:32ch}
+.foot-row{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:.88rem;color:var(--paper-mid)}
+.foot-row a{text-decoration-color:var(--orange);text-underline-offset:4px}
+.foot-row a:hover{color:var(--paper)}
+@media (min-width:768px){
+  .foot{flex-direction:row;align-items:flex-end;justify-content:space-between}
+}
+
+/* ── reduced motion: desliga tudo que não é essencial ─────────────── */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html.js .tool.rv{opacity:1;transform:none}
+  .film-on .chapter .line{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<!--
+THESIS: a terceira opção do músico profissional: estrutura de empresário na mão do
+próprio artista. A página é um cartaz de show EM MOVIMENTO: o filme de 34,5s (POV do
+artista, a casa enchendo até o brinde) é scrubbed pelo scroll e carrega o arco
+emocional em 8 capítulos; o detalhe operacional (ferramentas, regra, assinatura,
+form) vem depois, no chão firme.
+OWN-WORLD: poster P&B + laranja da eshows: asfalto #0E0B0A, filme real de palco em
+P&B com grain (mesmo tratamento de toda foto), Bebas Neue condensada gigante, Geist
+no corpo, Geist Mono só em dado, #f05a28 como única cor, EQ bars como assinatura.
+STORY: o filme conduz — sozinho no palco vazio, as duas velhas opções, a porta acesa
+da terceira, a casa enchendo do seu jeito, o mercado que paga 3x, o compromisso sem
+comissão, o brinde: "não é pra todo mundo". Depois do filme: as seis ferramentas, a
+regra pública, a assinatura e o pedido de convite.
+FALLBACK: sem JS ou com reduced motion, os capítulos empilham como seções normais e
+tudo permanece legível; .film-on só existe com GSAP confirmado.
+COMPARE: ?filme=cor liga as cores originais do filme; ?filme=mix é P&B que ganha cor
+no brinde. Padrão: P&B + grain (mundo do cartaz).
+-->
+<a class="skip" href="#ferramentas">Pular para o conteúdo</a>
+
+<!-- barra de topo: transparente sobre o filme, sólida depois do capítulo 1 -->
+<div class="topbar" id="topbar">
+  <img src="assets/eshows-logo-white.png" alt="eshows" width="120" height="35">
+  <a class="btn" href="#vaga">Quero minha vaga</a>
+</div>
+
+<!-- rail de progresso do filme: só existe para AT enquanto o filme está ativo -->
+<div class="rail" aria-hidden="true" inert>
+  <div class="rail__track" aria-hidden="true"><div class="rail__fill"></div></div>
+  <nav class="rail__dots" aria-label="Capítulos"></nav>
+</div>
+
+<main>
+
+<!-- ══════════════════ O FILME · 8 capítulos ══════════════════ -->
+<section class="film-section" id="filme" aria-label="A história do clube">
+  <div class="stage">
+    <video class="stage__video" muted playsinline webkit-playsinline preload="none"
+           poster="assets/film/palco-poster.webp"
+           data-src="assets/film/palco.mp4"
+           data-src-mobile="assets/film/palco-mobile.mp4"></video>
+    <div class="stage__scrim" aria-hidden="true"></div>
+    <div class="stage__grain" aria-hidden="true"></div>
+
+    <!-- 1 · a estrutura (hero) — palco vazio, o mic ao alcance -->
+    <article class="chapter chapter--left c-hero" id="c-hero" data-film="0,0.12" data-weight="1.6" data-label="A estrutura">
+      <picture class="chapter__still" aria-hidden="true">
+        <source media="(max-width: 860px)" srcset="assets/film/palco-mobile-poster.webp">
+        <img src="assets/film/palco-poster.webp" alt="" width="1920" height="1080" decoding="async">
+      </picture>
+      <div class="chapter__copy">
+        <h1 class="ch-title">
+          <span class="line">A estrutura</span>
+          <span class="line d1">de quem vive</span>
+          <span class="line d2">de <em class="hl" style="font-style:normal">música.</em></span>
+        </h1>
+        <p class="ch-sub line d3">Material, orçamento, contrato e acesso ao mercado de eventos particulares e corporativos. Tudo em um lugar só.</p>
+        <div class="ch-cta line d4">
+          <a class="btn btn-primary" href="#vaga">Quero minha vaga <svg class="arr" width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1 6h12.2M9 1.6 13.6 6 9 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <p class="ch-attrs line d5">
+          <span>Entrada por convite</span><span class="dot" aria-hidden="true">·</span>
+          <span>Vagas por cidade e estilo</span><span class="dot" aria-hidden="true">·</span>
+          <span>Sua conta eShows continua grátis</span>
+        </p>
+      </div>
+      <div class="hero-eq eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+
+    <!-- 2 · o jeito antigo — a casa ainda vazia, o corre de sempre -->
+    <article class="chapter chapter--left c-velho" id="c-velho" data-film="0.12,0.24" data-weight="1.5" data-label="O jeito antigo">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Pra crescer, sempre</span>
+          <span class="line d1">foi preciso alguém.</span>
+        </h2>
+        <div class="ch-duo">
+          <p class="ch-duo-item line d2"><b>Antes</b>Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
+          <p class="ch-duo-item line d3"><b>Ou sozinho</b>Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 · a virada — a porta acesa -->
+    <article class="chapter chapter--center c-terceira" id="c-terceira" data-film="0.24,0.33" data-weight="1.0" data-label="A terceira opção">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Nunca teve uma</span>
+          <span class="line d1"><span class="hl">terceira opção.</span></span>
+        </h2>
+      </div>
+    </article>
+
+    <!-- 4 · o clube — os primeiros chegando -->
+    <article class="chapter chapter--left c-clube" id="c-clube" data-film="0.33,0.45" data-weight="1.5" data-label="O clube">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Sem agente.</span>
+          <span class="line d1">Sem escritório.</span>
+          <span class="line d2"><span class="hl">Sem ninguém no meio.</span></span>
+        </h2>
+        <p class="ch-strong line d3">Um lugar novo dentro da eShows.</p>
+        <p class="ch-body line d4">Ferramentas profissionais, oportunidades de eventos particulares e corporativos, e um grupo pequeno de artistas construindo isso com a gente.</p>
+      </div>
+    </article>
+
+    <!-- 5 · do seu jeito — a casa enchendo -->
+    <article class="chapter chapter--right c-jeito" id="c-jeito" data-film="0.45,0.6" data-weight="1.5" data-label="Do seu jeito">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Sua carreira,</span>
+          <span class="line d1">do seu jeito.</span>
+        </h2>
+        <div class="ch-benefits">
+          <p class="ch-benefit line d2"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Você define o preço</p>
+          <p class="ch-benefit line d3"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Você escolhe o evento</p>
+          <p class="ch-benefit line d4"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Você fala com o cliente</p>
+          <p class="ch-benefit line d5"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>O cachê é <span class="hl">100%</span> seu</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6 · o mercado — a energia subindo -->
+    <article class="chapter chapter--left c-mercado" id="c-mercado" data-film="0.6,0.76" data-weight="1.5" data-label="O mercado">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Eventos particulares</span>
+          <span class="line d1">e corporativos.</span>
+        </h2>
+        <span class="ch-mult line d2" aria-hidden="true"><span data-cfg="numeros.multiplicadorCache">[3x]</span></span>
+        <p class="ch-body line d3">Paga <b><span data-cfg="numeros.multiplicadorCache">[3x]</span></b> o que você recebe hoje. E é o que menos aceita improviso: escolhe vendo vídeo, com meses de antecedência.</p>
+        <p class="ch-close line d4">Sem ferramenta você <span class="hl">não entra</span>, por melhor que toque.</p>
+      </div>
+    </article>
+
+    <!-- 7 · o compromisso — casa cheia -->
+    <article class="chapter chapter--right c-compromisso" id="c-compromisso" data-film="0.76,0.88" data-weight="1.4" data-label="O compromisso">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">A gente traz</span>
+          <span class="line d1">a oportunidade.</span>
+          <span class="line d2"><span class="hl">Você fecha.</span></span>
+        </h2>
+        <!-- Geist em caixa normal de propósito: em all-caps o par
+             "Agente" / "A gente" perde a distinção que carrega o capítulo -->
+        <div class="ch-pledge">
+          <span class="line d3 no">Agente traz e leva um pedaço.</span>
+          <span class="line d4 yes">A gente traz e não leva nada.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8 · o brinde — payoff -->
+    <article class="chapter chapter--left c-payoff" id="c-payoff" data-film="0.88,1" data-weight="1.6" data-label="O convite">
+      <div class="chapter__copy">
+        <h2 class="ch-title">
+          <span class="line">Não é pra todo mundo.</span>
+          <span class="line d1"><span class="hl">Mas pode ser pra você.</span></span>
+        </h2>
+        <p class="ch-body line d2">Se você toca todo fim de semana há anos e nunca quis entregar sua carreira pra alguém levar um pedaço dela, é exatamente pra você que a gente montou isso.</p>
+        <div class="ch-cta line d3">
+          <a class="btn btn-primary" href="#vaga">Quero minha vaga <svg class="arr" width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1 6h12.2M9 1.6 13.6 6 9 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ── FERRAMENTAS ─────────────────────────────────────────────────── -->
+<section id="ferramentas">
+  <div class="wrap">
+    <h2 class="rv">Seis ferramentas. Todas na sua mão.</h2>
+    <div class="tools">
+      <article class="tool rv">
+        <span class="num" aria-hidden="true">01</span>
+        <h3>Seu material, pronto sozinho</h3>
+        <p>A IA monta seu EPK com o que você já tem na eShows. Cada show novo entra automático. Você manda um link, não um PDF.</p>
+      </article>
+      <article class="tool rv rv-d1">
+        <span class="num" aria-hidden="true">02</span>
+        <h3>Seus contatos, não os nossos</h3>
+        <p>Cada contratante que você já falou fica registrado, com o que rolou e quanto você cobrou. E te avisa quando é hora de chamar de volta.</p>
+      </article>
+      <article class="tool rv rv-d2">
+        <span class="num" aria-hidden="true">03</span>
+        <h3>Preço com dado, não com chute</h3>
+        <p><span data-cfg="numeros.showsBase">[250 mil]</span> shows dizem quem chamar, quanto cobrar e quando falar. Você para de deixar dinheiro na mesa.</p>
+      </article>
+      <article class="tool rv rv-d3">
+        <span class="num" aria-hidden="true">04</span>
+        <h3>Contrato em um clique</h3>
+        <p>Assinado pelos dois lados, nota emitida, prazo definido, recebimento acompanhado. Sem modelo de internet.</p>
+      </article>
+      <article class="tool rv rv-d4">
+        <span class="num" aria-hidden="true">05</span>
+        <h3>Sua carreira em números</h3>
+        <p>Quanto entrou, de onde veio, quem te chama de volta e quanto já está fechado pros próximos <span data-cfg="numeros.janelaDias">[90]</span> dias.</p>
+      </article>
+      <article class="tool rv rv-d5">
+        <span class="num" aria-hidden="true">06</span>
+        <h3>Divulgação que roda sozinha</h3>
+        <p>Campanha pros contratantes que já te conhecem, material pronto pro Instagram e vitrine ativa no catálogo de eventos particulares.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPROMISSO: O EXTRATO ──────────────────────────────────────── -->
+<section class="sect-alt" id="compromisso">
+  <div class="wrap">
+    <h2 class="rv">A gente traz a oportunidade. Você fecha.</h2>
+    <p class="invest rv">Toda temporada a eShows coloca dinheiro em campanha para noiva, catálogo de eventos particulares, parceria com cerimonialista e prospecção corporativa.</p>
+    <p class="invest rv">E todo mês você recebe o extrato:</p>
+    <div class="extrato rv" role="img" aria-label="Extrato mensal: quanto foi investido, quantas oportunidades entraram e quantas chegaram em você">
+      <span class="extrato-title">Extrato do mês</span>
+      <ul>
+        <li><span>quanto foi investido</span><b>R$ ····</b></li>
+        <li><span>oportunidades que entraram</span><b>····</b></li>
+        <li><span>quantas chegaram em você</span><b>····</b></li>
+      </ul>
+    </div>
+    <p class="pledge-close rv">Se a gente parar de investir, você vê primeiro. <span class="hl">E cancela.</span></p>
+  </div>
+</section>
+
+<!-- ── DISTRIBUIÇÃO ────────────────────────────────────────────────── -->
+<section id="regra">
+  <div class="wrap">
+    <h2 class="rv">Regra pública. Sem fila secreta.</h2>
+    <dl class="rules rv">
+      <div class="rule"><dt>Compatibilidade</dt><dd>Estilo, formato, cidade e faixa de cachê.</dd></div>
+      <div class="rule"><dt>Rodízio</dt><dd>Quem recebeu menos sobe na fila.</dd></div>
+      <div class="rule"><dt>Histórico</dt><dd>Quem responde rápido e não fura recebe mais.</dd></div>
+      <div class="rule"><dt>Avaliação</dt><dd>O que o contratante disse depois do evento.</dd></div>
+    </dl>
+    <p class="rules-close rv">Quando um evento não vier pra você, <b>o painel te diz por quê.</b></p>
+  </div>
+</section>
+
+<!-- ── PRIMEIRA TURMA ──────────────────────────────────────────────── -->
+<section class="sect-alt" id="turma">
+  <div class="wrap">
+    <h2 class="rv"><span data-cfg="numeros.turmaArtistas">[30]</span> artistas. <span data-cfg="numeros.turmaCidades">[3]</span> cidades. Construindo junto.</h2>
+    <p class="lead rv">Não é lançamento pronto. É a primeira turma desenhando com a gente o que essa estrutura vira.</p>
+    <p class="lead rv">Poucas vagas por cidade e por estilo, pra oportunidade chegar em três artistas e não em quarenta.</p>
+    <p class="rv" style="margin-top:34px"><a class="btn btn-ghost" href="#vaga">Ver vagas na minha cidade <svg class="arr" width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1 6h12.2M9 1.6 13.6 6 9 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+  </div>
+</section>
+
+<!-- ── SELEÇÃO ─────────────────────────────────────────────────────── -->
+<section id="selecao">
+  <div class="wrap">
+    <h2 class="rv">Entra quem já roda.</h2>
+    <div class="acc rv">
+      <details>
+        <summary>Quem se candidata <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Artista que toca com frequência e não quer entregar a carreira pra ninguém.</div>
+      </details>
+      <details>
+        <summary>Critério <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Seu histórico na eShows: volume, variedade de casas, recontratação e zero furos.</div>
+      </details>
+      <details>
+        <summary>Avaliação <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">A gente puxa seu extrato, vê seu material e conversa <span data-cfg="numeros.conversaMin">[15]</span> minutos. Sem teste, sem taxa.</div>
+      </details>
+      <details>
+        <summary>Se não bater agora <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">A gente diz o que falta e avisa quando abrir vaga na sua cidade.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── ASSINATURA ──────────────────────────────────────────────────── -->
+<section class="sect-alt" id="assinatura">
+  <div class="wrap">
+    <h2 class="rv">O que custaria <span class="hl" data-cfg="numeros.custoPorFora">[R$ X]</span> montando por fora.</h2>
+    <p class="anchor-note rv">Produtora de vídeo, CRM, consultoria, contrato, captação. E um empresário levaria <span data-cfg="numeros.comissaoEmpresario">[20%]</span> de tudo que você fizesse, pra sempre.</p>
+
+    <div class="plan rv">
+      <h3 class="plan-name" data-cfg="clube.nome">[NOME]</h3>
+      <p class="plan-price"><b data-cfg="numeros.precoMensal">[valor]</b><span>por mês</span></p>
+      <ul>
+        <li><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><g fill="#f05a28"><rect x="0" y="5" width="2.5" height="7" rx="1"/><rect x="5.75" y="0" width="2.5" height="12" rx="1"/><rect x="11.5" y="3" width="2.5" height="9" rx="1"/></g></svg>As seis ferramentas liberadas</li>
+        <li><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><g fill="#f05a28"><rect x="0" y="5" width="2.5" height="7" rx="1"/><rect x="5.75" y="0" width="2.5" height="12" rx="1"/><rect x="11.5" y="3" width="2.5" height="9" rx="1"/></g></svg>Todas as oportunidades da sua cidade e estilo</li>
+        <li><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><g fill="#f05a28"><rect x="0" y="5" width="2.5" height="7" rx="1"/><rect x="5.75" y="0" width="2.5" height="12" rx="1"/><rect x="11.5" y="3" width="2.5" height="9" rx="1"/></g></svg>Vitrine no catálogo de eventos particulares e corporativos</li>
+        <li><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><g fill="#f05a28"><rect x="0" y="5" width="2.5" height="7" rx="1"/><rect x="5.75" y="0" width="2.5" height="12" rx="1"/><rect x="11.5" y="3" width="2.5" height="9" rx="1"/></g></svg>Extrato mensal de investimento</li>
+        <li><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><g fill="#f05a28"><rect x="0" y="5" width="2.5" height="7" rx="1"/><rect x="5.75" y="0" width="2.5" height="12" rx="1"/><rect x="11.5" y="3" width="2.5" height="9" rx="1"/></g></svg>Linha direta com o time</li>
+      </ul>
+      <a class="btn btn-primary btn-block" href="#vaga">Quero minha vaga <svg class="arr" width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1 6h12.2M9 1.6 13.6 6 9 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <p class="plan-safe">
+        <span>Cancela quando quiser</span><span class="dot" aria-hidden="true">·</span>
+        <span>Zero comissão sobre o cachê</span><span class="dot" aria-hidden="true">·</span>
+        <span>Suas ferramentas e seus dados são seus</span>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SEM LETRA MIÚDA ─────────────────────────────────────────────── -->
+<section id="semletra">
+  <div class="wrap">
+    <h2 class="rv">O que isso não é.</h2>
+    <div class="nots rv">
+      <div class="not"><b>Não é agência.</b><p>Ninguém fecha nada no seu lugar.</p></div>
+      <div class="not"><b>Não é comissão.</b><p>A eShows não tira nada do seu cachê.</p></div>
+      <div class="not"><b>Não é promessa de show.</b><p>Quem promete evento tá mentindo.</p></div>
+    </div>
+    <p class="plain rv">Sua conta eShows continua grátis. Seus shows continuam iguais. Isso aqui é <b class="hl">a mais</b>, nunca no lugar.</p>
+  </div>
+</section>
+
+<!-- ── PERGUNTAS ───────────────────────────────────────────────────── -->
+<section class="sect-alt" id="faq">
+  <div class="wrap">
+    <h2 class="rv">Perguntas.</h2>
+    <div class="acc rv">
+      <details>
+        <summary>A eShows vira minha empresária? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Não. A gente não negocia, não define seu preço e não fala com o cliente por você.</div>
+      </details>
+      <details>
+        <summary>Preciso pagar pra continuar usando a eShows normal? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Não. O app é grátis e continua grátis.</div>
+      </details>
+      <details>
+        <summary>Vou perder meus shows se não entrar? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Não. Membro não tem prioridade nenhuma no circuito que já existe.</div>
+      </details>
+      <details>
+        <summary>E se a temporada passar sem nenhum evento? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Pode acontecer, e a gente prefere dizer agora. O mercado é sazonal. Seu EPK, seu CRM, seu histórico e seus números ficam com você. Inclusive se você sair.</div>
+      </details>
+      <details>
+        <summary>Quem fica com o cliente? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Você. Contrato seu, contato seu, relação sua.</div>
+      </details>
+      <details>
+        <summary>Posso fechar evento por fora? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Pode. Só registre na plataforma, porque é o que mantém seu histórico completo.</div>
+      </details>
+      <details>
+        <summary>Quanto tempo até o primeiro evento? <span class="mk" aria-hidden="true"></span></summary>
+        <div class="acc-body">Não tem prazo, e desconfie de quem der um. O que tem prazo é a sua estrutura: <span data-cfg="numeros.semanasEstrutura">[X]</span> semanas depois da entrada você está pronto pra disputar qualquer evento.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── FECHAMENTO + FORMULÁRIO ─────────────────────────────────────── -->
+<section class="photo-sect close-sect" id="vaga">
+  <div class="bg" aria-hidden="true"><img src="assets/fechamento-banda.webp" alt="" loading="lazy" width="1600" height="1067"></div>
+  <div class="wrap">
+    <h2 class="vagas rv">São <span class="hl" data-cfg="numeros.vagasCidade">[3]</span> vagas em <span class="hl" data-cfg="numeros.cidade">[cidade]</span>.</h2>
+
+    <div class="form-card rv" id="formcard">
+      <form id="waitlist" novalidate>
+        <h3>Pede teu convite</h3>
+        <p class="hint">A gente puxa seu histórico na eShows e te chama no WhatsApp.</p>
+
+        <div class="field" data-field="nomeArtistico">
+          <label for="f-nome">Nome artístico</label>
+          <input id="f-nome" name="nomeArtistico" type="text" autocomplete="name" placeholder="Como você aparece no palco" aria-describedby="msg-nome">
+          <span class="msg" id="msg-nome">Falta seu nome artístico.</span>
+        </div>
+
+        <div class="field" data-field="cidade">
+          <label for="f-cidade">Cidade</label>
+          <input id="f-cidade" name="cidade" type="text" autocomplete="address-level2" placeholder="Onde você toca" aria-describedby="msg-cidade">
+          <span class="msg" id="msg-cidade">Falta sua cidade.</span>
+        </div>
+
+        <div class="field" data-field="estilo">
+          <label for="f-estilo">Estilo principal</label>
+          <select id="f-estilo" name="estilo" aria-describedby="msg-estilo">
+            <option value="" selected>Escolhe o seu</option>
+            <option>Sertanejo</option>
+            <option>MPB</option>
+            <option>Samba e pagode</option>
+            <option>Pop e rock</option>
+            <option>Forró e piseiro</option>
+            <option>Jazz, blues e soul</option>
+            <option>Gospel</option>
+            <option>Instrumental</option>
+            <option>Outro</option>
+          </select>
+          <span class="msg" id="msg-estilo">Falta seu estilo.</span>
+        </div>
+
+        <div class="field" data-field="whatsapp">
+          <label for="f-zap">WhatsApp</label>
+          <input id="f-zap" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(DDD) 90000-0000" aria-describedby="msg-zap">
+          <span class="msg" id="msg-zap">Confere o número, com DDD.</span>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit" id="submitbtn">Ver se eu me qualifico <svg class="arr" width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1 6h12.2M9 1.6 13.6 6 9 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <p class="form-err" id="formerr" role="alert">Não foi. Espera um minuto e tenta de novo.</p>
+        <p class="form-note">Sem teste, sem taxa. Se não bater agora, a gente diz o que falta.</p>
+      </form>
+
+      <div class="form-ok" role="status">
+        <span class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <b>Recebido.</b>
+        <p>A gente puxa seu histórico e te chama no WhatsApp. Se a vaga da sua cidade já tiver fechado, você entra na frente da fila da próxima turma.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img src="assets/eshows-logo-white.png" alt="eshows">
+      <p class="tese" style="margin-top:14px">Mais música ao vivo no Brasil, e mais gente vivendo dela.</p>
+    </div>
+    <div class="foot-row">
+      <a href="https://instagram.com/eshowsoficial" data-link="instagram" rel="noopener">Instagram</a>
+      <a href="https://eshows.com.br" data-link="site" rel="noopener">eshows.com.br</a>
+      <span>© 2026 eshows</span>
+    </div>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   1 · Hidrata os placeholders a partir do CONFIG (um lugar só)
+   ══════════════════════════════════════════════════════════════════ */
+(function hydrate(){
+  const get = p => p.split('.').reduce((o,k)=>o&&o[k], CONFIG);
+  document.querySelectorAll('[data-cfg]').forEach(el=>{
+    const v = get(el.dataset.cfg);
+    if (v != null) el.textContent = v;
+  });
+  document.querySelectorAll('[data-link]').forEach(el=>{
+    const v = CONFIG.links[el.dataset.link];
+    if (v) el.href = v;
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   2 · O filme: 1 trigger mestre (pin + scrub), capítulos como zonas,
+   vídeo dirigido por blob + currentTime com guarda de seeking.
+   Fallback: sem GSAP ou com reduced motion, .film-on nunca entra e a
+   página fica no fluxo empilhado, tudo visível.
+   ══════════════════════════════════════════════════════════════════ */
+(function film(){
+  const docEl = document.documentElement;
+  /* padrão publicado: mix (P&B que ganha cor no brinde).
+     Comparação: ?filme=pb força P&B puro, ?filme=cor liga as cores originais. */
+  const mode = new URLSearchParams(location.search).get('filme') || 'mix';
+  if (mode === 'cor') docEl.classList.add('film-cor');
+
+  if (!window.gsap || !window.ScrollTrigger){ docEl.classList.add('film-off'); return; }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce){ docEl.classList.add('film-off'); return; }
+
+  gsap.registerPlugin(ScrollTrigger);
+  docEl.classList.add('film-on');
+
+  const coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const isMobile = () => coarse || innerWidth <= 860;
+  if (coarse){
+    // barra de endereço/elastic bounce no scrub mobile
+    ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
+    ScrollTrigger.config({ ignoreMobileResize: true });
+  }
+
+  /* estado único de progresso (fonte de verdade; exposto p/ QA headless) */
+  const store = {
+    progress: 0, listeners: new Set(),
+    set(p){ this.progress = p; for (const f of this.listeners) f(p); },
+    on(f){ this.listeners.add(f); },
+  };
+  window.__lpStore = store;
+
+  const chapters = [...document.querySelectorAll('.chapter')].map(el=>{
+    const [a,b] = el.dataset.film.split(',').map(Number);
+    return { el, filmStart:a, filmEnd:b, weight:+el.dataset.weight, label:el.dataset.label };
+  });
+  const totalWeight = chapters.reduce((s,c)=>s+c.weight,0);
+  let acc = 0;
+  for (const c of chapters){ c.zoneStart = acc/totalWeight; acc += c.weight; c.zoneEnd = acc/totalWeight; }
+
+  const filmTimeAt = p => {
+    const c = chapters.find(x => p <= x.zoneEnd) ?? chapters[chapters.length-1];
+    const local = (p - c.zoneStart) / (c.zoneEnd - c.zoneStart);
+    return c.filmStart + Math.min(Math.max(local,0),1) * (c.filmEnd - c.filmStart);
+  };
+
+  let active = -1;
+  function setChapter(i){
+    if (i === active) return;
+    chapters[active]?.el.classList.remove('is-active');
+    active = i;
+    chapters[i].el.classList.add('is-active');
+    document.querySelectorAll('.rail__dot').forEach((d,k)=>d.classList.toggle('is-active', k===i));
+  }
+
+  /* vídeo: blob + seek com guarda e delta mínimo (não empilhar seeks) */
+  const video = document.querySelector('.stage__video');
+  let ready = false, primed = false, last = -1;
+  if (isMobile()) video.poster = 'assets/film/palco-mobile-poster.webp';
+
+  async function load(){
+    const src = isMobile() ? video.dataset.srcMobile : video.dataset.src;
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      video.src = URL.createObjectURL(blob);
+      await new Promise((ok,err)=>{
+        video.addEventListener('loadedmetadata', ok, { once:true });
+        video.addEventListener('error', err, { once:true });
+      });
+      ready = true;
+    } catch(e){ /* poster segura a cena; a página segue funcional */ }
+  }
+  function prime(){
+    if (primed || !video.src) return;
+    primed = true;
+    const p = video.play();
+    if (p && p.then) p.then(()=>video.pause()).catch(()=>{ primed = false; });
+  }
+  addEventListener('pointerdown', prime, { once:true, passive:true });
+  addEventListener('touchstart', prime, { once:true, passive:true });
+
+  function applyFrame(){
+    if (!ready || video.seeking) return;
+    const t = filmTimeAt(store.progress) * (video.duration || 0);
+    if (Math.abs(t - last) < 1/30) return;
+    last = t;
+    try { video.currentTime = Math.min(t, (video.duration || .1) - .001); } catch(e){}
+  }
+  gsap.ticker.add(applyFrame);
+
+  /* ?filme=mix: P&B que ganha cor no brinde (dirigido pelo progresso) */
+  if (mode === 'mix'){
+    const grade = p => {
+      const g = Math.max(0, Math.min(1, 1 - (p - .72) / .2));
+      video.style.filter = `grayscale(${g.toFixed(3)}) contrast(${(1.04 + .08*g).toFixed(3)}) brightness(.9)`;
+    };
+    store.on(grade); grade(0);
+  }
+
+  const section = document.querySelector('.film-section');
+  const topbar = document.getElementById('topbar');
+  const rail = document.querySelector('.rail');
+  const distance = () => Math.round(totalWeight * innerHeight * (isMobile() ? 1.25 : 1));
+
+  const master = ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: () => '+=' + distance(),
+    pin: '.stage',
+    scrub: 0.4,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    fastScrollEnd: true,
+    onUpdate(self){
+      store.set(self.progress);
+      const i = chapters.findIndex(c => self.progress <= c.zoneEnd);
+      setChapter(i === -1 ? chapters.length - 1 : i);
+      /* CTA sempre alcançável: barra sólida assim que o capítulo 1 sai */
+      topbar.classList.toggle('on', self.progress > chapters[0].zoneEnd);
+    },
+    onToggle(self){
+      rail.classList.toggle('show', self.isActive);
+      rail.setAttribute('aria-hidden', String(!self.isActive));
+      rail.toggleAttribute('inert', !self.isActive);
+    },
+  });
+
+  setChapter(0);
+  load();
+
+  /* rail: fill pelo progresso, dots navegam entre capítulos */
+  const fill = document.querySelector('.rail__fill');
+  store.on(p => { fill.style.transform = `scaleY(${p})`; });
+  const dots = document.querySelector('.rail__dots');
+  chapters.forEach((c,i)=>{
+    const b = document.createElement('button');
+    b.className = 'rail__dot'; b.type = 'button';
+    b.setAttribute('aria-label', c.label);
+    b.innerHTML = '<i></i>';
+    b.addEventListener('click', ()=>{
+      const y = master.start + (c.zoneStart + .05) * (master.end - master.start);
+      scrollTo({ top: y, behavior: 'smooth' });
+    });
+    dots.appendChild(b);
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   3 · Revelação da grade de ferramentas (one-shot)
+   ══════════════════════════════════════════════════════════════════ */
+(function reveals(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.18, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.tool.rv').forEach(el=>io.observe(el));
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   4 · Formulário: máscara de WhatsApp, validação e envio
+   ══════════════════════════════════════════════════════════════════ */
+(function form(){
+  const form = document.getElementById('waitlist');
+  const card = document.getElementById('formcard');
+  const err  = document.getElementById('formerr');
+  const btn  = document.getElementById('submitbtn');
+  const btnHTML = btn.innerHTML;
+  const zap  = document.getElementById('f-zap');
+
+  zap.addEventListener('input', ()=>{
+    const d = zap.value.replace(/\D/g,'').slice(0,11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0,2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+    zap.value = out;
+  });
+
+  const fields = {
+    nomeArtistico: v => v.trim().length >= 2,
+    cidade:        v => v.trim().length >= 2,
+    estilo:        v => v.trim() !== '',
+    whatsapp:      v => v.replace(/\D/g,'').length >= 10,
+  };
+
+  form.addEventListener('submit', async ev=>{
+    ev.preventDefault();
+    err.classList.remove('on');
+    let ok = true;
+    const data = {};
+    for (const [name, valid] of Object.entries(fields)){
+      const wrapEl = form.querySelector(`[data-field="${name}"]`);
+      const input  = wrapEl.querySelector('input,select');
+      const value  = input.value;
+      data[name] = value.trim();
+      const pass = valid(value);
+      wrapEl.classList.toggle('err', !pass);
+      input.setAttribute('aria-invalid', String(!pass));
+      wrapEl.classList.remove('shake');
+      if (!pass){ ok = false; void wrapEl.offsetWidth; wrapEl.classList.add('shake'); }
+    }
+    if (!ok){
+      form.querySelector('.field.err input, .field.err select')?.focus();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    try {
+      if (CONFIG.form.endpoint){
+        const res = await fetch(CONFIG.form.endpoint, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      } else {
+        // PONTO DE INTEGRAÇÃO: sem endpoint configurado, a página demonstra o
+        // estado de sucesso. Configure CONFIG.form.endpoint antes de publicar.
+        console.warn('CONFIG.form.endpoint não configurado; envio não persistido.', data);
+      }
+      card.classList.add('done');
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+    } catch(e){
+      err.classList.add('on');
+      btn.disabled = false;
+      btn.innerHTML = btnHTML;
+    }
+  });
+})();
+</script>
+</body>
+</html>
