@@ -401,7 +401,7 @@
     estrutura: [
       'Estamos estudando uma assinatura opcional para o projeto musical montar o próprio escritório digital.',
       'Em um só lugar, o projeto poderia organizar presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira, usando apenas os módulos realmente disponíveis no lançamento.',
-      'A eshows forneceria a infraestrutura. O projeto continuaria responsável por atrair clientes, operar os canais, construir relacionamento e fechar seus trabalhos.',
+      'A eshows entraria com a estrutura para você fazer isso melhor e mais rápido: organizar os contatos, definir preço, fechar proposta e contrato, acompanhar os números. As decisões, os clientes e o cachê continuariam sendo seus, sem intermediário.',
       'A cobrança seria uma mensalidade fixa, sem percentual sobre o cachê e sem promessa de shows. Os shows atuais de bares e restaurantes continuariam com as mesmas regras.'],
     premium: [
       'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e colocar os primeiros ciclos de campanha em funcionamento.',
