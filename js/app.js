@@ -402,12 +402,12 @@
       'Estamos estudando uma assinatura opcional para o projeto musical montar o próprio escritório digital.',
       'Em um só lugar, o projeto poderia organizar presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira, usando apenas os módulos realmente disponíveis no lançamento.',
       'A eshows entraria com a estrutura para você fazer isso melhor e mais rápido: organizar os contatos, definir preço, fechar proposta e contrato, acompanhar os números. As decisões, os clientes e o cachê continuariam sendo seus, sem intermediário.',
-      'A cobrança seria uma mensalidade fixa, sem percentual sobre o cachê e sem promessa de shows. Os shows atuais de bares e restaurantes continuariam com as mesmas regras.'],
+      'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. E não é uma fila de shows prontos: é a estrutura pra você fechar os seus. Os bares e restaurantes de hoje seguem como estão.'],
     premium: [
       'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e colocar os primeiros ciclos de campanha em funcionamento.',
       'Os contatos gerados nesses ciclos entrariam no escritório do projeto, que faria o atendimento e a contratação. O projeto participaria da implantação, teria acesso aos processos e dados e assumiria a rotina depois do período assistido.',
       'A ideia é aumentar sua capacidade de gerar e administrar os próprios shows, não terceirizar essa responsabilidade para sempre.',
-      'A cobrança seria uma mensalidade fixa, sem percentual sobre o cachê e sem garantia de shows. Os shows atuais de bares e restaurantes continuariam com as mesmas regras.'],
+      'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. Os bares e restaurantes de hoje seguem como estão.'],
   };
 
   function offerCard(tier, priceCents) {

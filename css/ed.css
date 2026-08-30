@@ -700,6 +700,10 @@
   margin-bottom: 1.1rem;
   color: var(--ink-400);
 }
+/* jogo de cartaz: linhas alternam ink e paper (display grande passa AA no laranja) */
+.ed-inter .ed-display span:nth-child(even) {
+  color: var(--paper);
+}
 .ed-inter p {
   color: rgba(20, 17, 15, 0.82);
   font-weight: 600;
