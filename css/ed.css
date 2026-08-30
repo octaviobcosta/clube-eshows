@@ -191,6 +191,10 @@
      lê como template de IA; aposentado em 2026-08-30) */
   color: var(--orange);
 }
+.ed-snap .ed-hero,
+.ed-snap .ed-intro2 {
+  scroll-snap-align: start;
+}
 .ed-hero {
   position: relative;
   min-height: 100svh;
@@ -295,7 +299,11 @@
 .ed-intro2 {
   position: relative;
   background: var(--ink-300);
-  padding: clamp(3.5rem, 8vw, 5.5rem) var(--gutter) clamp(4rem, 9vw, 6rem);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 7vw, 4.5rem) var(--gutter);
   overflow: hidden;
 }
 .ed-intro2__light {
@@ -319,6 +327,7 @@
 .ed-intro2__inner {
   max-width: var(--maxw);
   margin-inline: auto;
+  width: 100%;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   gap: clamp(2rem, 5vw, 4rem);

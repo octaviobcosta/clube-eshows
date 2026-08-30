@@ -449,6 +449,10 @@
   function showFase(id) {
     document.querySelectorAll('.ed-fase').forEach(function (f) { f.classList.remove('on'); });
     document.getElementById('fase-' + id).classList.add('on');
+    // snap página-a-página só na intro (proximity: nunca sequestra o scroll)
+    var snapOn = id === 'ato1';
+    document.documentElement.style.scrollSnapType = snapOn ? 'y proximity' : '';
+    document.body.classList.toggle('ed-snap', snapOn);
     window.scrollTo(0, 0);
     flushEvents();
   }
