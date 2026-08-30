@@ -1389,7 +1389,7 @@
 .ed-sect--alt > div {
   max-width: var(--maxw);
   margin-inline: auto;
-  padding-inline: 0;
+  padding-inline: var(--gutter);
 }
 .ed-sect__title {
   font-family: "Bebas Neue", sans-serif;
@@ -1464,6 +1464,122 @@
   font-size: 0.9rem;
   color: var(--paper-low);
   max-width: 640px;
+}
+
+/* ───── Comparação Solo × Premium ───── */
+.ed-compare__intro {
+  color: var(--paper-mid);
+  max-width: 560px;
+  margin: -0.8rem 0 1.8rem;
+}
+.ed-compare {
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--ink-300);
+}
+.ed-compare__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr) minmax(0, 1.2fr);
+}
+.ed-compare__row + .ed-compare__row {
+  border-top: 1px solid var(--hairline);
+}
+.ed-compare__label {
+  padding: 1rem 1.2rem;
+  color: var(--paper-mid);
+  font-size: 0.92rem;
+  font-weight: 600;
+  align-content: center;
+}
+.ed-compare__cell {
+  padding: 1rem 1.2rem;
+  color: var(--paper-hi);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  border-left: 1px solid var(--hairline);
+  align-content: center;
+}
+.ed-compare__cell--premium {
+  background: var(--ink-100);
+}
+.ed-compare__row--head .ed-compare__cell {
+  padding: 1.3rem 1.2rem 1.1rem;
+}
+.ed-compare__row--head .ed-compare__cell--premium {
+  box-shadow: inset 0 3px 0 var(--orange);
+}
+.ed-compare__name {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.ed-compare__price {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  color: var(--orange);
+  margin-top: 0.35rem;
+}
+.ed-compare__price span {
+  font-family: Geist, "Geist Fallback", sans-serif;
+  font-size: 0.85rem;
+  color: var(--paper-mid);
+}
+.ed-compare__tag {
+  color: var(--orange);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+.ed-compare__yes {
+  color: var(--orange);
+  font-weight: 700;
+}
+.ed-compare__no {
+  color: var(--paper-low);
+}
+.ed-compare__foot {
+  margin-top: 1.4rem;
+  font-size: 0.9rem;
+  color: var(--paper-mid);
+  max-width: 640px;
+}
+@media (max-width: 720px) {
+  .ed-compare__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+  .ed-compare__label {
+    grid-column: 1 / -1;
+    padding: 0.9rem 1rem 0.15rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--paper-low);
+  }
+  .ed-compare__cell {
+    padding: 0.55rem 1rem 0.95rem;
+    font-size: 0.9rem;
+  }
+  .ed-compare__cell:first-of-type,
+  .ed-compare__row .ed-compare__cell:not(.ed-compare__cell--premium) {
+    border-left: none;
+  }
+  .ed-compare__row--head .ed-compare__label {
+    display: none;
+  }
+  .ed-compare__row--head .ed-compare__cell {
+    padding: 1.1rem 1rem 1rem;
+  }
+  .ed-compare__name {
+    font-size: 1.5rem;
+  }
+  .ed-compare__price {
+    font-size: 1.4rem;
+  }
 }
 .ed-faq {
   display: grid;

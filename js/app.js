@@ -184,8 +184,8 @@
         { id: 'structure_page_only', tier: 'estrutura', label: 'O plano serviria somente como página de divulgação, sem organizar a atividade comercial' },
         { id: 'structure_eshows_operates', tier: 'estrutura', label: 'A eshows assumiria a rotina comercial no meu lugar' },
         { id: 'structure_replaces_free', tier: 'estrutura', label: 'A operação gratuita atual seria substituída por este plano' },
-        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows ajudaria a implantar a operação e os primeiros ciclos de campanha, e depois eu continuaria usando a estrutura' },
-        { id: 'premium_no_transition', tier: 'premium', label: 'A eshows assumiria a rotina comercial sem prazo de transição para o projeto' },
+        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows cuidaria da implantação e das campanhas, e o atendimento e o fechamento continuariam comigo' },
+        { id: 'premium_no_transition', tier: 'premium', label: 'A eshows assumiria toda a rotina comercial no meu lugar, inclusive atender e fechar' },
         { id: 'premium_software_only', tier: 'premium', label: 'O Premium seria somente acesso ao software, sem implantação assistida' },
         { id: 'premium_replaces_free', tier: 'premium', label: 'A operação gratuita atual seria substituída por este plano' }] },
     { id: 'q8b', chapter: 2, kind: 'single', shuffle: true,
@@ -241,8 +241,8 @@
         { id: 'against_pay_before_result', label: 'Não quero pagar antes de ver o resultado' },
         { id: 'against_unclear', label: 'Ainda não entendi o que está incluído' },
         { id: 'against_too_much_work', tier: 'estrutura', label: 'Fazer tudo sozinho exigiria trabalho demais' },
-        { id: 'against_assist_short', tier: 'premium', label: 'O período assistido parece curto ou pouco claro' },
-        { id: 'against_no_autonomy_belief', tier: 'premium', label: 'Não acredito que o apoio me deixe capaz de operar sozinho' },
+        { id: 'against_assist_short', tier: 'premium', label: 'O formato do apoio parece pouco claro' },
+        { id: 'against_no_autonomy_belief', tier: 'premium', label: 'Não quero depender da eshows para as campanhas' },
         { id: 'against_no_commercial_routine', label: 'Não quero assumir a rotina comercial do projeto' },
         { id: 'against_no_need', label: 'Não preciso da estrutura' },
         { id: 'against_status_quo', label: 'Prefiro continuar como hoje' },
@@ -256,8 +256,8 @@
         { id: 'full_flow', label: 'Ver um contato percorrer o fluxo completo, da chegada ao fechamento' },
         { id: 'trial', label: 'Período de teste' },
         { id: 'clear_rules', label: 'Regras claras de cancelamento, troca de nível e reembolso' },
-        { id: 'implementation_plan', tier: 'premium', label: 'Plano de implantação, duração e entregas do apoio' },
-        { id: 'autonomy_case', tier: 'premium', label: 'Caso de projeto que passou a operar campanhas sozinho' },
+        { id: 'implementation_plan', tier: 'premium', label: 'Plano de implantação e entregas do apoio' },
+        { id: 'autonomy_case', tier: 'premium', label: 'Caso real de outro projeto usando as campanhas gerenciadas' },
         { id: 'talk_to_someone', label: 'Conversar com alguém da eshows' },
         { id: 'nothing', label: 'Nada me faria pagar por isso hoje', pinned: true },
         { id: 'other', label: 'Outra coisa', pinned: true }] },
@@ -400,7 +400,7 @@
   var Q8B_CORRECT = 'fixed_monthly_no_percentage_no_guarantee';
   var Q8_EXPLAIN = {
     estrutura: 'Na verdade: você montaria o próprio escritório digital e continuaria responsável por atrair, negociar e fechar seus trabalhos. A eshows forneceria a infraestrutura.',
-    premium: 'Na verdade: a eshows ajudaria a implantar a operação e os primeiros ciclos de campanha por um período definido. Depois, você continuaria operando com a estrutura.',
+    premium: 'Na verdade: a eshows cuidaria da implantação e da gestão das campanhas. O atendimento, a negociação e o fechamento continuariam com você.',
   };
   var Q8B_EXPLAIN = 'Na verdade: a cobrança seria só a mensalidade fixa. Sem percentual sobre o cachê, sem garantia de shows, e a operação gratuita atual continua como está.';
 
@@ -424,9 +424,9 @@
       'A eshows entraria com a estrutura para você fazer isso melhor e mais rápido: organizar os contatos, definir preço, fechar proposta e contrato, acompanhar os números. As decisões, os clientes e o cachê continuariam sendo seus, sem intermediário.',
       'A cobrança seria só a mensalidade fixa, sem percentual sobre o cachê: o que você fechar é seu. E não é uma fila de shows prontos: é a estrutura pra você fechar os seus. Esse escritório seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
     premium: [
-      'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e colocar os primeiros ciclos de campanha em funcionamento.',
-      'Os contatos gerados nesses ciclos entrariam no seu escritório, e você faria o atendimento e a contratação. Você participaria da implantação, teria acesso aos processos e dados e assumiria a rotina depois do período assistido.',
-      'A ideia é aumentar sua capacidade de conseguir e administrar os seus próprios shows, não terceirizar essa responsabilidade para sempre.',
+      'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e manter os ciclos de campanha em funcionamento.',
+      'Os contatos gerados nesses ciclos entrariam no seu escritório, e você faria o atendimento e a contratação. Você participaria da implantação e teria acesso aos processos e dados.',
+      'A ideia é aumentar sua capacidade de conseguir e administrar os seus próprios shows: quem atende, negocia e fecha continua sendo você.',
       'A cobrança seria só a mensalidade fixa, sem percentual sobre o cachê: o que você fechar é seu. O Premium também seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
   };
 
