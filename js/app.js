@@ -94,7 +94,7 @@
 
   var CORE = [
     { id: 'q1', chapter: 1, kind: 'single',
-      label: 'Nos últimos 3 meses, quantos shows o seu projeto conseguiu pelos próprios contatos, divulgação, indicação ou parceiros?',
+      label: 'Nos últimos 3 meses, quantos shows você conseguiu pelos seus próprios contatos, divulgação, indicação ou parceiros?',
       help: 'Não conte propostas prontas enviadas pela eshows.',
       options: [
         { id: 'none', label: 'Nenhum', pinned: true },
@@ -133,7 +133,7 @@
         { id: 'other', label: 'Outro', pinned: true },
         { id: 'dont_remember', label: 'Não lembro', pinned: true }] },
     { id: 'q5a', chapter: 1, kind: 'multi', shuffle: true,
-      label: 'O que o projeto usa hoje para organizar e vender shows?',
+      label: 'O que você usa hoje para organizar e vender seus shows?',
       options: [
         { id: 'whatsapp', label: 'WhatsApp ou mensagens' },
         { id: 'social', label: 'Instagram, TikTok ou outras redes' },
@@ -162,7 +162,7 @@
       label: function (a) {
         return hadOwnContact(a)
           ? 'Onde ficou registrado o próximo passo desse contato?'
-          : 'Se alguém pedisse preço hoje, onde o projeto registraria o próximo passo?';
+          : 'Se alguém pedisse preço hoje, onde você registraria o próximo passo?';
       },
       options: [
         { id: 'crm', label: 'Em um sistema ou CRM acessível ao projeto' },
@@ -175,11 +175,11 @@
     { id: 'q8', chapter: 2, kind: 'single', shuffle: true,
       label: 'Qual frase descreve melhor o plano que você acabou de ver?',
       options: [
-        { id: 'structure_project_operates', tier: 'estrutura', label: 'O projeto musical montaria seu escritório digital e usaria a estrutura para gerar e administrar os próprios clientes' },
+        { id: 'structure_project_operates', tier: 'estrutura', label: 'Eu montaria meu escritório digital e usaria a estrutura para conseguir e administrar meus próprios clientes' },
         { id: 'structure_page_only', tier: 'estrutura', label: 'O plano serviria somente como página de divulgação, sem organizar a atividade comercial' },
-        { id: 'structure_eshows_operates', tier: 'estrutura', label: 'A eshows assumiria a rotina comercial no lugar da equipe do projeto' },
+        { id: 'structure_eshows_operates', tier: 'estrutura', label: 'A eshows assumiria a rotina comercial no meu lugar' },
         { id: 'structure_replaces_free', tier: 'estrutura', label: 'A operação gratuita atual seria substituída por este plano' },
-        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows ajudaria a implantar a operação e os primeiros ciclos de campanha; depois o projeto continuaria usando a estrutura' },
+        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows ajudaria a implantar a operação e os primeiros ciclos de campanha; depois eu continuaria usando a estrutura' },
         { id: 'premium_no_transition', tier: 'premium', label: 'A eshows assumiria a rotina comercial sem prazo de transição para o projeto' },
         { id: 'premium_software_only', tier: 'premium', label: 'O Premium seria somente acesso ao software, sem implantação assistida' },
         { id: 'premium_replaces_free', tier: 'premium', label: 'A operação gratuita atual seria substituída por este plano' }] },
@@ -191,10 +191,10 @@
         { id: 'pay_per_opportunity', label: 'A mensalidade compra o direito de desbloquear cada oportunidade individual' },
         { id: 'free_becomes_paid', label: 'A operação gratuita atual passaria a exigir esta assinatura' }] },
     { id: 'q10', chapter: 3, kind: 'single',
-      label: 'Considerando exatamente este plano e este preço, qual seria sua decisão hoje?',
+      label: 'Considerando exatamente essa proposta, qual seria sua decisão hoje?',
       options: [
-        { id: 'would_join', tier: 'estrutura', label: 'Entraria e aceitaria a cobrança descrita', pinned: true },
-        { id: 'would_request', tier: 'premium', label: 'Solicitaria a entrada e, se o projeto atendesse aos critérios operacionais e houvesse capacidade de implantação, aceitaria a cobrança descrita', pinned: true },
+        { id: 'would_join', tier: 'estrutura', label: 'Entraria assim que lançasse', pinned: true },
+        { id: 'would_request', tier: 'premium', label: 'Pediria pra entrar assim que lançasse', pinned: true },
         { id: 'only_with_trial', label: 'Entraria somente se pudesse testar antes', pinned: true },
         { id: 'wait_others', label: 'Esperaria outros artistas usarem primeiro', pinned: true },
         { id: 'would_not', label: 'Não entraria nesse formato', pinned: true }] },
@@ -212,11 +212,11 @@
       options: [
         { id: 'fav_fixed_price', label: 'Valor mensal fixo sem percentual sobre o cachê' },
         { id: 'fav_all_in_one', label: 'Ter materiais, contatos, vendas, agenda e números no mesmo escritório' },
-        { id: 'fav_autonomy', label: 'Autonomia do projeto musical' },
+        { id: 'fav_autonomy', label: 'Minha autonomia' },
         { id: 'fav_trust', label: 'Confiança na eshows' },
         { id: 'fav_setup_help', tier: 'premium', label: 'Ajuda para configurar a operação' },
         { id: 'fav_learn_campaigns', tier: 'premium', label: 'Aprender a colocar campanhas próprias em funcionamento' },
-        { id: 'against_price', label: 'O valor mensal é alto' },
+        { id: 'against_price', label: 'Não quero pagar mensalidade' },
         { id: 'against_pay_before_result', label: 'Não quero pagar antes de observar resultado' },
         { id: 'against_unclear', label: 'Ainda não entendi o que está incluído' },
         { id: 'against_too_much_work', tier: 'estrutura', label: 'Fazer tudo sozinho exigiria trabalho demais' },
@@ -241,7 +241,7 @@
         { id: 'nothing', label: 'Nada me faria pagar por isso hoje', pinned: true },
         { id: 'other', label: 'Outra coisa', pinned: true }] },
     { id: 'q12', chapter: 5, kind: 'single',
-      label: 'Se estes fossem os dois planos disponíveis hoje, qual você escolheria para seu projeto musical?',
+      label: 'Se estes fossem os dois planos disponíveis hoje, qual você escolheria?',
       options: [
         { id: 'estrutura', label: 'Plano Estrutura', pinned: true },
         { id: 'premium', label: 'Plano Premium', pinned: true },
@@ -250,12 +250,12 @@
       label: function (a) {
         return a.q12 === 'none'
           ? 'O que precisaria mudar para alguma opção fazer sentido?'
-          : 'Por que esse plano faz mais sentido para seu projeto musical?';
+          : 'Por que esse plano faz mais sentido pra você?';
       } },
     { id: 'q15', chapter: 5, kind: 'text', optional: true, maxLen: 300,
-      label: 'Depois de ver a lista, qual trabalho importante do escritório do projeto ficou de fora? Descreva o que você precisa conseguir fazer, não o nome de uma ferramenta.' },
+      label: 'Olhando a lista que você acabou de ver: faltou alguma coisa importante do seu dia a dia? Conta o que você precisa conseguir fazer. Não precisa ser nome de ferramenta.' },
     { id: 'q15a', chapter: 5, kind: 'multi', optional: true,
-      label: 'O que você preferiria continuar resolvendo do jeito que resolve hoje, em vez de levar para esse escritório?',
+      label: 'O que você prefere continuar resolvendo do seu jeito, fora do escritório digital?',
       options: [
         { id: 'presence', label: 'Perfil, catálogo e página profissional', pinned: true },
         { id: 'campaigns', label: 'Campanhas e captação de contatos', pinned: true },
@@ -267,13 +267,13 @@
         { id: 'none', label: 'Nenhuma dessas; tentaria centralizar todas', exclusive: true, pinned: true },
         { id: 'dont_know', label: 'Não sei ainda', exclusive: true, pinned: true }] },
     { id: 'q14', chapter: 5, kind: 'single',
-      label: 'Se a pessoa que organiza o projeto parasse hoje, o restante da equipe conseguiria encontrar os contatos, conversas, preços, propostas e próximos retornos?',
+      label: 'Se você parasse hoje, outra pessoa do seu time conseguiria encontrar os contatos, conversas, preços, propostas e próximos retornos?',
       options: [
         { id: 'centralized', label: 'Sim, está tudo centralizado e acessível', pinned: true },
         { id: 'mostly', label: 'Conseguiria encontrar a maior parte, com algum trabalho', pinned: true },
         { id: 'in_whatsapp', label: 'Uma parte importante está no WhatsApp ou nos arquivos de uma pessoa', pinned: true },
         { id: 'not_organized', label: 'Quase nada está organizado para outra pessoa continuar', pinned: true },
-        { id: 'solo_hard', label: 'Sou projeto solo, mas também teria dificuldade de recuperar o histórico', pinned: true },
+        { id: 'solo_hard', label: 'Trabalho sozinho, mas também teria dificuldade de recuperar o histórico', pinned: true },
         { id: 'dont_know', label: 'Não sei', pinned: true }] },
     { id: 'q16', chapter: 5, kind: 'single', shuffle: true,
       label: 'Depois de 3 meses, qual resultado mais faria você dizer que o escritório digital valeu a pena?',
@@ -283,7 +283,7 @@
         { id: 'own_campaigns', label: 'Conseguir colocar campanhas próprias no ar' },
         { id: 'more_conversations', label: 'Gerar mais conversas com possíveis clientes pelos meus canais' },
         { id: 'faster_closing', label: 'Enviar propostas e fechar mais rápido' },
-        { id: 'more_own_shows', label: 'Fechar mais shows gerados pelo próprio projeto' },
+        { id: 'more_own_shows', label: 'Fechar mais shows por conta própria' },
         { id: 'save_time', label: 'Economizar tempo na operação' },
         { id: 'all_in_one_view', label: 'Enxergar contatos, propostas, agenda e faturamento em um só lugar' },
         { id: 'none_enough', label: 'Nenhum desses seria suficiente', pinned: true },
@@ -294,14 +294,14 @@
       options: [
         { id: 'organization', label: 'A organização e a economia de tempo já poderiam justificar', pinned: true },
         { id: 'no_lost', label: 'Parar de perder contatos e retornos já poderia justificar', pinned: true },
-        { id: 'one_lead', label: 'Gerar pelo menos 1 novo contato qualificado pelos canais do projeto', pinned: true },
-        { id: 'two_three_leads', label: 'Gerar de 2 a 3 novos contatos qualificados pelos canais do projeto', pinned: true },
+        { id: 'one_lead', label: 'Gerar pelo menos 1 novo contato qualificado pelos meus canais', pinned: true },
+        { id: 'two_three_leads', label: 'Gerar de 2 a 3 novos contatos qualificados pelos meus canais', pinned: true },
         { id: 'one_proposal', label: 'Enviar pelo menos 1 proposta que eu não enviaria hoje', pinned: true },
-        { id: 'one_show', label: 'Fechar pelo menos 1 show a mais com esforço do próprio projeto', pinned: true },
+        { id: 'one_show', label: 'Fechar pelo menos 1 show a mais por conta própria', pinned: true },
         { id: 'depends_value', label: 'Dependeria do valor do show fechado', pinned: true },
         { id: 'dont_know', label: 'Não sei', pinned: true }] },
     { id: 'q18', chapter: 5, kind: 'single',
-      label: 'Considerando apenas o que o próprio projeto conseguiria fazer com essa estrutura para construir e operar sua carteira, ela resolveria um problema relevante na sua rotina?',
+      label: 'Pensando no que você conseguiria fazer com essa estrutura para construir e administrar sua carteira de clientes: ela resolveria um problema real da sua rotina?',
       options: [
         { id: 'definitely_yes', label: 'Com certeza sim', pinned: true },
         { id: 'probably_yes', label: 'Provavelmente sim', pinned: true },
@@ -309,7 +309,7 @@
         { id: 'probably_not', label: 'Provavelmente não', pinned: true },
         { id: 'definitely_not', label: 'Com certeza não', pinned: true }] },
     { id: 'q19', chapter: 5, kind: 'single',
-      label: 'Se o projeto fechasse por conta própria um show a mais em um mês, o que provavelmente aconteceria com seus shows em bares e restaurantes?',
+      label: 'Se você fechasse por conta própria um show a mais em um mês, o que provavelmente aconteceria com seus shows em bares e restaurantes?',
       options: [
         { id: 'additional', label: 'Eu faria o evento além dos shows que já faço', pinned: true },
         { id: 'replace_one', label: 'Eu substituiria 1 show de bar ou restaurante', pinned: true },
@@ -317,7 +317,7 @@
         { id: 'depends', label: 'Dependeria da data e do cachê', pinned: true },
         { id: 'dont_know', label: 'Não sei', pinned: true }] },
     { id: 'q7', chapter: 5, kind: 'single', shuffle: true,
-      label: 'Qual destas partes mais atrapalha o projeto a funcionar como um escritório hoje?',
+      label: 'Qual destas partes mais te atrapalha hoje?',
       options: [
         { id: 'presence', label: 'Ter uma apresentação profissional sempre atualizada' },
         { id: 'discovery', label: 'Fazer pessoas novas encontrarem o projeto' },
@@ -333,7 +333,7 @@
         { id: 'other', label: 'Outra', pinned: true }] },
     { id: 'q3', chapter: 5, kind: 'single', optional: true, showIf: hadOwnShow,
       label: 'Qual foi o valor total do cachê desse show, antes de dividir entre integrantes e descontar custos?',
-      help: 'Sobre o show mais recente que o próprio projeto conseguiu.',
+      help: 'Sobre o show mais recente que você conseguiu por conta própria.',
       options: [
         { id: 'under_800', label: 'Até R$ 799', pinned: true },
         { id: '800_1499', label: 'R$ 800 a R$ 1.499', pinned: true },
@@ -342,7 +342,7 @@
         { id: '6000_plus', label: 'R$ 6.000 ou mais', pinned: true },
         { id: 'prefer_not', label: 'Prefiro não responder', pinned: true }] },
     { id: 'q5', chapter: 5, kind: 'single',
-      label: 'Em um mês típico dos últimos 3 meses, quanto o projeto gastou com ferramentas, site, anúncio, impulsionamento, material, assessor ou serviços para organizar a carreira e conseguir shows?',
+      label: 'Em um mês típico dos últimos 3 meses, quanto você gastou com ferramentas, site, anúncio, impulsionamento, material, assessor ou serviços para organizar a carreira e conseguir shows?',
       help: 'Não inclua divisão de cachê entre integrantes nem custos de execução do show.',
       options: [
         { id: 'zero', label: 'R$ 0', pinned: true },
@@ -353,7 +353,7 @@
         { id: 'dont_know', label: 'Não sei', pinned: true },
         { id: 'prefer_not', label: 'Prefiro não responder', pinned: true }] },
     { id: 'q5b', chapter: 5, kind: 'single',
-      label: 'Em uma semana comum, quanto tempo alguém do projeto gasta respondendo clientes, divulgando, fazendo proposta, organizando agenda, contrato ou cobrança?',
+      label: 'Em uma semana comum, quanto tempo você (ou alguém do seu time) gasta respondendo clientes, divulgando, fazendo proposta, organizando agenda, contrato ou cobrança?',
       options: [
         { id: 'under_1h', label: 'Menos de 1 hora', pinned: true },
         { id: '1_3h', label: '1 a 3 horas', pinned: true },
@@ -364,11 +364,11 @@
     { id: 'q5c', chapter: 5, kind: 'single',
       label: 'Quem cuida da maior parte dessa operação hoje?',
       options: [
-        { id: 'owner', label: 'Eu, dono do projeto', pinned: true },
+        { id: 'owner', label: 'Eu mesmo', pinned: true },
         { id: 'member', label: 'Outro integrante', pinned: true },
         { id: 'shared', label: 'Dividimos entre integrantes', pinned: true },
         { id: 'agent', label: 'Empresário, agente ou escritório', pinned: true },
-        { id: 'hired', label: 'Pessoa contratada pelo projeto', pinned: true },
+        { id: 'hired', label: 'Pessoa que eu contrato', pinned: true },
         { id: 'nobody', label: 'Ninguém cuida de forma contínua', pinned: true },
         { id: 'other', label: 'Outro', pinned: true }] },
     { id: 'q9', chapter: 5, kind: 'text', optional: true, maxLen: 400,
@@ -383,7 +383,7 @@
   };
   var Q8B_EXPLAIN = 'Na verdade: a cobrança seria só a mensalidade fixa. Sem percentual sobre o cachê, sem garantia de shows, e a operação gratuita atual continua como está.';
 
-  var CHAPTERS_META = ['Como funciona hoje', 'O conceito do projeto', 'O preço real', 'Seu próximo passo'];
+  var CHAPTERS_META = ['Como funciona hoje', 'O conceito do projeto', 'Sua decisão', 'Seu próximo passo'];
 
   var INTERS = {
     toConcept: {
@@ -393,39 +393,23 @@
         'A seguir, o conceito do projeto. Ele ainda não existe: sua resposta decide como ele deve funcionar.',
       ],
     },
-    toOffer: { lines: ['AGORA,', 'O PREÇO.'], sub: 'Este é um dos valores em estudo. Responda pensando na situação real do seu projeto hoje.' },
     toCommit: { lines: ['FALTA POUCO.'], sub: 'Últimas duas telas. O que você escolher aqui é o que vamos considerar.' },
   };
 
   var CONCEPT = {
     estrutura: [
-      'Estamos estudando uma assinatura opcional para o projeto musical montar o próprio escritório digital.',
-      'Em um só lugar, o projeto poderia organizar presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira, usando apenas os módulos realmente disponíveis no lançamento.',
+      'Estamos estudando uma assinatura opcional para você montar o seu escritório digital.',
+      'Em um só lugar, você poderia organizar presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira, usando apenas os módulos realmente disponíveis no lançamento.',
       'A eshows entraria com a estrutura para você fazer isso melhor e mais rápido: organizar os contatos, definir preço, fechar proposta e contrato, acompanhar os números. As decisões, os clientes e o cachê continuariam sendo seus, sem intermediário.',
       'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. E não é uma fila de shows prontos: é a estrutura pra você fechar os seus. Esse escritório seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
     premium: [
       'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e colocar os primeiros ciclos de campanha em funcionamento.',
-      'Os contatos gerados nesses ciclos entrariam no escritório do projeto, que faria o atendimento e a contratação. O projeto participaria da implantação, teria acesso aos processos e dados e assumiria a rotina depois do período assistido.',
-      'A ideia é aumentar sua capacidade de gerar e administrar os próprios shows, não terceirizar essa responsabilidade para sempre.',
+      'Os contatos gerados nesses ciclos entrariam no seu escritório, e você faria o atendimento e a contratação. Você participaria da implantação, teria acesso aos processos e dados e assumiria a rotina depois do período assistido.',
+      'A ideia é aumentar sua capacidade de conseguir e administrar os seus próprios shows, não terceirizar essa responsabilidade para sempre.',
       'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. O Premium também seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
   };
 
-  function offerCard(tier, priceCents) {
-    var price = priceCents != null
-      ? 'R$ ' + Math.round(priceCents / 100).toLocaleString('pt-BR') + ' por mês'
-      : '[valor em definição] por mês';
-    if (tier === 'estrutura') {
-      return { name: 'Plano Estrutura, operação própria', price: price, paragraphs: [
-        'Escritório digital do projeto musical com presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira. O projeto configura seus materiais, canais, contatos, propostas, agenda e acompanhamento e opera tudo por conta própria.',
-        'A eshows não recebe percentual do cachê. A primeira mensalidade é cobrada no lançamento, em [data a definir].'] };
-    }
-    return { name: 'Plano Premium, implantação e aceleração assistidas', price: price, paragraphs: [
-      'O mesmo escritório digital, com [duração e entregas aprovadas] de implantação, orientação e ciclos assistidos de campanha.',
-      'Os contatos gerados nos ciclos entram na operação do projeto. O projeto participa, atende, recebe processo e dados e assume a rotina depois do período assistido. Não há volume mínimo garantido, e a eshows não se torna responsável permanente por gerar shows.',
-      'O período assistido depende de [critérios operacionais publicados] e de capacidade de implantação. Esses critérios não avaliam qualidade artística nem dão prioridade na distribuição dos shows atuais.',
-      'A eshows não recebe percentual do cachê. A primeira mensalidade é cobrada no lançamento, em [data a definir].'] };
-  }
-  var OFFER_COMMON = 'A assinatura pertence ao projeto musical e deve ser aceita pelo dono do projeto. A operação gratuita atual da plataforma continua como está. [Inserir política real de cancelamento, troca de nível e reembolso.]';
+  // (oferta com preço saiu da pesquisa em 2026-08-30: preço só na LP do produto)
 
   var TOOLS = [
     { num: '01', name: 'Perfil e marca', shot: 'assets/shots/epk.webp', video: 'assets/shots/epk.mp4', phone: true,
@@ -499,8 +483,6 @@
       { type: 'concept' },
       { type: 'question', q: find('q8') },
       { type: 'question', q: find('q8b') },
-      { type: 'inter', key: 'toOffer' },
-      { type: 'offer' },
       { type: 'question', q: find('q10') },
       { type: 'inter', key: 'toCommit' },
       { type: 'question', q: find('q20') },
@@ -559,9 +541,8 @@
 
   function chapterOf(s) {
     if (s.type === 'question') return s.q.chapter;
-    if (s.type === 'inter') return s.key === 'toConcept' ? 2 : s.key === 'toOffer' ? 3 : 4;
+    if (s.type === 'inter') return s.key === 'toConcept' ? 2 : 4;
     if (s.type === 'concept') return 2;
-    if (s.type === 'offer') return 3;
     return runner.module === 'core' ? 4 : 5;
   }
 
@@ -674,26 +655,6 @@
       box2.appendChild(card);
       seenTracker(card, 'concept_seen');
       navBar({ back: canBack ? back : null, next: next, label: 'Li, continuar' });
-      return;
-    }
-    if (s.type === 'offer') {
-      var box3 = screenBox();
-      var offer = offerCard(state.tier, state.priceCents);
-      var card3 = el('div', { class: 'ed-offer' });
-      if (state.priceCents == null) card3.appendChild(el('span', { class: 'ed-draftflag', text: 'rascunho · preço em definição' }));
-      card3.appendChild(el('p', { class: 'ed-offer__name', text: offer.name }));
-      card3.appendChild(el('p', { class: 'ed-offer__price', text: offer.price }));
-      offer.paragraphs.forEach(function (p) { card3.appendChild(el('p', { text: p })); });
-      var terms = el('p', { class: 'ed-offer__common', text: OFFER_COMMON });
-      card3.appendChild(terms);
-      box3.appendChild(card3);
-      seenTracker(card3, 'offer_seen');
-      var tFired = false;
-      var tio = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting && !tFired) { tFired = true; track('offer_terms_seen'); tio.disconnect(); }
-      }, { threshold: 0.9 });
-      tio.observe(terms);
-      navBar({ back: canBack ? back : null, next: next });
       return;
     }
     if (s.type === 'contact') return renderContact(canBack);
