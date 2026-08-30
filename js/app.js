@@ -36,6 +36,11 @@
     }
     return arr;
   }
+  function fmtPrice(cents) {
+    if (cents == null) return null;
+    var reais = Math.floor(cents / 100), c = cents % 100;
+    return 'R$ ' + reais + (c ? ',' + (c < 10 ? '0' + c : c) : '');
+  }
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ───────────────────────── API + telemetria ─────────────────────────
@@ -191,13 +196,39 @@
         { id: 'pay_per_opportunity', label: 'A mensalidade compra o direito de desbloquear cada oportunidade individual' },
         { id: 'free_becomes_paid', label: 'A operação gratuita atual passaria a exigir esta assinatura' }] },
     { id: 'q10', chapter: 3, kind: 'single',
-      label: 'Considerando exatamente essa proposta, qual seria sua decisão hoje?',
+      label: function () {
+        var p = fmtPrice(state.priceCents);
+        return p
+          ? 'Considerando exatamente essa proposta, por ' + p + ' ao mês, qual seria sua decisão hoje?'
+          : 'Considerando exatamente essa proposta, qual seria sua decisão hoje?';
+      },
       options: [
         { id: 'would_join', tier: 'estrutura', label: 'Entraria assim que lançasse', pinned: true },
         { id: 'would_request', tier: 'premium', label: 'Pediria pra entrar assim que lançasse', pinned: true },
         { id: 'only_with_trial', label: 'Entraria somente se pudesse testar antes', pinned: true },
         { id: 'wait_others', label: 'Esperaria outros artistas usarem primeiro', pinned: true },
         { id: 'would_not', label: 'Não entraria nesse formato', pinned: true }] },
+    { id: 'q10a', chapter: 3, kind: 'single',
+      showIf: function (a) { return a.q10 === 'would_not'; },
+      label: 'O valor da mensalidade pesou nessa decisão?',
+      options: [
+        { id: 'main_reason', label: 'Sim, foi o principal motivo', pinned: true },
+        { id: 'partial_reason', label: 'Sim, junto com outros motivos', pinned: true },
+        { id: 'not_price', label: 'Não, o motivo foi outro', pinned: true }] },
+    { id: 'q10b', chapter: 3, kind: 'single',
+      showIf: function (a) { return a.q10 === 'would_not' && (a.q10a === 'main_reason' || a.q10a === 'partial_reason'); },
+      label: 'E qual mensalidade você entenderia como justa por esse escritório?',
+      options: [
+        { id: 'upto_19', tier: 'estrutura', label: 'Até R$ 19', pinned: true },
+        { id: '20_39', tier: 'estrutura', label: 'R$ 20 a R$ 39', pinned: true },
+        { id: '40_59', tier: 'estrutura', label: 'R$ 40 a R$ 59', pinned: true },
+        { id: '60_plus', tier: 'estrutura', label: 'R$ 60 ou mais', pinned: true },
+        { id: 'upto_99', tier: 'premium', label: 'Até R$ 99', pinned: true },
+        { id: '100_199', tier: 'premium', label: 'R$ 100 a R$ 199', pinned: true },
+        { id: '200_299', tier: 'premium', label: 'R$ 200 a R$ 299', pinned: true },
+        { id: '300_plus', tier: 'premium', label: 'R$ 300 ou mais', pinned: true },
+        { id: 'free_only', label: 'Só usaria se fosse gratuito', pinned: true },
+        { id: 'prefer_not', label: 'Prefiro não responder', pinned: true }] },
     { id: 'q20', chapter: 4, kind: 'single',
       label: 'Qual próximo passo você topa dar hoje?',
       options: [
@@ -409,7 +440,8 @@
       'A cobrança seria só a mensalidade fixa, sem percentual sobre o cachê: o que você fechar é seu. O Premium também seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
   };
 
-  // (oferta com preço saiu da pesquisa em 2026-08-30: preço só na LP do produto)
+  // (desenho monádico C, 2026-08-30: cada convite vê UM preço — tela offer antes da q10,
+  //  follow-up q10a/q10b em recusa por preço, e o mesmo valor da célula na fila do Ato 3)
 
   var TOOLS = [
     { num: '01', name: 'Perfil e marca', shot: 'assets/shots/epk.webp', video: 'assets/shots/epk.mp4', phone: true,
@@ -483,10 +515,14 @@
       { type: 'concept' },
       { type: 'question', q: find('q8') },
       { type: 'question', q: find('q8b') },
-      { type: 'question', q: find('q10') },
-      { type: 'inter', key: 'toCommit' },
-      { type: 'question', q: find('q20') },
     ]);
+    if (state.priceCents != null) screens.push({ type: 'offer' });
+    screens.push({ type: 'question', q: find('q10') });
+    [find('q10a'), find('q10b')].forEach(function (q) {
+      if (q.showIf(state.answers)) screens.push({ type: 'question', q: q });
+    });
+    screens.push({ type: 'inter', key: 'toCommit' });
+    screens.push({ type: 'question', q: find('q20') });
     if (state.answers.q20 === 'meeting' || state.answers.q20 === 'updates') screens.push({ type: 'contact' });
     screens.push({ type: 'submitting' });
     return screens;
@@ -543,6 +579,7 @@
     if (s.type === 'question') return s.q.chapter;
     if (s.type === 'inter') return s.key === 'toConcept' ? 2 : 4;
     if (s.type === 'concept') return 2;
+    if (s.type === 'offer') return 3;
     return runner.module === 'core' ? 4 : 5;
   }
 
@@ -655,6 +692,19 @@
       box2.appendChild(card);
       seenTracker(card, 'concept_seen');
       navBar({ back: canBack ? back : null, next: next, label: 'Li, continuar' });
+      return;
+    }
+    if (s.type === 'offer') {
+      var boxOf = screenBox();
+      boxOf.appendChild(el('p', { class: 'ed-eyebrow', text: 'A mensalidade em estudo', style: 'margin-bottom:1.2rem' }));
+      var cardOf = el('div', { class: 'ed-offer' });
+      cardOf.appendChild(el('p', { class: 'ed-offer__name', text: state.tier === 'premium' ? 'Plano Premium' : 'Plano Estrutura' }));
+      cardOf.appendChild(el('p', { class: 'ed-offer__price', text: fmtPrice(state.priceCents) + ' por mês' }));
+      cardOf.appendChild(el('p', { text: 'Mensalidade fixa. Sem percentual sobre o cachê e sem fidelidade: cancela quando quiser.' }));
+      cardOf.appendChild(el('p', { class: 'ed-offer__common', text: 'Valor em estudo para o lançamento. A próxima pergunta considera exatamente esse valor.' }));
+      boxOf.appendChild(cardOf);
+      seenTracker(cardOf, 'offer_seen');
+      navBar({ back: canBack ? back : null, next: next, label: 'Continuar' });
       return;
     }
     if (s.type === 'contact') return renderContact(canBack);
@@ -1083,6 +1133,13 @@
       ]));
     }
     if (state.inWaitlist) { renderDone(); return; }
+    var p = fmtPrice(state.priceCents);
+    if (p) {
+      slot.appendChild(el('p', {
+        class: 'ed-waitlist__price',
+        html: 'Mensalidade em estudo para o plano ' + (state.tier === 'premium' ? 'Premium' : 'Estrutura') + ': <strong>' + p + '/mês</strong>.',
+      }));
+    }
     var btn = el('button', { class: 'ed-btn ed-btn--primary', type: 'button', text: 'Quero entrar na fila →' });
     btn.addEventListener('click', function () {
       btn.disabled = true; btn.textContent = 'Anotando…';
