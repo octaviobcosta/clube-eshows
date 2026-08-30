@@ -104,7 +104,7 @@
         { id: '7_10', label: '7 a 10', pinned: true },
         { id: '11_plus', label: '11 ou mais', pinned: true }] },
     { id: 'q2a', chapter: 1, kind: 'single',
-      label: 'Nesse mesmo período, quantas pessoas, casas ou empresas novas pediram preço ou informação por canais do próprio projeto?',
+      label: 'Nesse mesmo período, quantas pessoas, casas ou empresas novas pediram preço ou informação pelos seus próprios canais?',
       options: [
         { id: 'none', label: 'Nenhuma', pinned: true },
         { id: '1', label: '1', pinned: true },
@@ -112,7 +112,7 @@
         { id: '4_plus', label: '4 ou mais', pinned: true },
         { id: 'dont_remember', label: 'Não lembro', pinned: true }] },
     { id: 'q2b', chapter: 1, kind: 'single', showIf: hadOwnShow, shuffle: true,
-      label: 'Qual foi o tipo do show mais recente que o próprio projeto conseguiu?',
+      label: 'Qual foi o tipo do show mais recente que você conseguiu por conta própria?',
       options: [
         { id: 'bar', label: 'Bar ou restaurante fora de uma proposta pronta da eshows' },
         { id: 'social', label: 'Evento social, como casamento, aniversário ou formatura' },
@@ -148,7 +148,7 @@
         { id: 'none', label: 'Nenhuma estrutura definida', exclusive: true, pinned: true },
         { id: 'other', label: 'Outro', pinned: true }] },
     { id: 'q6', chapter: 1, kind: 'single', showIf: hadOwnContact,
-      label: 'Até qual etapa chegou o contato mais recente que veio por um canal do próprio projeto?',
+      label: 'Até qual etapa chegou o contato mais recente que veio pelos seus próprios canais?',
       options: [
         { id: 'responding', label: 'Ainda estamos respondendo ou entendendo o pedido', pinned: true },
         { id: 'confirmed_need', label: 'Confirmamos necessidade, data ou faixa de preço', pinned: true },
@@ -383,7 +383,7 @@
   };
   var Q8B_EXPLAIN = 'Na verdade: a cobrança seria só a mensalidade fixa. Sem percentual sobre o cachê, sem garantia de shows, e a operação gratuita atual continua como está.';
 
-  var CHAPTERS_META = ['Como funciona hoje', 'Uma ideia no papel', 'O preço real', 'Seu próximo passo'];
+  var CHAPTERS_META = ['Como funciona hoje', 'O conceito do projeto', 'O preço real', 'Seu próximo passo'];
 
   var INTERS = {
     toConcept: { lines: ['AGORA,', 'A PROPOSTA.'], sub: 'Esse produto ainda não existe. Sua resposta ajuda a decidir se ele deve existir e como deve funcionar.' },
