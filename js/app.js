@@ -179,7 +179,7 @@
         { id: 'structure_page_only', tier: 'estrutura', label: 'O plano serviria somente como página de divulgação, sem organizar a atividade comercial' },
         { id: 'structure_eshows_operates', tier: 'estrutura', label: 'A eshows assumiria a rotina comercial no meu lugar' },
         { id: 'structure_replaces_free', tier: 'estrutura', label: 'A operação gratuita atual seria substituída por este plano' },
-        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows ajudaria a implantar a operação e os primeiros ciclos de campanha; depois eu continuaria usando a estrutura' },
+        { id: 'premium_assisted_then_project_operates', tier: 'premium', label: 'A eshows ajudaria a implantar a operação e os primeiros ciclos de campanha, e depois eu continuaria usando a estrutura' },
         { id: 'premium_no_transition', tier: 'premium', label: 'A eshows assumiria a rotina comercial sem prazo de transição para o projeto' },
         { id: 'premium_software_only', tier: 'premium', label: 'O Premium seria somente acesso ao software, sem implantação assistida' },
         { id: 'premium_replaces_free', tier: 'premium', label: 'A operação gratuita atual seria substituída por este plano' }] },
@@ -217,11 +217,11 @@
         { id: 'fav_setup_help', tier: 'premium', label: 'Ajuda para configurar a operação' },
         { id: 'fav_learn_campaigns', tier: 'premium', label: 'Aprender a colocar campanhas próprias em funcionamento' },
         { id: 'against_price', label: 'Não quero pagar mensalidade' },
-        { id: 'against_pay_before_result', label: 'Não quero pagar antes de observar resultado' },
+        { id: 'against_pay_before_result', label: 'Não quero pagar antes de ver o resultado' },
         { id: 'against_unclear', label: 'Ainda não entendi o que está incluído' },
         { id: 'against_too_much_work', tier: 'estrutura', label: 'Fazer tudo sozinho exigiria trabalho demais' },
         { id: 'against_assist_short', tier: 'premium', label: 'O período assistido parece curto ou pouco claro' },
-        { id: 'against_no_autonomy_belief', tier: 'premium', label: 'Não acredito que o apoio me deixará capaz de operar sozinho' },
+        { id: 'against_no_autonomy_belief', tier: 'premium', label: 'Não acredito que o apoio me deixe capaz de operar sozinho' },
         { id: 'against_no_commercial_routine', label: 'Não quero assumir a rotina comercial do projeto' },
         { id: 'against_no_need', label: 'Não preciso da estrutura' },
         { id: 'against_status_quo', label: 'Prefiro continuar como hoje' },
@@ -234,7 +234,7 @@
         { id: 'real_result', label: 'Resultado real de outro projeto musical' },
         { id: 'full_flow', label: 'Ver um contato percorrer o fluxo completo, da chegada ao fechamento' },
         { id: 'trial', label: 'Período de teste' },
-        { id: 'clear_rules', label: 'Regra clara de cancelamento, troca de nível e reembolso' },
+        { id: 'clear_rules', label: 'Regras claras de cancelamento, troca de nível e reembolso' },
         { id: 'implementation_plan', tier: 'premium', label: 'Plano de implantação, duração e entregas do apoio' },
         { id: 'autonomy_case', tier: 'premium', label: 'Caso de projeto que passou a operar campanhas sozinho' },
         { id: 'talk_to_someone', label: 'Conversar com alguém da eshows' },
@@ -245,7 +245,7 @@
       options: [
         { id: 'estrutura', label: 'Plano Estrutura', pinned: true },
         { id: 'premium', label: 'Plano Premium', pinned: true },
-        { id: 'none', label: 'Não escolheria nenhum; continuaria como hoje', pinned: true }] },
+        { id: 'none', label: 'Não escolheria nenhum, continuaria como hoje', pinned: true }] },
     { id: 'q13', chapter: 5, kind: 'text', optional: true, maxLen: 300,
       label: function (a) {
         return a.q12 === 'none'
@@ -264,7 +264,7 @@
         { id: 'agenda', label: 'Agenda, equipe e produção', pinned: true },
         { id: 'billing', label: 'Cobrança, recebimentos e financeiro', pinned: true },
         { id: 'tracking', label: 'Acompanhamento de contatos, propostas, shows e faturamento', pinned: true },
-        { id: 'none', label: 'Nenhuma dessas; tentaria centralizar todas', exclusive: true, pinned: true },
+        { id: 'none', label: 'Nenhuma dessas, tentaria centralizar todas', exclusive: true, pinned: true },
         { id: 'dont_know', label: 'Não sei ainda', exclusive: true, pinned: true }] },
     { id: 'q14', chapter: 5, kind: 'single',
       label: 'Se você parasse hoje, outra pessoa do seu time conseguiria encontrar os contatos, conversas, preços, propostas e próximos retornos?',
@@ -378,8 +378,8 @@
   var Q8_CORRECT = { estrutura: 'structure_project_operates', premium: 'premium_assisted_then_project_operates' };
   var Q8B_CORRECT = 'fixed_monthly_no_percentage_no_guarantee';
   var Q8_EXPLAIN = {
-    estrutura: 'Na verdade: o projeto montaria o próprio escritório digital e continuaria responsável por atrair, negociar e fechar seus trabalhos. A eshows fornece a infraestrutura.',
-    premium: 'Na verdade: a eshows ajudaria a implantar a operação e os primeiros ciclos de campanha por um período definido. Depois, o projeto continua operando com a estrutura.',
+    estrutura: 'Na verdade: você montaria o próprio escritório digital e continuaria responsável por atrair, negociar e fechar seus trabalhos. A eshows forneceria a infraestrutura.',
+    premium: 'Na verdade: a eshows ajudaria a implantar a operação e os primeiros ciclos de campanha por um período definido. Depois, você continuaria operando com a estrutura.',
   };
   var Q8B_EXPLAIN = 'Na verdade: a cobrança seria só a mensalidade fixa. Sem percentual sobre o cachê, sem garantia de shows, e a operação gratuita atual continua como está.';
 
@@ -393,7 +393,7 @@
         'A seguir, o conceito do projeto. Ele ainda não existe: sua resposta decide como ele deve funcionar.',
       ],
     },
-    toCommit: { lines: ['FALTA POUCO.'], sub: 'Últimas duas telas. O que você escolher aqui é o que vamos considerar.' },
+    toCommit: { lines: ['FALTA POUCO.'], sub: 'São as últimas telas. O que você escolher aqui é o que vamos considerar.' },
   };
 
   var CONCEPT = {
@@ -401,12 +401,12 @@
       'Estamos estudando uma assinatura opcional para você montar o seu escritório digital.',
       'Em um só lugar, você poderia organizar presença profissional, contatos, campanhas, propostas, agenda, contratos, cobrança e números da carreira, usando apenas os módulos realmente disponíveis no lançamento.',
       'A eshows entraria com a estrutura para você fazer isso melhor e mais rápido: organizar os contatos, definir preço, fechar proposta e contrato, acompanhar os números. As decisões, os clientes e o cachê continuariam sendo seus, sem intermediário.',
-      'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. E não é uma fila de shows prontos: é a estrutura pra você fechar os seus. Esse escritório seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
+      'A cobrança seria só a mensalidade fixa, sem percentual sobre o cachê: o que você fechar é seu. E não é uma fila de shows prontos: é a estrutura pra você fechar os seus. Esse escritório seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
     premium: [
       'O Premium teria o mesmo escritório digital, com apoio da eshows para configurar a operação e colocar os primeiros ciclos de campanha em funcionamento.',
       'Os contatos gerados nesses ciclos entrariam no seu escritório, e você faria o atendimento e a contratação. Você participaria da implantação, teria acesso aos processos e dados e assumiria a rotina depois do período assistido.',
       'A ideia é aumentar sua capacidade de conseguir e administrar os seus próprios shows, não terceirizar essa responsabilidade para sempre.',
-      'A cobrança seria só a mensalidade fixa: sem percentual sobre o cachê, o que você fechar é seu. O Premium também seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
+      'A cobrança seria só a mensalidade fixa, sem percentual sobre o cachê: o que você fechar é seu. O Premium também seria um produto novo, somado ao que a eshows já faz: os shows que você fecha pela plataforma hoje continuam exatamente como são, sem nenhuma mudança.'],
   };
 
   // (oferta com preço saiu da pesquisa em 2026-08-30: preço só na LP do produto)
@@ -810,7 +810,7 @@
       return input;
     }
     var ckPriv = check('Li o <a href="privacidade.html" target="_blank" rel="noreferrer">aviso de privacidade</a> desta pesquisa.');
-    var ckWa = check('Quero receber pelo WhatsApp mensagens sobre este piloto.');
+    var ckWa = check('Quero receber mensagens sobre este piloto pelo WhatsApp.');
     var ckInt = check('Aceito ser convidado para uma entrevista sobre esta pesquisa.');
     var err = el('p', { style: 'color:var(--danger);font-size:0.92rem;display:none' });
     grid.appendChild(err);
@@ -836,7 +836,7 @@
           purpose: purpose,
           event_id: uid(),
         }).then(next).catch(function (e) {
-          err.textContent = e.message || 'Falha ao salvar; tente de novo';
+          err.textContent = e.message || 'Falha ao salvar, tente de novo';
           err.style.display = 'block';
           if (navEl.__next) { navEl.__next.disabled = false; navEl.__next.textContent = 'Continuar →'; }
         });
@@ -864,7 +864,7 @@
         .catch(function (e) {
           box.innerHTML = '';
           box.appendChild(el('h2', { class: 'ed-screen__q', text: 'Não foi dessa vez.' }));
-          box.appendChild(el('p', { class: 'ed-screen__help', text: 'Suas respostas estão guardadas aqui no aparelho; só faltou a conexão. ' + (e.message || '') }));
+          box.appendChild(el('p', { class: 'ed-screen__help', text: 'Suas respostas estão guardadas aqui no aparelho, só faltou a conexão. ' + (e.message || '') }));
           box.appendChild(el('button', { class: 'ed-btn ed-btn--primary', type: 'button', text: 'Tentar de novo', onclick: function () { renderSubmitting(); } }));
         });
     }
@@ -959,10 +959,10 @@
       chat: 'Hoje, os contatos do seu projeto ficam registrados no WhatsApp.',
       memory: 'Hoje, o próximo passo de cada contato depende da memória de alguém.',
       spreadsheet: 'Hoje, o controle do seu projeto está numa planilha.',
-      agenda: 'Hoje, os compromissos do projeto ficam anotados na agenda.',
+      agenda: 'Hoje, os compromissos do seu projeto ficam anotados na agenda.',
       crm: 'Seu projeto já registra os contatos num sistema próprio.',
       not_recorded: 'Hoje, o próximo passo dos contatos não fica registrado.',
-      other: 'Hoje, cada contato do projeto é registrado num lugar diferente.',
+      other: 'Hoje, cada contato do seu projeto é registrado num lugar diferente.',
     };
     if (m1[a.q6a]) lines.push(m1[a.q6a]);
     var m2 = {
