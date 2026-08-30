@@ -333,16 +333,6 @@
 }
 .ed-card--grad {
   position: relative;
-  overflow: hidden;
-}
-.ed-card--grad::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--orange);
 }
 .ed-intro2__note {
   margin-top: 0.9rem;
