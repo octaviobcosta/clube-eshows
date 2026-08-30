@@ -386,7 +386,13 @@
   var CHAPTERS_META = ['Como funciona hoje', 'O conceito do projeto', 'O preço real', 'Seu próximo passo'];
 
   var INTERS = {
-    toConcept: { lines: ['AGORA,', 'A PROPOSTA.'], sub: 'Esse produto ainda não existe. Sua resposta ajuda a decidir se ele deve existir e como deve funcionar.' },
+    toConcept: {
+      lines: ['OS TEMPOS MUDARAM.', 'AS FERRAMENTAS TAMBÉM.'],
+      subs: [
+        'Hoje, um artista com as ferramentas certas faz a diferença a favor da própria carreira. Sem empresário, sem intermediário, sem comissão. Uma estrutura pronta pra você dar o próximo passo.',
+        'A seguir, o conceito do projeto. Ele ainda não existe: sua resposta decide como ele deve funcionar.',
+      ],
+    },
     toOffer: { lines: ['AGORA,', 'O PREÇO.'], sub: 'Este é um dos valores em estudo. Responda pensando na situação real do seu projeto hoje.' },
     toCommit: { lines: ['FALTA POUCO.'], sub: 'Últimas duas telas. O que você escolher aqui é o que vamos considerar.' },
   };
@@ -654,7 +660,9 @@
       var h = el('h2', { class: 'ed-display' });
       it.lines.forEach(function (l) { h.appendChild(el('span', { text: l, style: 'display:block' })); });
       box.appendChild(h);
-      box.appendChild(el('p', { text: it.sub }));
+      (it.subs || [it.sub]).forEach(function (t, i) {
+        box.appendChild(el('p', { text: t, style: i ? 'margin-top:0.8rem' : '' }));
+      });
       navBar({ back: canBack ? back : null, next: next });
       return;
     }
