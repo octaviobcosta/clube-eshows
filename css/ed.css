@@ -187,14 +187,9 @@
    ATO 1 — convite (hero full-bleed + dobra densa)
    ============================================================ */
 .grad {
-  background: linear-gradient(100deg, #fbaf3f 0%, #f05a28 45%, #d63d15 80%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* line-height apertado da Bebas encolhe a linebox e o clip cortaria o
-     til de OPINIÃO; padding+margin negativos expandem a área pintada */
-  padding: 0.12em 0.02em;
-  margin: -0.12em -0.02em;
+  /* One Accent Rule: a cor viva é o laranja, chapado (degradê em texto
+     lê como template de IA; aposentado em 2026-08-30) */
+  color: var(--orange);
 }
 .ed-hero {
   position: relative;
@@ -279,7 +274,7 @@
   width: 2px;
   height: 30px;
   border-radius: 1px;
-  background: linear-gradient(180deg, var(--amber), var(--orange), transparent);
+  background: linear-gradient(180deg, var(--orange), transparent);
   animation: ed-drip 1.6s var(--ease) infinite;
 }
 @keyframes ed-drip {
@@ -309,7 +304,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #fbaf3f 18%, #f05a28 52%, #b33212 85%, transparent);
+  background: linear-gradient(90deg, transparent, var(--orange) 22%, var(--orange) 78%, transparent);
 }
 .ed-intro2::before {
   content: "";
@@ -338,10 +333,16 @@
 }
 .ed-card--grad {
   position: relative;
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--ink-100), var(--ink-100)) padding-box,
-    linear-gradient(135deg, rgba(251, 175, 63, 0.75), rgba(240, 90, 40, 0.6), rgba(179, 50, 18, 0.4)) border-box;
+  overflow: hidden;
+}
+.ed-card--grad::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--orange);
 }
 .ed-intro2__note {
   margin-top: 0.9rem;
@@ -380,8 +381,7 @@
   top: 0;
   height: 100dvh;
   background:
-    linear-gradient(160deg, rgba(251, 175, 63, 0.12), rgba(240, 90, 40, 0.1) 38%, rgba(20, 17, 15, 0) 70%),
-    linear-gradient(0deg, rgba(179, 50, 18, 0.16), transparent 45%),
+    linear-gradient(180deg, rgba(240, 90, 40, 0.1), rgba(240, 90, 40, 0.03) 42%, transparent 68%),
     var(--ink-300);
   border-right: 1px solid var(--hairline);
   display: flex;
@@ -395,7 +395,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #fbaf3f, #f05a28 55%, #b33212);
+  background: var(--orange);
 }
 .ed-runner2__sideinner {
   padding: clamp(1.6rem, 3.5vw, 3rem);
@@ -451,7 +451,7 @@
 .ed-progress__seg i {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #fbaf3f, #f05a28);
+  background: var(--orange);
   transform-origin: left;
   transform: scaleX(var(--p, 0));
   transition: transform 0.4s var(--ease);
@@ -519,7 +519,7 @@
 }
 .ed-opt[aria-checked="true"] {
   border-color: var(--orange);
-  background: linear-gradient(90deg, rgba(240, 90, 40, 0.14), rgba(240, 90, 40, 0.05));
+  background: rgba(240, 90, 40, 0.1);
   color: var(--paper);
 }
 .ed-opt__dot {
@@ -683,7 +683,7 @@
   padding: clamp(2rem, 6vw, 4rem);
   margin: 1rem 0 0;
   border-radius: 22px;
-  background: linear-gradient(135deg, #fbaf3f 0%, #f7822f 38%, #f05a28 66%, #d63d15 100%);
+  background: var(--orange);
   color: var(--ink-400);
   position: relative;
   overflow: hidden;
