@@ -465,10 +465,12 @@
     }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('#fase-ato1 .rv').forEach(function (n) { io.observe(n); });
     track('privacy_notice_seen');
-    document.getElementById('btn-comecar').addEventListener('click', function () {
-      track('privacy_acknowledged');
-      track('survey_started');
-      startRunner('core');
+    document.querySelectorAll('.js-comecar').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        track('privacy_acknowledged');
+        track('survey_started');
+        startRunner('core');
+      });
     });
   }
 
@@ -554,6 +556,19 @@
   }
 
   function renderProgress() {
+    // painel lateral (split desktop): parte atual em Bebas + título
+    var sidePart = document.getElementById('side-part');
+    var sideTitle = document.getElementById('side-title');
+    if (sidePart && sideTitle) {
+      if (runner.module === 'core') {
+        var ch = Math.min(chapterOf(runner.screens[runner.idx]), 4);
+        sidePart.innerHTML = 'PARTE <span class="grad">' + ch + '</span>';
+        sideTitle.textContent = CHAPTERS_META[ch - 1];
+      } else {
+        sidePart.innerHTML = '<span class="grad">EXTRA</span>';
+        sideTitle.textContent = 'Opcional: o que teria mais valor pra você';
+      }
+    }
     var box = document.getElementById('runner-progress');
     box.innerHTML = '';
     if (runner.module === 'core') {
@@ -632,7 +647,6 @@
       var it = INTERS[s.key];
       var box = screenBox();
       box.className = 'ed-inter ' + (runner.dir === 'fwd' ? 'ed-screen-enter' : 'ed-screen-enter--back');
-      box.style.minHeight = 'calc(100dvh - 120px)';
       var h = el('h2', { class: 'ed-display' });
       it.lines.forEach(function (l) { h.appendChild(el('span', { text: l, style: 'display:block' })); });
       box.appendChild(h);

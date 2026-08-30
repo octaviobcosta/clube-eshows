@@ -37,40 +37,49 @@
 <div id="fase-ato1" class="ed-fase">
   <div class="ed-ato1">
     <div class="ed-ato1__grain" aria-hidden="true"></div>
-    <section class="ed-ato1__hero">
-      <div class="ed-ato1__still" aria-hidden="true">
-        <img src="assets/film/palco-poster.webp" alt="" width="1920" height="1080">
+
+    <section class="ed-hero">
+      <div class="ed-hero__bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 720px)" srcset="assets/intro-bar-mobile.webp">
+          <img src="assets/intro-bar.webp" alt="" width="1376" height="768" fetchpriority="high">
+        </picture>
       </div>
-      <p class="ed-eyebrow">eshows · pesquisa com artistas</p>
-      <h1 class="ed-display">
-        <span style="display:block">ESTAMOS CONSTRUINDO</span>
-        <span style="display:block">UMA FERRAMENTA NOVA</span>
-        <span style="display:block">PARA ARTISTAS.</span>
-        <span style="display:block">QUEREMOS SUA OPINIÃO.</span>
-      </h1>
-      <div class="ed-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="ed-scrollhint">Rola pra entender</p>
+      <div class="ed-hero__inner">
+        <p class="ed-eyebrow">eshows · pesquisa com artistas</p>
+        <h1 class="ed-display ed-hero__title">
+          <span>ESTAMOS CONSTRUINDO</span>
+          <span>UMA FERRAMENTA NOVA</span>
+          <span>PARA ARTISTAS.</span>
+          <span class="grad">QUEREMOS SUA OPINIÃO.</span>
+        </h1>
+        <p class="ed-hero__sub">São 10 minutos que decidem o que a gente constrói primeiro. E no fim você vê o produto.</p>
+        <div class="ed-hero__ctas">
+          <button type="button" class="ed-btn ed-btn--primary js-comecar">Começar →</button>
+          <a class="ed-btn ed-btn--ghost" href="#entenda">Entender antes</a>
+        </div>
+        <div class="ed-eq ed-hero__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <p class="ed-scrollhint" aria-hidden="true">Rola</p>
     </section>
-    <section>
-      <div class="rv">
-        <p class="ed-body" style="font-size:clamp(1.15rem,3.4vw,1.4rem);color:var(--paper-hi);margin-bottom:1rem">A eshows está construindo uma ferramenta para o seu projeto organizar a parte comercial da carreira.</p>
-        <p class="ed-body">Antes de terminar, precisamos entender como você trabalha hoje: como encontra clientes, como fecha shows e como organiza tudo depois. Mais adiante, você vai ver a proposta e um preço em estudo.</p>
-      </div>
-      <div class="ed-card rv" style="margin-top:2.2rem">
-        <h3>Antes de começar, um combinado</h3>
-        <ul>
-          <li>Responder não muda sua conta, suas propostas nem sua posição em nada.</li>
-          <li>Isto não é uma venda. Você vai ver uma proposta em estudo e um preço. Responda o que você pensa de verdade.</li>
-          <li>Os shows de bares e restaurantes e o app gratuito da eshows continuam como estão.</li>
-        </ul>
-      </div>
-    </section>
-    <section>
-      <div class="rv">
-        <p class="ed-privacy" style="margin-top:0">Suas respostas serão analisadas em conjunto, sob responsabilidade da eshows, para decidir se essa estrutura deve existir e como deveria funcionar. Podemos cruzar com o histórico da sua conta na plataforma. Você pode pedir acesso ou remoção a qualquer momento.</p>
-        <p class="ed-privacy"><a href="privacidade.html" target="_blank" rel="noreferrer">Ler o aviso de privacidade completo</a></p>
-        <p class="ed-body" style="margin:1.6rem 0 2rem">Leva cerca de 10 minutos. Algumas perguntas são opcionais e você pode parar quando quiser.</p>
-        <button type="button" class="ed-btn ed-btn--primary" id="btn-comecar">Começar →</button>
+
+    <section class="ed-intro2" id="entenda">
+      <div class="ed-intro2__light" aria-hidden="true"></div>
+      <div class="ed-intro2__inner">
+        <div class="ed-intro2__text">
+          <h2 class="ed-display ed-intro2__title">ANTES DE COMEÇAR,<br>UM COMBINADO.</h2>
+          <p class="ed-body" style="color:var(--paper-hi)">A eshows está construindo uma ferramenta para o seu projeto organizar a parte comercial da carreira. Antes de terminar, precisamos entender como você trabalha hoje: como encontra clientes, como fecha shows e como organiza tudo depois.</p>
+          <p class="ed-privacy">Suas respostas serão analisadas em conjunto, sob responsabilidade da eshows. Podemos cruzar com o histórico da sua conta na plataforma. Você pode pedir acesso ou remoção a qualquer momento. <a href="privacidade.html" target="_blank" rel="noreferrer">Aviso de privacidade completo</a>.</p>
+        </div>
+        <div class="ed-card ed-card--grad">
+          <ul>
+            <li>Responder não muda sua conta, suas propostas nem sua posição em nada.</li>
+            <li>Isto não é uma venda. Você vai ver uma proposta em estudo e um preço. Responda o que você pensa de verdade.</li>
+            <li>Os shows de bares e restaurantes e o app gratuito da eshows continuam como estão.</li>
+          </ul>
+          <button type="button" class="ed-btn ed-btn--primary js-comecar" style="margin-top:1.4rem;width:100%">Começar agora →</button>
+          <p class="ed-intro2__note">10 minutos · perguntas opcionais podem ser puladas · você para quando quiser</p>
+        </div>
       </div>
     </section>
   </div>
@@ -78,11 +87,21 @@
 
 <!-- ═══════ ATO 2 — runner (montado por JS) ═══════ -->
 <div id="fase-runner" class="ed-fase">
-  <div class="ed-runner">
-    <div class="ed-progress" id="runner-progress"></div>
-    <div id="runner-screen"></div>
+  <div class="ed-runner2">
+    <aside class="ed-runner2__side" aria-hidden="true">
+      <div class="ed-runner2__sideinner">
+        <p class="ed-eyebrow">eshows · pesquisa com artistas</p>
+        <p class="ed-display ed-runner2__part" id="side-part">PARTE 1</p>
+        <p class="ed-runner2__parttitle" id="side-title">Como funciona hoje</p>
+        <div class="ed-eq ed-runner2__eq"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </aside>
+    <div class="ed-runner2__main">
+      <div class="ed-progress" id="runner-progress"></div>
+      <div id="runner-screen"></div>
+      <div class="ed-nav" id="runner-nav"></div>
+    </div>
   </div>
-  <div class="ed-nav" id="runner-nav"></div>
 </div>
 
 <!-- ═══════ Retrato (montado por JS) ═══════ -->
