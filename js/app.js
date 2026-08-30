@@ -264,7 +264,7 @@
     { id: 'q12', chapter: 5, kind: 'single',
       label: 'Se estes fossem os dois planos disponíveis hoje, qual você escolheria?',
       options: [
-        { id: 'estrutura', label: 'Plano Estrutura', pinned: true },
+        { id: 'estrutura', label: 'Plano Solo', pinned: true },
         { id: 'premium', label: 'Plano Premium', pinned: true },
         { id: 'none', label: 'Não escolheria nenhum, continuaria como hoje', pinned: true }] },
     { id: 'q13', chapter: 5, kind: 'text', optional: true, maxLen: 300,
@@ -688,7 +688,7 @@
       var boxOf = screenBox();
       boxOf.appendChild(el('p', { class: 'ed-eyebrow', text: 'A mensalidade em estudo', style: 'margin-bottom:1.2rem' }));
       var cardOf = el('div', { class: 'ed-offer' });
-      cardOf.appendChild(el('p', { class: 'ed-offer__name', text: state.tier === 'premium' ? 'Plano Premium' : 'Plano Estrutura' }));
+      cardOf.appendChild(el('p', { class: 'ed-offer__name', text: state.tier === 'premium' ? 'Plano Premium' : 'Plano Solo' }));
       cardOf.appendChild(el('p', { class: 'ed-offer__price', text: fmtPrice(state.priceCents) + ' por mês' }));
       cardOf.appendChild(el('p', { text: 'Mensalidade fixa. Sem percentual sobre o cachê e sem fidelidade: cancela quando quiser.' }));
       cardOf.appendChild(el('p', { class: 'ed-offer__common', text: 'Valor em estudo para o lançamento. A próxima pergunta considera exatamente esse valor.' }));
@@ -1153,7 +1153,7 @@
     if (p) {
       slot.appendChild(el('p', {
         class: 'ed-waitlist__price',
-        html: 'Mensalidade em estudo para o plano ' + (state.tier === 'premium' ? 'Premium' : 'Estrutura') + ': <strong>' + p + '/mês</strong>.',
+        html: 'Mensalidade em estudo para o plano ' + (state.tier === 'premium' ? 'Premium' : 'Solo') + ': <strong>' + p + '/mês</strong>.',
       }));
     }
     var btn = el('button', { class: 'ed-btn ed-btn--primary', type: 'button', text: 'Quero entrar na fila →' });
