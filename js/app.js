@@ -215,20 +215,10 @@
         { id: 'main_reason', label: 'Sim, foi o principal motivo', pinned: true },
         { id: 'partial_reason', label: 'Sim, junto com outros motivos', pinned: true },
         { id: 'not_price', label: 'Não, o motivo foi outro', pinned: true }] },
-    { id: 'q10b', chapter: 3, kind: 'single',
+    { id: 'q10b', chapter: 3, kind: 'price', optional: true,
       showIf: function (a) { return a.q10 === 'would_not' && (a.q10a === 'main_reason' || a.q10a === 'partial_reason'); },
       label: 'E qual mensalidade você entenderia como justa por esse escritório?',
-      options: [
-        { id: 'upto_19', tier: 'estrutura', label: 'Até R$ 19', pinned: true },
-        { id: '20_39', tier: 'estrutura', label: 'R$ 20 a R$ 39', pinned: true },
-        { id: '40_59', tier: 'estrutura', label: 'R$ 40 a R$ 59', pinned: true },
-        { id: '60_plus', tier: 'estrutura', label: 'R$ 60 ou mais', pinned: true },
-        { id: 'upto_99', tier: 'premium', label: 'Até R$ 99', pinned: true },
-        { id: '100_199', tier: 'premium', label: 'R$ 100 a R$ 199', pinned: true },
-        { id: '200_299', tier: 'premium', label: 'R$ 200 a R$ 299', pinned: true },
-        { id: '300_plus', tier: 'premium', label: 'R$ 300 ou mais', pinned: true },
-        { id: 'free_only', label: 'Só usaria se fosse gratuito', pinned: true },
-        { id: 'prefer_not', label: 'Prefiro não responder', pinned: true }] },
+      help: 'Escreve o valor que fizer sentido pra você. Se preferir, pula esta.' },
     { id: 'q20', chapter: 4, kind: 'single',
       label: 'Qual próximo passo você topa dar hoje?',
       options: [
@@ -767,6 +757,32 @@
       var navEl = document.getElementById('runner-nav');
       navBar({ back: canBack ? back : null, label: (typeof saved === 'string' && saved !== SKIP) || !q.optional ? 'Continuar' : 'Pular', next: function () {
         persist(ta.value.trim() === '' ? SKIP : ta.value.trim());
+        next();
+      } });
+      return;
+    }
+
+    if (q.kind === 'price') {
+      var row = el('div', { class: 'ed-pricefield' });
+      row.appendChild(el('span', { text: 'R$', 'aria-hidden': 'true' }));
+      var inp = el('input', { class: 'ed-input', inputmode: 'decimal', autocomplete: 'off', placeholder: '0,00', 'aria-label': 'Valor em reais por mês' });
+      if (typeof saved === 'number') inp.value = String(saved).replace('.', ',');
+      row.appendChild(inp);
+      row.appendChild(el('span', { text: '/mês', 'aria-hidden': 'true' }));
+      box.appendChild(row);
+      var errP = el('p', { class: 'ed-screen__help', style: 'color:var(--danger);display:none', text: 'Escreve um valor entre R$ 1 e R$ 5.000, ou pula esta pergunta.' });
+      box.appendChild(errP);
+      var navP = document.getElementById('runner-nav');
+      inp.addEventListener('input', function () {
+        errP.style.display = 'none';
+        if (navP.__next) navP.__next.textContent = (inp.value.trim() ? 'Continuar' : 'Pular') + ' →';
+      });
+      navBar({ back: canBack ? back : null, label: typeof saved === 'number' ? 'Continuar' : 'Pular', next: function () {
+        var raw = inp.value.trim().replace(/\s|R\$/g, '').replace(/\./g, '').replace(',', '.');
+        if (raw === '') { persist(SKIP); next(); return; }
+        var v = parseFloat(raw);
+        if (!isFinite(v) || v < 1 || v > 5000) { errP.style.display = 'block'; return; }
+        persist(Math.round(v * 100) / 100);
         next();
       } });
       return;

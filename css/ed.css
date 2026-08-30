@@ -764,6 +764,23 @@
   margin-bottom: 0.4rem;
 }
 
+/* campo de valor justo (q10b) */
+.ed-pricefield {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 300px;
+}
+.ed-pricefield > span {
+  color: var(--paper-mid);
+  font-weight: 600;
+}
+.ed-pricefield .ed-input {
+  text-align: right;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
 /* explicação pós-checagem (Q8/Q8B erradas) */
 .ed-explain {
   border-left: 2px solid var(--amber);
