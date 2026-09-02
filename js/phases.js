@@ -130,12 +130,12 @@
       bumper('parte2').then(function () { ED.runner.start('p2_sentido'); });
     });
     if ('IntersectionObserver' in root) {
-      var pledge = el('rev-pledge');
+      var pledge = el('regras');
       var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting) { pledge.classList.add('is-on'); A.track('pledge_seen'); io.disconnect(); } });
-      }, { threshold: .55 });
+        entries.forEach(function (en) { if (en.isIntersecting) { setTimeout(function () { pledge.classList.add('is-on'); }, reduced ? 0 : 900); A.track('pledge_seen'); io.disconnect(); } });
+      }, { threshold: .45 });
       io.observe(pledge);
-    } else { el('rev-pledge').classList.add('is-on'); }
+    } else { el('regras').classList.add('is-on'); }
   }
 
   /* versão com GSAP: capítulos animados e telefone fixo */
@@ -151,30 +151,47 @@
       return g.fromTo(targets, from, vars);
     }
     var once = function (trigger, start) { return { trigger: trigger, start: start || 'top 65%', once: true }; };
+    /* fromTo com estado final explícito: from() com scrollTrigger gravava o estado inicial como final em alguns alvos */
+    function rise(targets, from, to, st, extra) {
+      var vars = Object.assign({ duration: .8, ease: 'expo.out' }, extra || {}, to);
+      if (st) vars.scrollTrigger = st;
+      return g.fromTo(targets, from, vars);
+    }
+    var once = function (trigger, start) { return { trigger: trigger, start: start || 'top 65%', once: true }; };
     if (!reduced) {
       g.set(lights, { opacity: .82 });
       g.to(lights, { opacity: 0, duration: 1.4, ease: 'power2.out', delay: .15 });
-      var title = el('conceito-title');
-      if (root.SplitText) {
-        g.registerPlugin(root.SplitText);
-        var sp = root.SplitText.create(title, { type: 'lines', linesClass: 'ln' });
-        rise(sp.lines, { yPercent: 70, opacity: 0 }, { yPercent: 0, opacity: 1 }, null, { duration: 1, stagger: .1, delay: .3 });
-      } else { rise(title, { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, null, { duration: .9, delay: .3 }); }
-      rise('#rev-open .rev__lede', { y: 14, opacity: 0 }, { y: 0, opacity: 1 }, null, { delay: .9 });
-      rise('#rev-open .rev__hint', { opacity: 0 }, { opacity: 1 }, null, { duration: .6, delay: 1.4 });
 
-      rise('#rev-caminho .ph--sect', { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-caminho', 'top 70%'));
-      g.fromTo('.card--a', { x: -70, rotation: -9, opacity: 0 }, { x: 0, rotation: -1.4, opacity: 1, ease: 'none', scrollTrigger: { trigger: '#rev-caminho', start: 'top 75%', end: 'top 25%', scrub: .6 } });
-      g.fromTo('.card--b', { x: 70, rotation: 8, opacity: 0 }, { x: 0, rotation: 1.1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '#rev-caminho', start: 'top 70%', end: 'top 20%', scrub: .6 } });
+      /* 1 · a conversa: bolhas chegam com o scroll, a fita varre e revela o escritório */
+      var bubbles = g.utils.toArray('#chat > li'), cards = g.utils.toArray('#feed > li');
+      g.set(bubbles, { opacity: 0, y: 14 });
+      g.set(cards, { opacity: 0, y: 12 });
+      g.set('#compare-after', { opacity: 0, y: 10 });
+      g.set('#wipe', { opacity: 0 });
+      rise('#conceito-title', { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, null, { duration: .9, delay: .3 });
+      var tl = g.timeline({ scrollTrigger: { trigger: '#rev-conv', start: 'top top', end: 'bottom bottom', scrub: .5 } });
+      tl.to(bubbles, { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, 0);
+      tl.to('#rev-conv .rev__hint', { opacity: 0, duration: .3 }, .2);
+      tl.to('#panel-before .panel__cap', { opacity: 1, duration: .5 }, 3.4);
+      g.set('#panel-before', { clipPath: 'inset(0 0% 0 0)' });
+      tl.to('#panel-after', { clipPath: 'inset(0 0 0 0%)', duration: 2.6, ease: 'none' }, 4.6);
+      tl.to('#panel-before', { clipPath: 'inset(0 100% 0 0)', duration: 2.6, ease: 'none' }, 4.6);
+      tl.to('#wipe', { opacity: 1, duration: .3 }, 4.3);
+      tl.to('#wipe', { left: '0%', duration: 2.6, ease: 'none' }, 4.6);
+      tl.to(cards, { opacity: 1, y: 0, duration: .5, stagger: .45, ease: 'power2.out' }, 5.2);
+      tl.to('#compare-after', { opacity: 1, y: 0, duration: .9, ease: 'power2.out' }, 7.6);
+      tl.to('#wipe', { opacity: 0, duration: .5 }, 7.4);
+      tl.to({}, { duration: .8 });
 
-      rise('#rev-terceira .st1', { y: 30, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-terceira'));
-      rise('#rev-terceira .st2', { scale: 1.3, opacity: 0 }, { scale: 1, opacity: 1 }, once('#rev-terceira'), { duration: .45, delay: .45 });
-      rise('#rev-terceira .st3', { y: 14, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-terceira'), { duration: .7, delay: .8 });
-
+      /* 2 · ferramentas (cabeçalho) */
       rise('#rev-tour .tour__head > *', { y: 20, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-tour', 'top 70%'), { stagger: .1 });
-      rise('#rev-jeito .ph--sect', { y: 20, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-jeito', 'top 70%'));
-      rise('#rev-jeito .lines li', { x: -24, opacity: 0 }, { x: 0, opacity: 1 }, once('#rev-jeito', 'top 60%'), { duration: .6, stagger: .16 });
-      rise('#rev-pledge .ph--sect', { y: 20, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-pledge', 'top 70%'));
+
+      /* 3 · regras da casa: a folha cai, as linhas entram */
+      rise('#regras', { y: 44, opacity: 0, rotation: -5 }, { y: 0, opacity: 1, rotation: -.8 }, once('#rev-regras', 'top 70%'), { duration: .8 });
+      rise('#regras .regras__list li', { x: -16, opacity: 0 }, { x: 0, opacity: 1 }, once('#rev-regras', 'top 60%'), { duration: .5, stagger: .12, delay: .35 });
+      rise('#regras .regras__pledge, #regras .regras__p', { y: 10, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-regras', 'top 60%'), { duration: .6, stagger: .15, delay: .9 });
+
+      /* 4 e 5 · planos e perguntas */
       rise('#plans .plan', { y: 48, opacity: 0, rotation: function (i) { return i ? 4 : -4; } }, { y: 0, opacity: 1, rotation: function (i) { return i ? .7 : -.8; } }, once('#rev-planos'), { duration: .75, stagger: .14 });
       rise('#rev-planos .plan__list li', { x: -10, opacity: 0 }, { x: 0, opacity: 1 }, once('#rev-planos'), { duration: .4, stagger: .04, delay: .4 });
       rise('#rev-faq details', { y: 16, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-faq', 'top 75%'), { duration: .5, stagger: .06 });

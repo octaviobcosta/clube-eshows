@@ -14,7 +14,7 @@
 <link rel="icon" href="assets/eshows-icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-900c.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/setlist.css?v=20260902h">
+<link rel="stylesheet" href="css/setlist.css?v=20260902i">
 </head>
 <body class="ed">
 <!--
@@ -39,7 +39,7 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
 
   <!-- ═══ Fase 1 · Intro ═══ -->
   <section class="fase on-floor" id="fase-intro" hidden>
-    <img class="intro__brand" src="assets/eshows-logo-white-480.png?v=20260902h" alt="eshows" width="480" height="141">
+    <img class="intro__brand" src="assets/eshows-logo-white-480.png?v=20260902i" alt="eshows" width="480" height="141">
     <div class="wrap intro">
       <div class="intro__text">
         <h1 class="ph ph--hero" id="intro-title">Estamos construindo uma ferramenta nova para artistas. <span class="ink-tape">E queremos que você faça parte dessa construção.</span></h1>
@@ -74,7 +74,7 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <!-- ═══ Fases 2 e 4 · uma pergunta por folha ═══ -->
   <section class="fase" id="fase-parte" hidden>
     <aside class="side on-floor" aria-label="Onde você está no set">
-      <img class="side__brand" src="assets/eshows-logo-white-480.png?v=20260902h" alt="eshows" width="480" height="141">
+      <img class="side__brand" src="assets/eshows-logo-white-480.png?v=20260902i" alt="eshows" width="480" height="141">
       <span class="pk">set de hoje</span>
       <ol class="setl" id="side-setl">
         <li><span class="n">1</span><span class="t">Um combinado rápido</span></li>
@@ -91,48 +91,53 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
     </div>
   </section>
 
-  <!-- ═══ Fase 3 · O que a eshows está construindo (apresentação em capítulos) ═══ -->
+  <!-- ═══ Fase 3 · O que a eshows está construindo (mostrar, não dizer) ═══ -->
   <section class="fase on-floor conceito" id="fase-conceito" hidden>
     <div class="rev-lights" id="rev-lights" aria-hidden="true"></div>
 
-    <div class="rev rev--open" id="rev-open">
-      <div class="wrap">
-        <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
-        <p class="body rev__lede">Clientes, contratos, pagamentos e os números da carreira em um lugar só. É isso que a eshows está construindo.</p>
-      </div>
-      <p class="rev__hint" aria-hidden="true">Rola pra ver</p>
-    </div>
-
-    <div class="rev rev--caminho" id="rev-caminho">
-      <div class="wrap">
-        <h3 class="ph ph--sect">Pra crescer, sempre foi preciso alguém.</h3>
-        <div class="cards">
-          <article class="card card--a">
-            <span class="tape tape--tl tape--dark" aria-hidden="true"></span>
-            <p class="card__kicker">Antes</p>
-            <p class="card__text">Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
-          </article>
-          <article class="card card--b">
-            <span class="tape tape--tr tape--dark" aria-hidden="true"></span>
-            <p class="card__kicker">Ou sozinho</p>
-            <p class="card__text">Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
-          </article>
+    <!-- 1 · A conversa: hoje × com o escritório (varredura pelo scroll) -->
+    <div class="rev rev--conv" id="rev-conv">
+      <div class="compare" id="compare">
+        <div class="wrap compare__head">
+          <h2 class="ph ph--sect" id="conceito-title">Você conhece essa conversa.</h2>
         </div>
+        <div class="compare__box">
+          <div class="panel panel--before" id="panel-before" aria-label="Como é hoje">
+            <p class="panel__tag">Hoje</p>
+            <ol class="chat" id="chat">
+              <li class="b in"><span>Oi! Vocês tocam em casamento? Quanto fica pra dia 17 de outubro?</span><time>22:48</time></li>
+              <li class="b out b--audio"><span class="audio" aria-label="Áudio de 47 segundos"><i class="play"></i><i class="bars"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i><em>0:47</em></span><time>23:12</time></li>
+              <li class="b in"><span>Tem algum vídeo pra eu mostrar pra noiva?</span><time>23:15</time></li>
+              <li class="b out b--file"><span class="file"><i class="doc"></i><span><b>Release_2024_final_v3.pdf</b><small>14 MB · PDF</small></span></span><time>23:31</time></li>
+              <li class="b out"><span>e o link do youtube: youtu.be/x7Qk…</span><time>23:32</time></li>
+              <li class="b in"><span>Vou ver com ela e te aviso.</span><time>23:40</time></li>
+              <li class="sep"><span>5 dias depois</span></li>
+              <li class="b out"><span>Oi! Conseguiram ver? A data ainda tá livre</span><time>19:02 <i class="tick" aria-label="enviado, não lido"></i></time></li>
+            </ol>
+            <p class="panel__cap">Orçamento por áudio às onze da noite. E a data parada.</p>
+          </div>
+          <div class="panel panel--after" id="panel-after" aria-label="Com o escritório">
+            <p class="panel__tag panel__tag--on">Com o escritório</p>
+            <ol class="feed" id="feed">
+              <li class="fcard"><span class="fcard__k">Link do EPK enviado</span><div class="epk"><img src="assets/shots/epk.webp" alt="" loading="lazy" width="420" height="900"><div><b>Marina Vale</b><small>voz e violão · 148 shows · 4,9</small></div></div><small class="fcard__s">Bia abriu o link há 2 min</small></li>
+              <li class="fcard"><span class="fcard__k">Proposta enviada</span><div class="fcard__row"><b>Casamento Bia &amp; Tom</b><span class="chip chip--wait">aguardando</span></div><small class="fcard__s">17 out · R$ 5.200 · na faixa de preço que você aprovou</small></li>
+              <li class="fcard"><span class="fcard__k">Contrato assinado pelas duas partes</span><div class="fcard__row"><b>No celular, em 3 minutos</b><span class="chip chip--ok">assinado</span></div><small class="fcard__s">03 set, 21:14</small></li>
+              <li class="fcard"><span class="fcard__k">Sinal em custódia</span><div class="fcard__row"><b class="num">R$ 1.560</b><span class="chip chip--ok">guardado</span></div><small class="fcard__s">libera com o show feito</small></li>
+            </ol>
+            <p class="panel__cap">Link, proposta, contrato e sinal. Quem atende, negocia e fecha continua sendo você.</p>
+          </div>
+          <div class="wipe" id="wipe" aria-hidden="true"><span class="wipe__label">com o escritório</span></div>
+        </div>
+        <p class="compare__after" id="compare-after"><span class="ph ph--sect">Nunca teve uma terceira opção.</span> <span class="ph ph--sect ink-tape">A eshows está construindo a terceira.</span></p>
+        <p class="rev__hint" aria-hidden="true">Rola pra ver</p>
       </div>
     </div>
 
-    <div class="rev rev--terceira" id="rev-terceira">
-      <div class="wrap">
-        <h3 class="ph ph--big st1">Nunca teve uma terceira opção.</h3>
-        <p class="ph ph--big st2 ink-tape">A eshows está construindo a terceira.</p>
-        <p class="body rev__lede st3">Queremos fortalecer artistas com estrutura. Estrutura pra você cobrar o valor que achar justo e construir sua jornada com menos obstáculos.</p>
-      </div>
-    </div>
-
+    <!-- 2 · As seis ferramentas: telefone fixo -->
     <div class="rev rev--tour" id="rev-tour">
       <div class="wrap tour__head">
-        <h3 class="ph ph--sect">Pra isso, pensamos em seis ferramentas.</h3>
-        <p class="body">Perfil profissional, clientes, preço, contrato, pagamento e divulgação. Tudo dentro do mesmo escritório. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
+        <h3 class="ph ph--hero">A estrutura de quem vive de música.</h3>
+        <p class="body">Seis ferramentas, um escritório. Clientes, contratos, pagamentos e os números da carreira em um lugar só. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
       </div>
       <div class="tour" id="tour">
         <div class="tour__stage" id="tour-stage">
@@ -173,27 +178,28 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
       </div>
     </div>
 
-    <div class="rev rev--jeito" id="rev-jeito">
+    <!-- 3 · As regras da casa: uma folha -->
+    <div class="rev rev--regras" id="rev-regras">
       <div class="wrap">
-        <h3 class="ph ph--sect">Sua carreira, do seu jeito.</h3>
-        <ul class="lines lines--big">
-          <li>Você define o preço</li>
-          <li>Você escolhe o evento</li>
-          <li>Você fala com o cliente</li>
-          <li>O que você fechar é seu</li>
-        </ul>
+        <div class="sheet sheet--l regras" id="regras">
+          <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
+          <div class="sheet__head"><span class="pk">regras da casa</span></div>
+          <p class="ph ph--sheet">Sua carreira, do seu jeito.</p>
+          <ol class="setl regras__list">
+            <li><span class="n">1</span><span class="t">Você define o preço</span></li>
+            <li><span class="n">2</span><span class="t">Você escolhe o evento</span></li>
+            <li><span class="n">3</span><span class="t">Você fala com o cliente</span></li>
+            <li><span class="n">4</span><span class="t">O que você fechar é seu</span></li>
+          </ol>
+          <p class="ph ph--sheet regras__pledge">A gente monta a estrutura. <span class="ink-tape">Você fecha.</span></p>
+          <!-- Caixa normal de propósito: em caixa alta o par "Agente" / "A gente" perde a distinção que carrega a frase. -->
+          <p class="pledge regras__p"><b>Agente</b> traz e <span class="strike">leva um pedaço<svg class="strike__svg" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 C20,3 40,8 60,5 S90,4 98,6" pathLength="1"/></svg></span>.</p>
+          <p class="pledge regras__p"><b>A gente</b> monta e <span class="hl-anim">não leva nada</span>.</p>
+        </div>
       </div>
     </div>
 
-    <div class="rev rev--pledge" id="rev-pledge">
-      <div class="wrap">
-        <h3 class="ph ph--sect">A gente monta a estrutura. <span class="ink-tape">Você fecha.</span></h3>
-        <!-- Caixa normal de propósito: em caixa alta o par "Agente" / "A gente" perde a distinção que carrega a frase. -->
-        <p class="pledge pledge--big"><b>Agente</b> traz e <span class="strike">leva um pedaço<svg class="strike__svg" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 C20,3 40,8 60,5 S90,4 98,6" pathLength="1"/></svg></span>.</p>
-        <p class="pledge pledge--big pledge--2"><b>A gente</b> monta e <span class="hl-anim">não leva nada</span>.</p>
-      </div>
-    </div>
-
+    <!-- 4 · Planos -->
     <div class="rev rev--planos" id="rev-planos">
       <div class="wrap">
         <h2 class="ph ph--sect">Os dois planos, lado a lado.</h2>
@@ -235,6 +241,7 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
       </div>
     </div>
 
+    <!-- 5 · Perguntas honestas + continuar -->
     <div class="rev rev--faq" id="rev-faq">
       <div class="wrap">
         <h2 class="ph ph--sect">Perguntas honestas.</h2>
@@ -310,11 +317,11 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <figure class="mock" style="margin:0"><div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div><video id="lightbox-video" muted loop playsinline controls></video></figure>
 </dialog>
 
-<script src="js/api.js?v=20260902h"></script>
-<script src="js/questions.js?v=20260902h"></script>
-<script src="js/runner.js?v=20260902h"></script>
-<script src="js/phases.js?v=20260902h"></script>
-<script src="js/app.js?v=20260902h" defer></script>
+<script src="js/api.js?v=20260902i"></script>
+<script src="js/questions.js?v=20260902i"></script>
+<script src="js/runner.js?v=20260902i"></script>
+<script src="js/phases.js?v=20260902i"></script>
+<script src="js/app.js?v=20260902i" defer></script>
 <script>(function(){function add(src,cb){var t=document.createElement("script");t.src=src;if(cb)t.onload=cb;document.head.appendChild(t)}add("vendor/gsap.min.js",function(){add("vendor/ScrollTrigger.min.js");add("vendor/SplitText.min.js")})})();</script>
 </body>
 </html>
