@@ -174,7 +174,7 @@
       tl.to(bubbles.slice(1), { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, .2);
       /* a lista rola dentro do aparelho: a bolha que acabou de chegar fica sempre visível, como num chat de verdade */
       var chatView = el('chat-view'), chatIn = el('chat');
-      var shiftFor = function (i) { return function () { var li = bubbles[i]; if (!li) return 0; var pad = parseFloat(getComputedStyle(chatView).paddingBottom) || 0; return Math.min(0, chatView.clientHeight - pad - (li.offsetTop + li.offsetHeight)); }; };
+      var shiftFor = function (i) { return function () { var li = bubbles[i]; if (!li) return 0; var cs = getComputedStyle(chatView), padB = parseFloat(cs.paddingBottom) || 0, padT = parseFloat(cs.paddingTop) || 0; /* offsetTop é relativo à lista (will-change cria o offsetParent), por isso soma o padding de cima */ return Math.min(0, chatView.clientHeight - padB - (padT + li.offsetTop + li.offsetHeight)); }; };
       for (var bi = 1; bi < bubbles.length; bi++) tl.to(chatIn, { y: shiftFor(bi), duration: .5, ease: 'power2.out' }, .2 + (bi - 1) * .38);
       tl.to('#rev-conv .rev__hint', { opacity: 0, duration: .3 }, .2);
       tl.to('#cap-before', { opacity: 1, y: 0, duration: .5 }, 3.4);
