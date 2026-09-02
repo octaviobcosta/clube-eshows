@@ -10,7 +10,8 @@
 
   function call(action, payload) {
     var body = Object.assign({ action: action, token: TOKEN }, payload || {});
-    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    /* keepalive: a resposta sobrevive a recarregar ou fechar a aba logo depois do clique */
+    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true, credentials: 'omit' })
       .then(function (r) {
         return r.text().then(function (t) {
           var j = {};
