@@ -14,7 +14,7 @@
 <link rel="icon" href="assets/eshows-icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-900c.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/setlist.css?v=20260902f">
+<link rel="stylesheet" href="css/setlist.css?v=20260902g">
 </head>
 <body class="ed">
 <!--
@@ -39,7 +39,7 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
 
   <!-- ═══ Fase 1 · Intro ═══ -->
   <section class="fase on-floor" id="fase-intro" hidden>
-    <img class="intro__brand" src="assets/eshows-logo-white-480.png?v=20260902f" alt="eshows" width="480" height="141">
+    <img class="intro__brand" src="assets/eshows-logo-white-480.png?v=20260902g" alt="eshows" width="480" height="141">
     <div class="wrap intro">
       <div class="intro__text">
         <h1 class="ph ph--hero" id="intro-title">Estamos construindo uma ferramenta nova para artistas. <span class="ink-tape">E queremos que você faça parte dessa construção.</span></h1>
@@ -74,7 +74,7 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <!-- ═══ Fases 2 e 4 · uma pergunta por folha ═══ -->
   <section class="fase" id="fase-parte" hidden>
     <aside class="side on-floor" aria-label="Onde você está no set">
-      <img class="side__brand" src="assets/eshows-logo-white-480.png?v=20260902f" alt="eshows" width="480" height="141">
+      <img class="side__brand" src="assets/eshows-logo-white-480.png?v=20260902g" alt="eshows" width="480" height="141">
       <span class="pk">set de hoje</span>
       <ol class="setl" id="side-setl">
         <li><span class="n">1</span><span class="t">Um combinado rápido</span></li>
@@ -91,30 +91,67 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
     </div>
   </section>
 
-  <!-- ═══ Fase 3 · O que a eshows está construindo ═══ -->
-  <section class="fase on-floor" id="fase-conceito" hidden>
-    <div class="wrap conceito">
-      <div class="chapters">
-        <div class="chapter">
-          <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
-          <p class="body">Clientes, contratos, pagamentos e os números da carreira em um lugar só. É isso que a eshows está construindo.</p>
-        </div>
-        <div class="chapter">
-          <h3 class="ph ph--sect">Pra crescer, sempre foi preciso alguém.</h3>
-          <p class="body"><b>Antes.</b> Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
-          <p class="body"><b>Ou sozinho.</b> Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
-        </div>
-        <div class="chapter">
-          <h3 class="ph ph--sect">Nunca teve uma terceira opção. <span class="ink-tape">A eshows está construindo a terceira.</span></h3>
-          <p class="body">Queremos fortalecer artistas com estrutura. Estrutura pra você cobrar o valor que achar justo e construir sua jornada com menos obstáculos.</p>
-        </div>
-        <div class="chapter">
-          <h3 class="ph ph--sect">Pra isso, pensamos em seis ferramentas.</h3>
-          <p class="body">Perfil profissional, clientes, preço, contrato, pagamento e divulgação. Tudo dentro do mesmo escritório. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
+  <!-- ═══ Fase 3 · O que a eshows está construindo (apresentação em capítulos) ═══ -->
+  <section class="fase on-floor conceito" id="fase-conceito" hidden>
+    <div class="rev-lights" id="rev-lights" aria-hidden="true"></div>
+
+    <div class="rev rev--open" id="rev-open">
+      <div class="wrap">
+        <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
+        <p class="body rev__lede">Clientes, contratos, pagamentos e os números da carreira em um lugar só. É isso que a eshows está construindo.</p>
+      </div>
+      <p class="rev__hint" aria-hidden="true">Rola pra ver</p>
+    </div>
+
+    <div class="rev rev--caminho" id="rev-caminho">
+      <div class="wrap">
+        <h3 class="ph ph--sect">Pra crescer, sempre foi preciso alguém.</h3>
+        <div class="cards">
+          <article class="card card--a">
+            <span class="tape tape--tl tape--dark" aria-hidden="true"></span>
+            <p class="card__kicker">Antes</p>
+            <p class="card__text">Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
+          </article>
+          <article class="card card--b">
+            <span class="tape tape--tr tape--dark" aria-hidden="true"></span>
+            <p class="card__kicker">Ou sozinho</p>
+            <p class="card__text">Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
+          </article>
         </div>
       </div>
+    </div>
 
-      <div>
+    <div class="rev rev--terceira" id="rev-terceira">
+      <div class="wrap">
+        <h3 class="ph ph--big st1">Nunca teve uma terceira opção.</h3>
+        <p class="ph ph--big st2 ink-tape">A eshows está construindo a terceira.</p>
+        <p class="body rev__lede st3">Queremos fortalecer artistas com estrutura. Estrutura pra você cobrar o valor que achar justo e construir sua jornada com menos obstáculos.</p>
+      </div>
+    </div>
+
+    <div class="rev rev--tour" id="rev-tour">
+      <div class="wrap tour__head">
+        <h3 class="ph ph--sect">Pra isso, pensamos em seis ferramentas.</h3>
+        <p class="body">Perfil profissional, clientes, preço, contrato, pagamento e divulgação. Tudo dentro do mesmo escritório. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
+      </div>
+      <div class="tour" id="tour">
+        <div class="tour__stage" id="tour-stage">
+          <figure class="mock mock--phone tour__phone" style="margin:0">
+            <video id="tour-video" muted loop playsinline preload="none" poster="assets/shots/epk.webp" aria-label="Tela da ferramenta"></video>
+          </figure>
+          <p class="tour__counter num" id="tour-counter">CH 1 / 6</p>
+        </div>
+        <ol class="tour__steps" id="tour-steps">
+          <li class="tour__step is-on" data-shot="epk"><span class="ch">CH 1</span><h4 class="t">Perfil e marca</h4><p class="d">Seu EPK numa página: fotos, vídeos, release e repertório. Manda o link, não o PDF.</p></li>
+          <li class="tour__step" data-shot="crm"><span class="ch">CH 2</span><h4 class="t">Clientes</h4><p class="d">Quem pediu preço, o que foi conversado, quanto você cobrou, quando voltar a falar.</p></li>
+          <li class="tour__step" data-shot="ia"><span class="ch">CH 3</span><h4 class="t">Inteligência</h4><p class="d">Preço sugerido por tipo de evento, casas compatíveis, melhor hora de oferecer data livre.</p></li>
+          <li class="tour__step" data-shot="contrato"><span class="ch">CH 4</span><h4 class="t">Contrato e pagamento</h4><p class="d">Contrato assinado no celular, sinal em custódia liberado depois do show.</p></li>
+          <li class="tour__step" data-shot="numeros"><span class="ch">CH 5</span><h4 class="t">Números</h4><p class="d">Faturamento do mês, shows tocados, taxa de fechamento, previsão.</p></li>
+          <li class="tour__step" data-shot="growth"><span class="ch">CH 6</span><h4 class="t">Alcance</h4><p class="d">Campanhas pra quem já contratou você. Agenda nova chega primeiro a eles.</p></li>
+        </ol>
+      </div>
+      <!-- Sem GSAP: carrossel no celular, lista + janela no desktop -->
+      <div class="wrap fallback">
         <div class="showcase" id="showcase">
           <ul class="inlist showcase__list" id="inlist" aria-label="As seis ferramentas">
             <li data-shot="epk" class="is-on"><span class="ch">CH 1</span><span><span class="t">Perfil e marca</span><span class="d">Seu EPK numa página: fotos, vídeos, release e repertório. Manda o link, não o PDF.</span></span></li>
@@ -134,25 +171,31 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
         </div>
         <div class="carousel" id="carousel" hidden aria-label="As seis ferramentas"></div>
       </div>
+    </div>
 
-      <div class="chapters">
-        <div class="chapter">
-          <h3 class="ph ph--sect">Sua carreira, do seu jeito.</h3>
-          <ul class="lines">
-            <li>Você define o preço</li>
-            <li>Você escolhe o evento</li>
-            <li>Você fala com o cliente</li>
-            <li>O que você fechar é seu</li>
-          </ul>
-        </div>
-        <div class="chapter">
-          <h3 class="ph ph--sect">A gente monta a estrutura. <span class="ink-tape">Você fecha.</span></h3>
-          <!-- Caixa normal de propósito: em caixa alta o par "Agente" / "A gente" perde a distinção que carrega a frase. -->
-          <p class="pledge"><b>Agente</b> traz e leva um pedaço.<br><b>A gente</b> monta e não leva nada.</p>
-        </div>
+    <div class="rev rev--jeito" id="rev-jeito">
+      <div class="wrap">
+        <h3 class="ph ph--sect">Sua carreira, do seu jeito.</h3>
+        <ul class="lines lines--big">
+          <li>Você define o preço</li>
+          <li>Você escolhe o evento</li>
+          <li>Você fala com o cliente</li>
+          <li>O que você fechar é seu</li>
+        </ul>
       </div>
+    </div>
 
-      <div>
+    <div class="rev rev--pledge" id="rev-pledge">
+      <div class="wrap">
+        <h3 class="ph ph--sect">A gente monta a estrutura. <span class="ink-tape">Você fecha.</span></h3>
+        <!-- Caixa normal de propósito: em caixa alta o par "Agente" / "A gente" perde a distinção que carrega a frase. -->
+        <p class="pledge pledge--big"><b>Agente</b> traz e <span class="strike">leva um pedaço<svg class="strike__svg" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 C20,3 40,8 60,5 S90,4 98,6" pathLength="1"/></svg></span>.</p>
+        <p class="pledge pledge--big pledge--2"><b>A gente</b> monta e <span class="hl-anim">não leva nada</span>.</p>
+      </div>
+    </div>
+
+    <div class="rev rev--planos" id="rev-planos">
+      <div class="wrap">
         <h2 class="ph ph--sect">Os dois planos, lado a lado.</h2>
         <p class="body" style="margin-top:.8rem">Os dois planos têm o escritório completo. A diferença do Assistido é gente da eshows dentro da sua operação.</p>
         <div class="plans" id="plans">
@@ -190,8 +233,10 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
         <p class="fine" style="margin-top:1.4rem;max-width:62ch">Contato qualificado: pessoa ou empresa identificada, com necessidade real, que aceita conversar dentro de uma faixa de preço aprovada por você. Não é show garantido.</p>
         <p class="fine" style="margin-top:.5rem;max-width:62ch">Valores em estudo para o lançamento. O que está firmado: mensalidade fixa, sem percentual sobre o cachê, sem volume garantido de shows.</p>
       </div>
+    </div>
 
-      <div>
+    <div class="rev rev--faq" id="rev-faq">
+      <div class="wrap">
         <h2 class="ph ph--sect">Perguntas honestas.</h2>
         <div class="faq" style="margin-top:1rem">
           <details><summary>A eshows vai me arrumar shows?</summary><p>Não é essa a promessa. O escritório existe para você conseguir e administrar seus próprios shows. As campanhas gerenciadas do Assistido trazem contatos para o seu escritório, mas quem atende, negocia e fecha é você.</p></details>
@@ -200,11 +245,12 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
           <details><summary>As seis ferramentas ficam prontas no lançamento?</summary><p>A lista do primeiro dia sai desta pesquisa: o que a base mais precisa entra primeiro. Quem está na primeira turma recebe essa lista antes de pagar qualquer coisa.</p></details>
           <details><summary>A eshows vira meu empresário?</summary><p>Não. Quem tem empresário, agente ou escritório segue com eles numa boa. A proposta é dar estrutura e controle a você, sem substituir ninguém.</p></details>
         </div>
-      </div>
-
-      <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-        <button class="cta" id="to-parte2" type="button">Continuar</button>
-        <span class="fine">Faltam 7 perguntas. Aí vem o preço.</span>
+        <div class="sheet sheet--l rev__cta">
+          <span class="tape tape--tl" aria-hidden="true"></span>
+          <p class="ph ph--sheet">Agora, a sua parte.</p>
+          <p class="body" style="margin-top:.6rem">Faltam 7 perguntas. Aí vem o preço, e o que você acha dele.</p>
+          <div class="intro__cta"><button class="cta" id="to-parte2" type="button">Continuar</button></div>
+        </div>
       </div>
     </div>
   </section>
@@ -264,11 +310,11 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <figure class="mock" style="margin:0"><div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div><video id="lightbox-video" muted loop playsinline controls></video></figure>
 </dialog>
 
-<script src="js/api.js?v=20260902f"></script>
-<script src="js/questions.js?v=20260902f"></script>
-<script src="js/runner.js?v=20260902f"></script>
-<script src="js/phases.js?v=20260902f"></script>
-<script src="js/app.js?v=20260902f" defer></script>
-<script>(function(){var s=document.createElement("script");s.src="vendor/gsap.min.js";s.onload=function(){var t=document.createElement("script");t.src="vendor/SplitText.min.js";document.head.appendChild(t)};document.head.appendChild(s)})();</script>
+<script src="js/api.js?v=20260902g"></script>
+<script src="js/questions.js?v=20260902g"></script>
+<script src="js/runner.js?v=20260902g"></script>
+<script src="js/phases.js?v=20260902g"></script>
+<script src="js/app.js?v=20260902g" defer></script>
+<script>(function(){function add(src,cb){var t=document.createElement("script");t.src=src;if(cb)t.onload=cb;document.head.appendChild(t)}add("vendor/gsap.min.js",function(){add("vendor/ScrollTrigger.min.js");add("vendor/SplitText.min.js")})})();</script>
 </body>
 </html>
