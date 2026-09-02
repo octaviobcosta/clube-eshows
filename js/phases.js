@@ -218,7 +218,7 @@
       var li = e.target.closest('li[role="radio"]'); if (!li) return;
       group.querySelectorAll('li').forEach(function (n) { n.setAttribute('aria-checked', 'false'); var r = n.querySelector('.ring'); if (r) r.remove(); });
       li.setAttribute('aria-checked', 'true');
-      li.insertAdjacentHTML('beforeend', '<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6,21 C3,7 38,2 60,4 C90,7 98,14 96,23 C93,34 60,38 38,37 C14,36 6,32 6,21"/></svg>');
+      ED.runner.drawRing(li, true);
     });
     group.addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && e.target.matches('li')) { e.preventDefault(); e.target.click(); } });
     form.addEventListener('submit', function (e) {

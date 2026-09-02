@@ -3,12 +3,29 @@
   var ED = root.ED, Q = ED.questions, F = ED.flow, A = ED.api;
   var folha, revealEl, current = null, history = [], temp = {};
   var reduced = root.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var RING = '<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M6,21 C3,7 38,2 60,4 C90,7 98,14 96,23 C93,34 60,38 38,37 C14,36 6,32 6,21"/></svg>';
-  /* Desenha o círculo de marcador medindo o traço de verdade (funciona sem pathLength, iOS incluído). */
+  /* Círculo de marcador desenhado a partir do tamanho real da opção: cantos redondos, leve tremor, fecha com sobreposição. */
+  function ringPath(w, h) {
+    var r = h / 2, j = Math.max(2, h * 0.07), p = [];
+    p.push('M', r * 0.9, h * 0.64);
+    p.push('C', r * 0.15, h * 0.30, r * 0.55, -j * 0.2, r * 1.7, -j * 0.4);
+    p.push('C', w * 0.32, -j * 1.5, w * 0.62, j * 0.4, w - r * 1.2, -j * 0.7);
+    p.push('C', w - r * 0.25, -j * 0.9, w + j * 1.6, h * 0.28, w + j * 0.5, h * 0.62);
+    p.push('C', w - j * 0.4, h + j * 1.1, w - r * 1.4, h + j * 0.5, w * 0.62, h + j * 0.3);
+    p.push('C', w * 0.34, h + j * 1.4, r * 1.3, h + j * 0.1, r * 0.55, h * 0.80);
+    p.push('C', -j * 0.9, h * 0.55, r * 0.2, h * 0.10, r * 2.4, j * 0.9);
+    return p.map(function (v) { return typeof v === 'number' ? v.toFixed(1) : v; }).join(' ');
+  }
   function drawRing(li, animate) {
-    li.insertAdjacentHTML('beforeend', RING);
-    var path = li.querySelector('.ring path');
-    if (!path || !path.getTotalLength) return;
+    var old = li.querySelector('.ring'); if (old) old.remove();
+    var w = li.offsetWidth, h = li.offsetHeight, pad = 10, NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'ring'); svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('viewBox', (-pad) + ' ' + (-pad) + ' ' + (w + 2 * pad) + ' ' + (h + 2 * pad));
+    svg.style.cssText = 'left:' + (-pad) + 'px;top:' + (-pad) + 'px;width:' + (w + 2 * pad) + 'px;height:' + (h + 2 * pad) + 'px';
+    var path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', ringPath(w, h)); path.setAttribute('fill', 'none'); path.setAttribute('stroke-linecap', 'round'); path.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(path); li.appendChild(svg);
+    if (!path.getTotalLength) return;
     var L = path.getTotalLength();
     path.style.strokeDasharray = L + ' ' + L;
     if (!animate || reduced) { path.style.strokeDashoffset = '0'; return; }
@@ -278,5 +295,5 @@
     folha.addEventListener('input', onInput);
   }
 
-  ED.runner = { init: init, start: start, go: go, renderReveal: renderReveal, back: back };
+  ED.runner = { init: init, start: start, go: go, renderReveal: renderReveal, back: back, drawRing: drawRing };
 })(window);

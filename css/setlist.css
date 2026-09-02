@@ -142,8 +142,8 @@ body.ed.lights-down::before{filter:brightness(.55) saturate(.8)}
 .opts--multi > li[aria-checked="true"]::before{background:var(--toner) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 8.5l3 3 7-7' fill='none' stroke='%23F8F6F1' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/80% no-repeat}
 .opts > li[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
 .opts--row{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
-.ring{position:absolute;inset:-.4rem -.55rem;width:calc(100% + 1.1rem);height:calc(100% + .8rem);pointer-events:none;overflow:visible}
-.ring path{fill:none;stroke:var(--toner);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.ring{position:absolute;pointer-events:none;overflow:visible}
+.ring path{fill:none;stroke:var(--toner);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .opts > li[aria-checked="true"]{z-index:1}
 .field{display:grid;gap:.4rem;margin-bottom:.9rem}
 .field label{font-weight:600;font-size:.95rem;color:var(--toner-2)}
