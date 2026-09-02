@@ -10,9 +10,16 @@
   function answers() { return ED.state.answers; }
   function q() { return Q.byId[current]; }
 
+  var pending = [];
   function commit(id, value) {
     answers()[id] = value;
-    A.call('answer', { question_id: id, value: value, event_id: A.uid(), client_ts: new Date().toISOString() }).catch(function () {});
+    var p = A.call('answer', { question_id: id, value: value, event_id: A.uid(), client_ts: new Date().toISOString() }).catch(function () {});
+    pending.push(p);
+    p.then(function () { pending = pending.filter(function (x) { return x !== p; }); });
+  }
+  /* Antes de trocar de fase, espera as respostas em voo confirmarem (teto de 1,5 s): recarregar logo depois não perde nada. */
+  function settle(ms) {
+    return Promise.race([Promise.all(pending.slice()), new Promise(function (res) { setTimeout(res, ms); })]);
   }
 
   function optsHtml(name, opts, multi, selected, disabled) {
@@ -172,7 +179,7 @@
     if (qd.kind === 'multi' && !(a[qd.id] || []).length) return;
     var n = F.next(qd.id, a);
     history.push(qd.id);
-    if (typeof n === 'string') go(n); else ED.phases.toPhase(n, qd);
+    if (typeof n === 'string') go(n); else settle(1500).then(function () { ED.phases.toPhase(n, qd); });
   }
 
   function skip(qd) {
@@ -180,7 +187,7 @@
     else if (qd.kind === 'text') { commit(qd.id, ''); }
     var n = F.next(qd.id, answers());
     history.push(qd.id);
-    if (typeof n === 'string') go(n); else ED.phases.toPhase(n, qd);
+    if (typeof n === 'string') go(n); else settle(1500).then(function () { ED.phases.toPhase(n, qd); });
   }
 
   function back() {
