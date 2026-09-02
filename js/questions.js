@@ -6,7 +6,7 @@
       { id: 'eu', label: 'Eu mesmo(a)' }, { id: 'equipe', label: 'Alguém da banda ou da família' }, { id: 'escritorio', label: 'Um empresário ou escritório' }, { id: 'misto', label: 'Um pouco de cada' } ] },
     { id: 'p1_origem', part: 1, kind: 'multi', max: 3, label: 'De onde vêm os seus shows hoje?', help: 'Marca até três.', options: [
       { id: 'indicacao', label: 'Indicação e boca a boca' }, { id: 'casas', label: 'Casas que já me conhecem' }, { id: 'redes', label: 'Instagram e redes' }, { id: 'eshows', label: 'eshows' }, { id: 'empresario', label: 'Empresário ou produtora' }, { id: 'cerimonial', label: 'Cerimonialistas e agências de evento' }, { id: 'outro', label: 'Outro' } ] },
-    { id: 'p1_volume_tipo', part: 1, kind: 'dual', label: 'Num mês normal, quantos shows você toca? E qual tipo você mais fecha?', fields: [
+    { id: 'p1_volume_tipo', part: 1, kind: 'dual', label: 'Num mês normal, quantos shows você faz? E qual tipo você mais fecha?', fields: [
       { id: 'p1_volume', label: 'Quantos shows por mês', options: [ { id: '0_2', label: '0 a 2' }, { id: '3_5', label: '3 a 5' }, { id: '6_10', label: '6 a 10' }, { id: '11', label: '11 ou mais' } ] },
       { id: 'p1_tipo', label: 'O tipo que mais fecha', options: [ { id: 'bar', label: 'Bar e restaurante' }, { id: 'casamento', label: 'Casamento' }, { id: 'corporativo', label: 'Corporativo' }, { id: 'particular', label: 'Festa particular' }, { id: 'festival', label: 'Festival ou evento público' } ] } ] },
     { id: 'p1_ads', part: 1, kind: 'single', label: 'Você paga pra divulgar seu trabalho? (anúncio no Instagram, YouTube, Google)', options: [
@@ -19,8 +19,6 @@
       { id: '0', label: 'R$ 0, não pago nada' }, { id: 'ate50', label: 'até R$ 50' }, { id: '50_150', label: 'R$ 50 a 150' }, { id: '150_300', label: 'R$ 150 a 300' }, { id: '300', label: 'mais de R$ 300' }, { id: 'nao_sei', label: 'Não sei' } ] },
     { id: 'p1_sentimento', part: 1, kind: 'single', label: 'Hoje, como você se sente com a parte comercial dos seus shows?', options: [
       { id: 'tranquilo', label: 'Tranquilo, tá funcionando' }, { id: 'cansa', label: 'Dou conta, mas cansa' }, { id: 'ajuda', label: 'Preciso de ajuda' } ] },
-    { id: 'p1_portao', part: 1, kind: 'gate', label: 'A eshows está desenhando uma ferramenta pra você conseguir e organizar seus próprios shows. Quer ver a ideia?', options: [
-      { id: 'sim', label: 'Sim, mostra' }, { id: 'nao', label: 'Não, tô bem assim' } ] },
 
     { id: 'p2_sentido', part: 2, kind: 'gate', label: 'Isso faz sentido pro seu momento?', options: [
       { id: 'nao', label: 'Não faz sentido pra mim' }, { id: 'nao_agora', label: 'Faz sentido, mas não agora' }, { id: 'sim', label: 'Faz sentido, quero saber mais' } ] },
@@ -46,22 +44,23 @@
 
   var parts = [
     { n: 1, title: 'Sobre você e seus shows', ids: Q.filter(function (q) { return q.part === 1; }).map(function (q) { return q.id; }) },
-    { n: 2, title: 'O preço, e o que você acha', ids: ['p2_sentido', 'p2_esperado', '__reveal', 'p2_int_solo', 'p2_int_assist', 'p2_vs_esperado', 'p2_escolha', 'p2_pesou', 'p2_falta'] }
+    { n: 2, title: 'Sua percepção', ids: ['p2_sentido', 'p2_esperado', '__reveal', 'p2_int_solo', 'p2_int_assist', 'p2_vs_esperado', 'p2_escolha', 'p2_pesou', 'p2_falta'] }
   ];
 
   var EXIT_QUESTION = { gate_a: 'p1_porque_nao', gate_b: 'p2_porque_nao', gate_c: 'p2_porque_nao' };
 
   function next(id, a) {
     a = a || {};
-    if (id === 'p1_portao') return a.p1_portao === 'nao' ? { phase: 'bis', exit: 'gate_a' } : { phase: 'conceito', exit: null };
     if (id === 'p2_sentido') return a.p2_sentido === 'nao' ? { phase: 'bis', exit: 'gate_b' } : 'p2_esperado';
     if (id === 'p2_esperado') return { phase: 'reveal', exit: null };
     if (id === '__reveal') return 'p2_int_solo';
     if (id === 'p2_escolha') return a.p2_escolha === 'nenhum' ? 'p2_pesou' : 'p2_falta';
     if (id === 'p2_pesou') return { phase: 'bis', exit: 'gate_c' };
     if (id === 'p2_falta') return { phase: 'bis', exit: null };
-    var part = parts[byId[id].part - 1], i = part.ids.indexOf(id);
-    return part.ids[i + 1];
+    var part = parts[byId[id].part - 1], i = part.ids.indexOf(id), nid = part.ids[i + 1];
+    /* fim da parte 1: vai direto pro conceito (o portão A foi retirado em 02/09) */
+    if (nid === undefined && part.n === 1) return { phase: 'conceito', exit: null };
+    return nid;
   }
 
   function visibleIds(part, a) {
@@ -89,7 +88,6 @@
 
   function resumePoint(a) {
     a = a || {};
-    if (a.p1_portao === 'nao') return { phase: 'bis', exit: 'gate_a' };
     var ids1 = parts[0].ids;
     for (var j = 0; j < ids1.length; j++) {
       if (!answered(ids1[j], a)) return { phase: 'parte', id: ids1[j] };

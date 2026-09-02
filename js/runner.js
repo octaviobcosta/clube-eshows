@@ -108,7 +108,7 @@
     return html;
   }
 
-  var SETLIST = ['Um combinado rápido', 'Como funciona hoje', 'O que a eshows está construindo', 'O preço, e o que você acha', 'Seu próximo passo'];
+  var SETLIST = ['Nosso trato!', 'Como funciona hoje', 'O conceito', 'Sua percepção', 'Seu próximo passo'];
   function sheetSetlist(qd) {
     var now = qd.part === 1 ? 2 : 4;
     return '<div class="sheet__setl" aria-hidden="true"><ol class="setl">' + SETLIST.map(function (txt, i) {

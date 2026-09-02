@@ -11,8 +11,8 @@
   };
   var FASES = ['loading', 'invalid', 'intro', 'parte', 'conceito', 'bis', 'saida'];
   var STAGE = { intro: 1, parte1: 2, conceito: 3, parte2: 4, bis: 5 };
-  var LABEL = { parte1: '2 · como funciona hoje', conceito: '3 · a ideia', parte2: '4 · o preço', bis: '5 · próximo passo' };
-  var TITLE = { parte1: 'Como funciona hoje', conceito: 'O que a eshows está construindo', parte2: 'O preço, e o que você acha', bis: 'Seu próximo passo' };
+  var LABEL = { parte1: '2 · como funciona hoje', conceito: '3 · o conceito', parte2: '4 · sua percepção', bis: '5 · próximo passo' };
+  var TITLE = { parte1: 'Como funciona hoje', conceito: 'O conceito', parte2: 'Sua percepção', bis: 'Seu próximo passo' };
   var showcaseReady = false, bisReady = false, saidaReady = false;
 
   function el(id) { return document.getElementById(id); }
@@ -163,7 +163,7 @@
       g.to(lights, { opacity: 0, duration: 1.4, ease: 'power2.out', delay: .15 });
 
       /* 1 · a conversa: bolhas chegam com o scroll, a fita varre e revela o escritório */
-      var bubbles = g.utils.toArray('#chat > li'), cards = g.utils.toArray('#feed > li');
+      var bubbles = g.utils.toArray('#chat > li'), cards = g.utils.toArray('#feed .a');
       g.set(bubbles.slice(1), { opacity: 0, y: 14 }); /* a primeira bolha já está na tela: a conversa começa antes do scroll */
       g.set(cards, { opacity: 0, y: 12 });
       g.set('#compare-after', { opacity: 0, y: 10 });
@@ -185,7 +185,7 @@
       tl.to('#wipe', { left: '0%', duration: 2.6, ease: 'none' }, 4.6);
       tl.to('#cap-before', { opacity: 0, duration: .6 }, 4.8);
       tl.to('#cap-after', { opacity: 1, y: 0, duration: .6 }, 6.6);
-      tl.to(cards, { opacity: 1, y: 0, duration: .5, stagger: .45, ease: 'power2.out' }, 5.2);
+      tl.to(cards, { opacity: 1, y: 0, duration: .5, stagger: .32, ease: 'power2.out' }, 5.2);
       tl.to('#compare-after', { opacity: 1, y: 0, duration: .9, ease: 'power2.out' }, 7.6);
       tl.to('#wipe', { opacity: 0, duration: .5 }, 7.4);
       tl.to({}, { duration: .8 });
@@ -206,18 +206,29 @@
     }
     /* telefone fixo: o palco fica no lugar (sticky no CSS) e cada passo troca a tela */
     var steps = Array.prototype.slice.call(document.querySelectorAll('.tour__step'));
-    var video = el('tour-video'), phone = document.querySelector('.tour__phone'), counter = el('tour-counter'), current = null;
+    /* duas camadas de tela na mesma moldura: a nova entra por cima com um leve recuo; a moldura não pisca */
+    var layers = [el('tour-video'), el('tour-video-b')], cur = 0, counter = el('tour-counter'), current = null;
+    var canPlay = !(ED.env.saveData || ED.env.lowEnd);
+    function playOn(v, key) {
+      v.poster = phoneSrc(key, 'webp');
+      if (canPlay) { v.src = phoneSrc(key, 'mp4'); v.load(); var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+    }
     function activate(step) {
       var key = step.getAttribute('data-shot');
-      if (key === current) return; current = key;
+      if (key === current) return;
+      var first = current === null; current = key;
       steps.forEach(function (st) { st.classList.toggle('is-on', st === step); });
       counter.textContent = 'CH ' + (steps.indexOf(step) + 1) + ' / 6';
-      phone.classList.add('is-swapping');
-      setTimeout(function () {
-        video.poster = phoneSrc(key, 'webp');
-        if (!(ED.env.saveData || ED.env.lowEnd)) { video.src = phoneSrc(key, 'mp4'); video.load(); var pr = video.play(); if (pr && pr.catch) pr.catch(function () {}); }
-        phone.classList.remove('is-swapping');
-      }, reduced ? 0 : 180);
+      if (first) { playOn(layers[cur], key); A.track('tour_step', { key: key }); return; }
+      var out = layers[cur], inn = layers[1 - cur]; cur = 1 - cur;
+      var swap = function () {
+        if (current !== key) return; /* já pediram outra tela */
+        playOn(inn, key);
+        inn.classList.add('is-on'); out.classList.remove('is-on');
+        setTimeout(function () { if (!out.classList.contains('is-on')) { try { out.pause(); } catch (e) {} out.removeAttribute('src'); out.load(); } }, 500);
+      };
+      /* espera o poster decodificar pra tela nova não entrar vazia */
+      var img = new Image(); img.onload = swap; img.onerror = swap; img.src = phoneSrc(key, 'webp');
       A.track('tour_step', { key: key });
     }
     /* passo ativo = o mais próximo da linha de leitura (55 % da tela); funciona em rolagem contínua e em saltos */
