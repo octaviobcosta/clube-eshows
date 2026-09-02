@@ -319,6 +319,7 @@ dialog.lightbox .close{position:fixed;top:1rem;right:1rem;background:var(--paper
 .conceito{padding:0 0 4rem;display:block;gap:0}
 .rev{position:relative;min-height:100svh;display:grid;align-content:center;padding:clamp(3rem,8vh,6rem) 0}
 .rev .wrap{display:grid;gap:1.2rem}
+.rev,.rev .wrap{grid-template-columns:minmax(0,1fr)} /* a trilha ocupa a largura da tela; o carrossel rola por dentro (sem isso o max-content dos slides alargava a página) */
 .rev__lede{max-width:56ch}
 .rev-lights{position:fixed;inset:0;z-index:30;background:var(--floor);pointer-events:none;opacity:0}
 .rev__hint{position:absolute;left:0;right:0;bottom:1.4rem;text-align:center;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--on-floor-dim)}

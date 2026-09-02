@@ -164,13 +164,13 @@
 
       /* 1 · a conversa: bolhas chegam com o scroll, a fita varre e revela o escritório */
       var bubbles = g.utils.toArray('#chat > li'), cards = g.utils.toArray('#feed > li');
-      g.set(bubbles, { opacity: 0, y: 14 });
+      g.set(bubbles.slice(1), { opacity: 0, y: 14 }); /* a primeira bolha já está na tela: a conversa começa antes do scroll */
       g.set(cards, { opacity: 0, y: 12 });
       g.set('#compare-after', { opacity: 0, y: 10 });
       g.set('#wipe', { opacity: 0 });
       rise('#conceito-title', { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, null, { duration: .9, delay: .3 });
       var tl = g.timeline({ scrollTrigger: { trigger: '#rev-conv', start: 'top top', end: 'bottom bottom', scrub: .5 } });
-      tl.to(bubbles, { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, 0);
+      tl.to(bubbles.slice(1), { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, .2);
       tl.to('#rev-conv .rev__hint', { opacity: 0, duration: .3 }, .2);
       tl.to('#panel-before .panel__cap', { opacity: 1, duration: .5 }, 3.4);
       g.set('#panel-before', { clipPath: 'inset(0 0% 0 0)' });
@@ -290,7 +290,8 @@
     initCommon();
     A.track('concept_seen');
     if (revealReady) return; revealReady = true;
-    whenGsap(1800).then(function (ok) { if (ok) initReveal(); else initShowcase(); });
+    /* movimento reduzido: apresentação estática (painéis empilhados, lista), mesmo com GSAP carregado */
+    whenGsap(1800).then(function (ok) { if (ok && !reduced) initReveal(); else initShowcase(); });
   }
 
   /* ── envio do núcleo ────────────────────────────────────────────────── */
