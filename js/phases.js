@@ -174,9 +174,11 @@
       tl.to(bubbles.slice(1), { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, .2);
       /* a lista rola dentro do aparelho: a bolha que acabou de chegar fica sempre visível, como num chat de verdade */
       var chatView = el('chat-view'), chatIn = el('chat');
-      var shiftFor = function (i) { return function () { var li = bubbles[i]; if (!li) return 0; var cs = getComputedStyle(chatView), padB = parseFloat(cs.paddingBottom) || 0, padT = parseFloat(cs.paddingTop) || 0; /* offsetTop é relativo à lista (will-change cria o offsetParent), por isso soma o padding de cima */ return Math.min(0, chatView.clientHeight - padB - (padT + li.offsetTop + li.offsetHeight)); }; };
+      var shiftFor = function (i) { return function () { var li = bubbles[i]; if (!li) return 0; var cs = getComputedStyle(chatView), padB = parseFloat(cs.paddingBottom) || 0, padT = parseFloat(cs.paddingTop) || 0; /* offsetTop é relativo à lista (will-change cria o offsetParent), por isso soma o padding de cima */ return chatView.clientHeight - padB - (padT + li.offsetTop + li.offsetHeight); }; };
+      /* fromTo (e não set) porque um tween de duração zero no tempo 0 não renderiza com o scroll parado no início */
+      tl.fromTo(chatIn, { y: shiftFor(0) }, { y: shiftFor(0), duration: .05, immediateRender: true }, 0);
       for (var bi = 1; bi < bubbles.length; bi++) tl.to(chatIn, { y: shiftFor(bi), duration: .5, ease: 'power2.out' }, .2 + (bi - 1) * .38);
-      tl.to('#rev-conv .rev__hint', { opacity: 0, duration: .3 }, .2);
+      tl.to('#rev-conv .rev__hint, .caps__hint', { opacity: 0, duration: .3 }, .2);
       tl.to('#cap-before', { opacity: 1, y: 0, duration: .5 }, 3.4);
       g.set('#panel-before', { clipPath: 'inset(0 0% 0 0)' });
       tl.to('#panel-after', { clipPath: 'inset(0 0 0 0%)', duration: 2.6, ease: 'none' }, 4.6);
@@ -194,12 +196,12 @@
       rise('#rev-tour .tour__head > *', { y: 20, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-tour', 'top 70%'), { stagger: .1 });
 
       /* 3 · regras da casa: a folha cai, as linhas entram */
-      rise('#regras', { y: 44, opacity: 0, rotation: -5 }, { y: 0, opacity: 1, rotation: -.8 }, once('#rev-regras', 'top 70%'), { duration: .8 });
+      rise('#regras', { y: 44, opacity: 0, rotation: -2.5 }, { y: 0, opacity: 1, rotation: -.8 }, once('#rev-regras', 'top 70%'), { duration: .8 });
       rise('#regras .regras__list li', { x: -16, opacity: 0 }, { x: 0, opacity: 1 }, once('#rev-regras', 'top 60%'), { duration: .5, stagger: .12, delay: .35 });
       rise('#regras .regras__pledge, #regras .regras__p', { y: 10, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-regras', 'top 60%'), { duration: .6, stagger: .15, delay: .9 });
 
       /* 4 e 5 · planos e perguntas */
-      rise('#plans .plan', { y: 48, opacity: 0, rotation: function (i) { return i ? 4 : -4; } }, { y: 0, opacity: 1, rotation: function (i) { return i ? .7 : -.8; } }, once('#rev-planos'), { duration: .75, stagger: .14 });
+      rise('#plans .plan', { y: 48, opacity: 0, rotation: function (i) { return i ? 2.5 : -2.5; } }, { y: 0, opacity: 1, rotation: function (i) { return i ? .7 : -.8; } }, once('#rev-planos'), { duration: .75, stagger: .14 });
       rise('#rev-planos .plan__list li', { x: -10, opacity: 0 }, { x: 0, opacity: 1 }, once('#rev-planos'), { duration: .4, stagger: .04, delay: .4 });
       rise('#rev-faq details', { y: 16, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-faq', 'top 75%'), { duration: .5, stagger: .06 });
       rise('#rev-faq .rev__cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1 }, once('#rev-faq .rev__cta', 'top 85%'), { duration: .7 });
