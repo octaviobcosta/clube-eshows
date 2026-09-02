@@ -170,6 +170,19 @@
       g.set('#wipe', { opacity: 0 });
       g.set('#cap-before, #cap-after', { opacity: 0, y: 6 });
       rise('#conceito-title', { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, null, { duration: .9, delay: .3 });
+      /* a agenda preenche o que sobrar na tela do app: mostra quantos itens couberem, ou some */
+      var feedEl = el('feed'), agendaEl = feedEl && feedEl.querySelector('.agenda');
+      function fitAgenda() {
+        if (!agendaEl) return;
+        var tlw = feedEl.querySelector('.tlwrap'); if (tlw) tlw.style.flex = 'none'; /* mede com a linha do tempo na altura natural */
+        feedEl.classList.add('is-measuring'); /* e sem os deslocamentos da animação de entrada */
+        agendaEl.hidden = false; var items = agendaEl.querySelectorAll('li'); items.forEach(function (li) { li.hidden = false; });
+        for (var i = items.length - 1; i >= 0 && feedEl.scrollHeight > feedEl.clientHeight + 1; i--) items[i].hidden = true;
+        if (feedEl.scrollHeight > feedEl.clientHeight + 1 || !agendaEl.querySelector('li:not([hidden])')) agendaEl.hidden = true;
+        if (tlw) tlw.style.flex = ''; feedEl.classList.remove('is-measuring');
+      }
+      fitAgenda(); var fitT; root.addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitAgenda, 120); });
+      ST.addEventListener('refresh', fitAgenda);
       var tl = g.timeline({ scrollTrigger: { trigger: '#rev-conv', start: 'top top', end: 'bottom bottom', scrub: .5, invalidateOnRefresh: true } });
       tl.to(bubbles.slice(1), { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, .2);
       /* a lista rola dentro do aparelho: a bolha que acabou de chegar fica sempre visível, como num chat de verdade */
@@ -208,6 +221,11 @@
     }
     /* telefone fixo: o palco fica no lugar (sticky no CSS) e cada passo troca a tela */
     var steps = Array.prototype.slice.call(document.querySelectorAll('.tour__step'));
+    if (ED.env.mobile) {
+      /* no celular o palco fixo deixava um vão entre o telefone e o texto; aqui vai o carrossel com o telefone em cada cartão */
+      el('rev-tour').classList.add('is-carousel');
+      buildCarousel(Array.prototype.slice.call(document.querySelectorAll('#inlist li')));
+    } else {
     /* duas camadas de tela na mesma moldura: a nova entra por cima com um leve recuo; a moldura não pisca */
     var layers = [el('tour-video'), el('tour-video-b')], cur = 0, counter = el('tour-counter'), current = null;
     var canPlay = !(ED.env.saveData || ED.env.lowEnd);
@@ -241,6 +259,7 @@
     }
     ST.create({ trigger: '#tour', start: 'top bottom', end: 'bottom top', onUpdate: pick, onEnter: pick, onEnterBack: pick, onRefresh: pick });
     ST.create({ trigger: '#tour', start: 'top 80%', once: true, onEnter: function () { A.track('showcase_seen'); } });
+    }
     setTimeout(function () { ST.refresh(); }, 400);
   }
 
@@ -255,7 +274,17 @@
         '<div><span class="ch">' + ch + '</span><p class="t">' + t + '</p><p class="d">' + d + '</p></div>';
       track.appendChild(slide);
     });
-    var hint = document.createElement('p'); hint.className = 'carousel__hint'; hint.textContent = 'Arrasta pro lado pra ver as seis'; track.insertAdjacentElement('afterend', hint);
+    var dots = document.createElement('div'); dots.className = 'carousel__dots'; dots.setAttribute('aria-hidden', 'true');
+    items.forEach(function (_, i) { var d = document.createElement('i'); if (!i) d.className = 'is-on'; dots.appendChild(d); });
+    track.insertAdjacentElement('afterend', dots);
+    var hint = document.createElement('p'); hint.className = 'carousel__hint'; hint.textContent = 'Arrasta pro lado pra ver as seis'; dots.insertAdjacentElement('afterend', hint);
+    if ('IntersectionObserver' in root) {
+      var slidesArr = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+      var ioDots = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting && en.intersectionRatio >= .6) { var i = slidesArr.indexOf(en.target); Array.prototype.forEach.call(dots.children, function (d, j) { d.classList.toggle('is-on', j === i); }); } });
+      }, { root: track, threshold: [.6] });
+      slidesArr.forEach(function (sl) { ioDots.observe(sl); });
+    }
     if ('IntersectionObserver' in root && !(ED.env.saveData || ED.env.lowEnd)) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
@@ -311,7 +340,9 @@
     A.track('concept_seen');
     if (revealReady) return; revealReady = true;
     /* movimento reduzido: apresentação estática (painéis empilhados, lista), mesmo com GSAP carregado */
-    whenGsap(1800).then(function (ok) { if (ok && !reduced) initReveal(); else initShowcase(); });
+    /* telas muito baixas (< 640 px) nao cabem o celular fixo: vao para a apresentacao estatica */
+    var tooShort = ED.env.mobile && root.innerHeight < 640;
+    whenGsap(1800).then(function (ok) { if (ok && !reduced && !tooShort) initReveal(); else initShowcase(); });
   }
 
   /* ── envio do núcleo ────────────────────────────────────────────────── */
