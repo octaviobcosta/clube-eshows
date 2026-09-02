@@ -168,16 +168,23 @@
       g.set(cards, { opacity: 0, y: 12 });
       g.set('#compare-after', { opacity: 0, y: 10 });
       g.set('#wipe', { opacity: 0 });
+      g.set('#cap-before, #cap-after', { opacity: 0, y: 6 });
       rise('#conceito-title', { y: 24, opacity: 0 }, { y: 0, opacity: 1 }, null, { duration: .9, delay: .3 });
-      var tl = g.timeline({ scrollTrigger: { trigger: '#rev-conv', start: 'top top', end: 'bottom bottom', scrub: .5 } });
+      var tl = g.timeline({ scrollTrigger: { trigger: '#rev-conv', start: 'top top', end: 'bottom bottom', scrub: .5, invalidateOnRefresh: true } });
       tl.to(bubbles.slice(1), { opacity: 1, y: 0, duration: .6, stagger: .38, ease: 'power2.out' }, .2);
+      /* a lista rola dentro do aparelho: a bolha que acabou de chegar fica sempre visível, como num chat de verdade */
+      var chatView = el('chat-view'), chatIn = el('chat');
+      var shiftFor = function (i) { return function () { var li = bubbles[i]; if (!li) return 0; var pad = parseFloat(getComputedStyle(chatView).paddingBottom) || 0; return Math.min(0, chatView.clientHeight - pad - (li.offsetTop + li.offsetHeight)); }; };
+      for (var bi = 1; bi < bubbles.length; bi++) tl.to(chatIn, { y: shiftFor(bi), duration: .5, ease: 'power2.out' }, .2 + (bi - 1) * .38);
       tl.to('#rev-conv .rev__hint', { opacity: 0, duration: .3 }, .2);
-      tl.to('#panel-before .panel__cap', { opacity: 1, duration: .5 }, 3.4);
+      tl.to('#cap-before', { opacity: 1, y: 0, duration: .5 }, 3.4);
       g.set('#panel-before', { clipPath: 'inset(0 0% 0 0)' });
       tl.to('#panel-after', { clipPath: 'inset(0 0 0 0%)', duration: 2.6, ease: 'none' }, 4.6);
       tl.to('#panel-before', { clipPath: 'inset(0 100% 0 0)', duration: 2.6, ease: 'none' }, 4.6);
       tl.to('#wipe', { opacity: 1, duration: .3 }, 4.3);
       tl.to('#wipe', { left: '0%', duration: 2.6, ease: 'none' }, 4.6);
+      tl.to('#cap-before', { opacity: 0, duration: .6 }, 4.8);
+      tl.to('#cap-after', { opacity: 1, y: 0, duration: .6 }, 6.6);
       tl.to(cards, { opacity: 1, y: 0, duration: .5, stagger: .45, ease: 'power2.out' }, 5.2);
       tl.to('#compare-after', { opacity: 1, y: 0, duration: .9, ease: 'power2.out' }, 7.6);
       tl.to('#wipe', { opacity: 0, duration: .5 }, 7.4);
