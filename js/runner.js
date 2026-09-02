@@ -276,7 +276,7 @@
           '<p class="fine" style="margin-top:.8rem">Quem atende, negocia e fecha é você. A eshows não fica com parte do cachê.</p>' +
         '</article>' +
       '</div>' +
-      '<div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap"><button type="button" class="cta" id="reveal-next">Continuar</button><span class="fine">Cinco perguntas e o bis.</span></div>' +
+      '<div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap"><button type="button" class="cta" id="reveal-next">Continuar</button><span class="fine">Faltam cinco perguntas. Depois, seu próximo passo.</span></div>' +
       '</div>';
     root.scrollTo({ top: 0, behavior: 'instant' });
     var h = revealEl.querySelector('h2'); h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true });
