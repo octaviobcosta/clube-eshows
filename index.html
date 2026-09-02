@@ -2,352 +2,219 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0E0B0A">
-<title>Pesquisa com artistas · eshows</title>
-<meta name="description" content="A eshows está construindo uma ferramenta nova para artistas. Queremos sua opinião.">
-<meta property="og:title" content="Pesquisa com artistas · eshows">
-<meta property="og:description" content="A eshows está construindo uma ferramenta nova para artistas. Queremos sua opinião.">
-<meta property="og:image" content="https://octaviobcosta.github.io/clube-eshows/assets/film/palco-poster.webp">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex,nofollow">
+<title>eshows · uma ferramenta nova pra artistas</title>
+<meta name="description" content="A eshows está construindo uma ferramenta nova pra artistas. Antes de terminar, quer ouvir você: uns 6 minutos, no seu ritmo, com uma revelação no final.">
+<meta property="og:title" content="eshows · uma ferramenta nova pra artistas, montada com você">
+<meta property="og:description" content="Uns 6 minutos, no seu ritmo, com uma revelação no final.">
+<meta property="og:image" content="https://octaviobcosta.github.io/clube-eshows/assets/og.jpg">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/ed.css">
+<link rel="icon" href="assets/eshows-icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-900c.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/setlist.css">
 </head>
 <body class="ed">
-<noscript>
-  <div style="min-height:100dvh;display:flex;align-items:center;padding:0 24px;max-width:640px;margin:0 auto">
-    <p>Esta pesquisa precisa de JavaScript para funcionar. Ativa o JavaScript no navegador e recarrega a página.</p>
-  </div>
-</noscript>
+<!--
+DIREÇÃO · Setlist colada no chão do palco · sorteio impeccable seed cf518853 (scope direction, mode persuade), índice 4 da lista de 7 mundos, aprovado pelo Octavio em 01/09/2026
+MUNDO: folha impressa clara (a conversa) presa com fita gaffer laranja sobre o chão escuro do palco (a revelação). Papel, fita, marcador, carimbo. Zero degradê de cor.
+PRIMEIRA DOBRA: chão de palco, título em condensada gigante, a folha "Set de hoje" com os cinco itens da noite e o botão de fita "Começar".
+CAMINHO: cada fase é uma folha nova que cai no chão. A mini-setlist é o progresso: itens riscados a marcador, o atual com "você tá aqui".
+INTERAÇÃO-ASSINATURA: escolher uma opção desenha um círculo de marcador ao redor dela. O preço chega como carimbo.
+RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito aparece no máximo quatro vezes na página.
+-->
+<a class="skip" href="#main">Pular pro conteúdo</a>
+<main id="main">
 
-<!-- ═══════ loading / inválido ═══════ -->
-<div id="fase-loading" class="ed-fase on"><div class="ed-loading">Carregando…</div></div>
+  <section class="fase loading" id="fase-loading" aria-label="Carregando">Abrindo o seu convite…</section>
 
-<div id="fase-invalid" class="ed-fase">
-  <main class="ed-retrato">
-    <h1 class="ed-display" style="font-size:clamp(2.6rem,10vw,4.6rem);margin-bottom:1.2rem">Opa, esse link não abriu.</h1>
-    <p class="ed-body" id="invalid-msg">Este link não é válido. Confere se ele veio completo na mensagem, ou fala com a gente pelo canal onde recebeu o convite.</p>
-  </main>
-</div>
+  <section class="fase on-floor" id="fase-invalid" hidden>
+    <div class="wrap" style="padding:20vh 0 4rem;max-width:640px">
+      <h1 class="ph ph--sect">Opa, esse link não abriu.</h1>
+      <p class="body" id="invalid-msg" style="margin-top:1.2rem">Este link não é válido. Confere se ele veio completo na mensagem, ou fala com a gente pelo canal onde recebeu o convite.</p>
+    </div>
+  </section>
 
-<!-- ═══════ ATO 1 — o convite ═══════ -->
-<div id="fase-ato1" class="ed-fase">
-  <div class="ed-ato1">
-    <div class="ed-ato1__grain" aria-hidden="true"></div>
-
-    <section class="ed-hero">
-      <div class="ed-hero__bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 720px)" srcset="assets/intro-bar-mobile.webp">
-          <img src="assets/intro-bar.webp" alt="" width="1376" height="768" fetchpriority="high">
-        </picture>
+  <!-- ═══ Fase 1 · Intro ═══ -->
+  <section class="fase on-floor" id="fase-intro" hidden>
+    <img class="intro__brand" src="assets/eshows-logo-white-480.png" alt="eshows" width="240" height="70">
+    <div class="wrap intro">
+      <div class="intro__text">
+        <h1 class="ph ph--hero" id="intro-title">Uma ferramenta nova pra artistas. <span class="ink-tape">Montada com você.</span></h1>
+        <p class="body">A eshows está construindo isso agora. Antes de terminar, quer ouvir quem vive de música: uns 6 minutos, no seu ritmo, com uma revelação no final.</p>
+        <ul class="intro__promises">
+          <li>Não muda nada na sua conta eshows</li>
+          <li>Não é venda</li>
+          <li><a href="privacidade.html" target="_blank" rel="noreferrer">Suas respostas ficam com a gente</a></li>
+        </ul>
       </div>
-      <div class="ed-hero__inner">
-        <p class="ed-eyebrow">eshows · pesquisa com artistas</p>
-        <h1 class="ed-display ed-hero__title">
-          <span>ESTAMOS CONSTRUINDO</span>
-          <span>UMA FERRAMENTA NOVA</span>
-          <span>PARA ARTISTAS.</span>
-          <span class="grad">E QUEREMOS QUE VOCÊ FAÇA</span>
-          <span class="grad">PARTE DESSA CONSTRUÇÃO!</span>
-        </h1>
-        <p class="ed-hero__sub">Em 10 minutos, você nos conta o que faz diferença de verdade. No final, a gente mostra o conceito do novo projeto.</p>
-        <div class="ed-hero__ctas">
-          <button type="button" class="ed-btn ed-btn--primary js-comecar">Começar →</button>
-          <a class="ed-btn ed-btn--ghost" href="#entenda">Entender antes</a>
-        </div>
-        <div class="ed-eq ed-hero__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="sheet" id="intro-sheet">
+        <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
+        <div class="sheet__head"><span class="pk">setlist · <span id="intro-date">hoje</span></span><span class="pk num">6 min</span></div>
+        <p class="ph ph--sheet">Set de hoje</p>
+        <ol class="setl" aria-label="As cinco partes desta conversa">
+          <li class="is-now"><span class="n">1</span><span class="t">Uma conversa rápida</span></li>
+          <li><span class="n">2</span><span class="t">Sobre você e seus shows</span></li>
+          <li><span class="n">3</span><span class="t">O que a eshows está construindo</span></li>
+          <li><span class="n">4</span><span class="t">O preço, e o que você acha</span></li>
+          <li><span class="n">5</span><span class="t">Bis</span></li>
+        </ol>
+        <div class="intro__cta"><button class="cta" id="start" type="button">Começar</button><span class="hand" aria-hidden="true">uns 6 min</span></div>
       </div>
-      <p class="ed-scrollhint" aria-hidden="true">Role pra baixo</p>
-    </section>
+    </div>
+  </section>
 
-    <section class="ed-intro2" id="entenda">
-      <div class="ed-intro2__light" aria-hidden="true"></div>
-      <div class="ed-intro2__inner">
-        <div class="ed-intro2__text">
-          <h2 class="ed-display ed-intro2__title">ANTES DE COMEÇAR,<br>UM COMBINADO.</h2>
-          <p class="ed-body" style="color:var(--paper-hi)">A eshows está construindo uma ferramenta para você organizar a parte comercial da carreira do seu projeto. Antes de terminar, precisamos entender como você trabalha hoje: como encontra clientes, como fecha shows e como organiza tudo depois.</p>
-          <p class="ed-privacy">Suas respostas serão analisadas em conjunto, sob responsabilidade da eshows. Podemos cruzar com o histórico da sua conta na plataforma. Você pode pedir acesso ou remoção a qualquer momento. <a href="privacidade.html" target="_blank" rel="noreferrer">Aviso de privacidade completo</a>.</p>
-        </div>
-        <div class="ed-card ed-card--grad">
-          <ul>
-            <li>Responder não muda em nada sua conta, suas propostas nem sua posição.</li>
-            <li>Isto não é uma venda. Você vai ver uma proposta em estudo e um preço. Responda o que você pensa de verdade.</li>
-            <li>Isto é um produto novo, somado ao que a eshows já faz. Seus shows atuais pela plataforma continuam sem nenhuma mudança.</li>
-          </ul>
-          <button type="button" class="ed-btn ed-btn--primary js-comecar" style="margin-top:1.4rem;width:100%">Começar agora →</button>
-          <p class="ed-intro2__note">10 minutos · perguntas opcionais podem ser puladas · você para quando quiser</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
-
-<!-- ═══════ ATO 2 — runner (montado por JS) ═══════ -->
-<div id="fase-runner" class="ed-fase">
-  <div class="ed-runner2">
-    <aside class="ed-runner2__side" aria-hidden="true">
-      <div class="ed-runner2__sideinner">
-        <p class="ed-eyebrow">eshows · pesquisa com artistas</p>
-        <p class="ed-display ed-runner2__part" id="side-part">PARTE 1</p>
-        <p class="ed-runner2__parttitle" id="side-title">Como funciona hoje</p>
-        <div class="ed-eq ed-runner2__eq"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
+  <!-- ═══ Fases 2 e 4 · uma pergunta por folha ═══ -->
+  <section class="fase" id="fase-parte" hidden>
+    <aside class="side on-floor" aria-label="Onde você está no set">
+      <img class="side__brand" src="assets/eshows-logo-white-480.png" alt="eshows" width="240" height="70">
+      <span class="pk">set de hoje</span>
+      <ol class="setl" id="side-setl">
+        <li><span class="n">1</span><span class="t">Uma conversa rápida</span></li>
+        <li><span class="n">2</span><span class="t">Sobre você e seus shows</span></li>
+        <li><span class="n">3</span><span class="t">O que a eshows está construindo</span></li>
+        <li><span class="n">4</span><span class="t">O preço, e o que você acha</span></li>
+        <li><span class="n">5</span><span class="t">Bis</span></li>
+      </ol>
     </aside>
-    <div class="ed-runner2__main">
-      <div class="ed-progress" id="runner-progress"></div>
-      <div id="runner-screen"></div>
-      <div class="ed-nav" id="runner-nav"></div>
+    <div class="mtop" id="mtop" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><b id="mtop-label"></b></div>
+    <div class="parte">
+      <div class="sheet" id="folha" aria-live="polite"></div>
+      <div id="reveal" class="on-floor" hidden></div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- ═══════ Retrato (montado por JS) ═══════ -->
-<div id="fase-retrato" class="ed-fase">
-  <main class="ed-retrato">
-    <p class="ed-eyebrow">resumo das suas respostas</p>
-    <h1 class="ed-display" style="margin-top:0.8rem">O QUE VOCÊ NOS CONTOU</h1>
-    <div class="ed-retrato__lines" id="retrato-lines"></div>
-    <p class="ed-retrato__bridge">O produto que estamos construindo serve para organizar exatamente isso.</p>
-    <div style="display:flex;gap:0.9rem;flex-wrap:wrap">
-      <button type="button" class="ed-btn ed-btn--primary" id="btn-reveal">Ver o produto →</button>
-      <button type="button" class="ed-btn ed-btn--quiet" id="btn-skip-reveal">Encerrar por aqui</button>
-    </div>
-  </main>
-</div>
+  <!-- ═══ Fase 3 · O que a eshows está construindo ═══ -->
+  <section class="fase on-floor" id="fase-conceito" hidden>
+    <div class="wrap conceito">
+      <header style="display:grid;gap:1.2rem;max-width:760px">
+        <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
+        <p class="body">Seis ferramentas pra você conseguir e administrar os seus próprios clientes. Quem atende, negocia e fecha continua sendo você.</p>
+      </header>
 
-<!-- ═══════ Obrigado ═══════ -->
-<div id="fase-thanks" class="ed-fase">
-  <main class="ed-retrato">
-    <div class="ed-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-    <h1 class="ed-display" style="font-size:clamp(2.6rem,10vw,4.6rem);margin:1.4rem 0 1.2rem">OBRIGADO PELAS RESPOSTAS.</h1>
-    <p class="ed-body">Elas vão ser usadas para decidir o que construir primeiro. Qualquer novidade, a gente avisa pelo canal que você escolheu.</p>
-  </main>
-</div>
+      <div class="showcase" id="showcase">
+        <ul class="inlist showcase__list" id="inlist" aria-label="As seis ferramentas">
+          <li data-shot="epk" class="is-on"><span class="ch">CH 1</span><span><span class="t">Perfil e marca</span><span class="d">Seu EPK numa página: fotos, vídeos, release e repertório. Manda o link, não o PDF.</span></span></li>
+          <li data-shot="crm"><span class="ch">CH 2</span><span><span class="t">Clientes</span><span class="d">Quem pediu preço, o que foi conversado, quanto você cobrou, quando voltar a falar.</span></span></li>
+          <li data-shot="ia"><span class="ch">CH 3</span><span><span class="t">Inteligência</span><span class="d">Preço sugerido por tipo de evento, casas compatíveis, melhor hora de oferecer data livre.</span></span></li>
+          <li data-shot="contrato"><span class="ch">CH 4</span><span><span class="t">Contrato e pagamento</span><span class="d">Contrato assinado no celular, sinal em custódia liberado depois do show.</span></span></li>
+          <li data-shot="numeros"><span class="ch">CH 5</span><span><span class="t">Números</span><span class="d">Faturamento do mês, shows tocados, taxa de fechamento, previsão.</span></span></li>
+          <li data-shot="growth"><span class="ch">CH 6</span><span><span class="t">Alcance</span><span class="d">Campanhas pra quem já contratou você. Agenda nova chega primeiro a eles.</span></span></li>
+        </ul>
+        <div class="showcase__stage">
+          <figure class="mock" id="mock" style="margin:0">
+            <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
+            <video id="mock-video" muted loop playsinline preload="none" poster="assets/shots/epk.webp" aria-label="Tela da ferramenta"></video>
+            <button class="mock__zoom" id="zoom" type="button">Ampliar</button>
+          </figure>
+        </div>
+      </div>
 
-<!-- ═══════ ATO 3 — a revelação ═══════ -->
-<div id="fase-ato3" class="ed-fase">
-  <div class="ed-ato3" id="ato3-root">
-    <section class="ed-film-section" aria-label="O que estamos construindo">
-      <div class="ed-stage">
-        <video class="ed-stage__video" muted playsinline webkit-playsinline preload="none"
-               poster="assets/film/palco-poster.webp"
-               data-src="assets/film/palco.mp4"
-               data-src-mobile="assets/film/palco-mobile.mp4"></video>
-        <div class="ed-stage__scrim" aria-hidden="true"></div>
-        <div class="ed-stage__grain" aria-hidden="true"></div>
-
-        <article class="ed-chapter ed-chapter--left ed-chapter--hero" data-film="0,0.12" data-weight="1.6" data-label="A estrutura">
-          <picture class="ed-chapter__still" aria-hidden="true">
-            <source media="(max-width: 860px)" srcset="assets/film/palco-mobile-poster.webp">
-            <img src="assets/film/palco-poster.webp" alt="" width="1920" height="1080" decoding="async">
-          </picture>
-          <div class="ed-chapter__copy">
-            <p class="ed-eyebrow ed-line" style="margin-bottom:0.9rem">eshows apresenta</p>
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">A ESTRUTURA</span><span class="ed-line ed-d2">DE QUEM VIVE</span><span class="ed-line ed-d3">DE <span class="grad">MÚSICA.</span></span></h2>
-            <div class="ed-ch-body"><p class="ed-line ed-d4">Clientes, contratos, pagamentos e os números da carreira em um lugar só. É isso que a eshows está construindo.</p></div>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--left ed-chapter--velho" data-film="0.12,0.24" data-weight="1.5" data-label="Os dois caminhos">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">PRA CRESCER, SEMPRE</span><span class="ed-line ed-d2">FOI PRECISO ALGUÉM.</span></h2>
-            <div class="ed-ch-body">
-              <p class="ed-line ed-d3"><b>Antes.</b> Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
-              <p class="ed-line ed-d4"><b>Ou sozinho.</b> Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--center ed-chapter--virada" data-film="0.24,0.33" data-weight="1.0" data-label="A terceira opção">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">NUNCA TEVE UMA</span><span class="ed-line ed-d2"><span class="grad">TERCEIRA OPÇÃO.</span></span></h2>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--left ed-chapter--escritorio" data-film="0.33,0.45" data-weight="1.5" data-label="Agora tem">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">A ESHOWS ESTÁ</span><span class="ed-line ed-d2">CONSTRUINDO <span class="grad">A TERCEIRA.</span></span></h2>
-            <div class="ed-ch-body"><p class="ed-line ed-d3">Queremos fortalecer artistas com estrutura. Estrutura pra você cobrar o valor que achar justo e construir sua jornada com menos obstáculos.</p></div>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--right ed-chapter--marca" data-film="0.45,0.6" data-weight="1.5" data-label="As ferramentas">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">PRA ISSO, PENSAMOS EM</span><span class="ed-line ed-d2"><span class="grad">SEIS FERRAMENTAS.</span></span></h2>
-            <div class="ed-ch-body"><p class="ed-line ed-d3">Perfil profissional, clientes, preço, contrato, pagamento e divulgação. Tudo dentro do mesmo escritório.</p></div>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--left ed-chapter--venda" data-film="0.6,0.76" data-weight="1.5" data-label="Do seu jeito">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">SUA CARREIRA,</span><span class="ed-line ed-d2">DO SEU JEITO.</span></h2>
-            <ul class="ed-ch-bullets">
-              <li class="ed-line ed-d3">Você define o preço</li>
-              <li class="ed-line ed-d4">Você escolhe o evento</li>
-              <li class="ed-line ed-d5">Você fala com o cliente</li>
-              <li class="ed-line ed-d6">O que você fechar é seu</li>
+      <div>
+        <h2 class="ph ph--sect">Dois jeitos de entrar.</h2>
+        <div class="plans" id="plans">
+          <article class="plan plan--solo" tabindex="0" data-plan="solo">
+            <span class="tape tape--tl tape--dark" aria-hidden="true"></span>
+            <h3 class="plan__name">Solo</h3>
+            <p class="plan__tag">Você monta e toca sozinho.</p>
+            <ul class="plan__list">
+              <li><span>As seis ferramentas</span></li>
+              <li><span>Você configura no seu ritmo</span></li>
+              <li><span>Você cria e roda suas campanhas</span></li>
+              <li><span>Canal de ajuda</span></li>
+              <li class="no"><span>Campanhas gerenciadas pela eshows</span></li>
+              <li class="no"><span>Fundo de mídia pra eventos de ticket maior</span></li>
+              <li class="no"><span>Revisão de rota com gente da eshows</span></li>
             </ul>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--right ed-chapter--fechar" data-film="0.76,0.88" data-weight="1.4" data-label="O compromisso">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">A GENTE MONTA A ESTRUTURA.</span><span class="ed-line ed-d2"><span class="grad">VOCÊ FECHA.</span></span></h2>
-            <!-- Geist em caixa normal de propósito: em all-caps o par
-                 "Agente" / "A gente" perde a distinção que carrega o capítulo -->
-            <div class="ed-ch-pledge">
-              <span class="ed-line ed-d3 no">Agente traz e leva um pedaço.</span>
-              <span class="ed-line ed-d4 yes">A gente monta e não leva nada.</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="ed-chapter ed-chapter--left ed-chapter--payoff" data-film="0.88,1" data-weight="1.6" data-label="Conheça melhor">
-          <div class="ed-chapter__copy">
-            <h2 class="ed-ch-title"><span class="ed-line ed-d1">CONHEÇA MELHOR</span><span class="ed-line ed-d2"><span class="grad">ROLANDO PRA BAIXO.</span></span></h2>
-            <p class="ed-scrollhint ed-scrollhint--chapter ed-line ed-d3" aria-hidden="true"></p>
-          </div>
-        </article>
+          </article>
+          <article class="plan plan--assist" tabindex="0" data-plan="assist">
+            <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
+            <h3 class="plan__name">Assistido</h3>
+            <p class="plan__tag">A eshows entra junto com você.</p>
+            <p class="plan__slots">30 vagas na primeira turma</p>
+            <ul class="plan__list">
+              <li><span>As seis ferramentas, implantadas junto</span></li>
+              <li><span><span class="hl">Fundo de campanhas gerido pela eshows</span>, mirando corporativo e evento social</span></li>
+              <li><span>Oportunidades concretas de negociação chegam no seu escritório</span></li>
+              <li><span>Prestação de contas: quanto foi investido, o que voltou, o que não fechou e por quê</span></li>
+              <li><span>Perfil ideal pra esse tipo de evento, construído junto</span></li>
+              <li><span>Quem atende, negocia e fecha continua sendo você</span></li>
+            </ul>
+            <span class="hand" aria-hidden="true">Não é pra todo mundo. Mas pode ser pra você.</span>
+          </article>
+        </div>
+        <p class="fine" style="margin-top:1.4rem;max-width:62ch">Mensalidade fixa nos dois planos. Sem percentual sobre o cachê, sem show garantido. Os seus shows de bares e restaurantes na eshows continuam como estão.</p>
       </div>
-    </section>
 
-    <div class="ed-rail" aria-hidden="true" inert>
-      <div class="ed-rail__track"><div class="ed-rail__fill"></div></div>
-      <div class="ed-rail__dots"></div>
+      <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+        <button class="cta" id="to-parte2" type="button">Continuar</button>
+        <span class="fine">Faltam 7 perguntas. Aí vem o preço.</span>
+      </div>
     </div>
+  </section>
 
-    <!-- ───── As seis ferramentas ───── -->
-    <section class="ed-sect">
-      <h2 class="ed-sect__title">AS SEIS FERRAMENTAS</h2>
-      <p class="ed-tools__intro">Estas são as seis ferramentas do escritório. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
-      <div class="ed-tools" id="ed-tools"></div>
-    </section>
-
-    <!-- ───── Planos ───── -->
-    <section class="ed-sect--alt">
-      <div class="ed-sect">
-        <h2 class="ed-sect__title">OS DOIS PLANOS, LADO A LADO</h2>
-        <p class="ed-compare__intro">Os dois planos têm o escritório completo. A diferença do Premium é gente da eshows dentro da sua operação.</p>
-
-        <div class="ed-compare" role="table" aria-label="Comparação entre os planos Solo e Premium">
-          <div class="ed-compare__row ed-compare__row--head" role="row">
-            <div class="ed-compare__label" role="columnheader" aria-hidden="true"></div>
-            <div class="ed-compare__cell ed-compare__plan" role="columnheader">
-              <p class="ed-compare__name">Solo</p>
-              <p class="ed-compare__price">R$ 59,90<span> /mês</span></p>
-              <p class="ed-compare__tag">Operação própria</p>
-            </div>
-            <div class="ed-compare__cell ed-compare__cell--premium ed-compare__plan" role="columnheader">
-              <p class="ed-compare__name">Premium</p>
-              <p class="ed-compare__price">R$ 299<span> /mês</span></p>
-              <p class="ed-compare__tag">Implantação assistida</p>
-            </div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">As seis ferramentas do escritório</div>
-            <div class="ed-compare__cell" role="cell"><span class="ed-compare__yes" aria-label="incluído">✓</span></div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell"><span class="ed-compare__yes" aria-label="incluído">✓</span></div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Implantação da operação</div>
-            <div class="ed-compare__cell" role="cell">Você monta, no seu ritmo</div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Feita junto com a eshows</div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Campanhas de divulgação</div>
-            <div class="ed-compare__cell" role="cell">Você cria e roda</div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Gerenciadas pela eshows</div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Contatos qualificados</div>
-            <div class="ed-compare__cell" role="cell">Os que suas campanhas gerarem</div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Entregues no seu escritório a cada ciclo</div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Prestação de contas das campanhas</div>
-            <div class="ed-compare__cell" role="cell"><span class="ed-compare__no" aria-label="não incluído">—</span></div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Custo, alcance e resultado de cada ciclo, abertos pra você</div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Suporte</div>
-            <div class="ed-compare__cell" role="cell">Canal de ajuda da eshows</div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Prioridade, com quem acompanha sua operação de perto</div>
-          </div>
-
-          <div class="ed-compare__row" role="row">
-            <div class="ed-compare__label" role="rowheader">Revisão de rota</div>
-            <div class="ed-compare__cell" role="cell"><span class="ed-compare__no" aria-label="não incluído">—</span></div>
-            <div class="ed-compare__cell ed-compare__cell--premium" role="cell">Você e a eshows revisam os números e ajustam juntos</div>
-          </div>
-
+  <!-- ═══ Fase 5 · Bis ═══ -->
+  <section class="fase bis" id="fase-bis" hidden>
+    <div class="wrap" style="padding:clamp(3rem,10vh,7rem) 0 5rem">
+      <div class="sheet" id="bis-sheet">
+        <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
+                <div id="bis-form">
+          <h2 class="ph ph--sheet">Quer entrar na primeira turma?</h2>
+          <p class="body" style="margin-top:.8rem">A gente está chamando 30 artistas pra montar isso junto. Deixa seu contato e escolhe como prefere seguir.</p>
+          <form class="form" id="contact-form" novalidate>
+            <div class="field"><label for="c-name">Nome do projeto</label><input class="input" id="c-name" name="name" type="text" maxlength="120" autocomplete="name" required></div>
+            <div class="field"><label for="c-wa">Seu WhatsApp</label><input class="input" id="c-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(31) 9 9999-9999" maxlength="20" required></div>
+            <ul class="opts" role="radiogroup" aria-label="Como prefere seguir" id="c-purpose">
+              <li role="radio" tabindex="0" aria-checked="true" data-value="meeting">Quero uma conversa de 15 min como membro fundador</li>
+              <li role="radio" tabindex="0" aria-checked="false" data-value="updates">Só me avisa quando abrir</li>
+            </ul>
+            <label class="check"><input type="checkbox" id="c-privacy" required><span>Li o <a href="privacidade.html" target="_blank" rel="noreferrer">aviso de privacidade</a>. Meu contato fica separado das respostas.</span></label>
+            <p class="err" id="c-err" hidden></p>
+            <div class="nav" style="border-top:0;padding-top:0"><span></span><button class="cta" type="submit" id="c-send">Entrar na lista</button></div>
+          </form>
         </div>
-
-        <p class="ed-compare__foot">Contato qualificado: pessoa ou empresa identificada, com necessidade real, que aceita conversar dentro de uma faixa de preço aprovada por você. Não é show garantido.</p>
-        <p class="ed-plans__note">Valores em estudo para o lançamento. O que está firmado: mensalidade fixa, sem percentual sobre o cachê, sem volume garantido de shows.</p>
-      </div>
-    </section>
-
-    <!-- ───── Perguntas honestas ───── -->
-    <section class="ed-sect">
-      <h2 class="ed-sect__title">PERGUNTAS HONESTAS</h2>
-      <div class="ed-faq">
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">A eshows vai me arrumar shows?</p>
-          <p class="ed-faq__a">Não é essa a promessa. O escritório existe para você conseguir e administrar seus próprios shows. As campanhas gerenciadas do Premium trazem contatos para o seu escritório, mas quem atende, negocia e fecha é você.</p>
-        </div>
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">A eshows fica com parte do cachê?</p>
-          <p class="ed-faq__a">Não. A cobrança é uma mensalidade fixa. Sem percentual, sem taxa por show.</p>
-        </div>
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">E os meus shows de bares e restaurantes?</p>
-          <p class="ed-faq__a">Continuam exatamente como são hoje. O escritório é um produto novo, somado ao que a eshows já faz: nada muda nos shows que você fecha pela plataforma nem no app gratuito.</p>
-        </div>
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">As seis ferramentas ficam prontas no lançamento?</p>
-          <p class="ed-faq__a">A lista do primeiro dia sai desta pesquisa: o que a base mais precisa entra primeiro. Quem está na fila recebe essa lista antes de pagar qualquer coisa.</p>
-        </div>
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">A eshows vira meu empresário?</p>
-          <p class="ed-faq__a">Não. Quem tem empresário, agente ou escritório segue com eles numa boa. A proposta é dar estrutura e controle a você, sem substituir ninguém.</p>
-        </div>
-        <div class="ed-faq__item">
-          <p class="ed-faq__q">Quando lança e quanto custa?</p>
-          <p class="ed-faq__a">A mensalidade em estudo é R$ 59,90 no plano Solo e R$ 299 no Premium. A data de lançamento sai com os resultados desta pesquisa, e quem está na fila fica sabendo primeiro.</p>
+        <div id="bis-done" hidden>
+          <h2 class="ph ph--sheet">Fechado.</h2>
+          <p class="body" style="margin-top:.8rem" id="bis-done-msg">A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por montar isso com a gente.</p>
+          <span class="hand" style="display:block;margin-top:1rem" aria-hidden="true">a gente te chama</span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ───── Fila ───── -->
-    <section class="ed-sect--alt">
-      <div class="ed-sect ed-waitlist">
-        <h2 class="ed-sect__title">ENTRA NA FILA.</h2>
-        <p class="ed-waitlist__sub">Sem compromisso e sem pagamento agora. Entrar na fila não muda sua conta e não garante acesso. Serve para você ficar sabendo primeiro quando o escritório for lançado.</p>
-        <div id="waitlist-slot"></div>
+  <!-- ═══ Saída (portões) ═══ -->
+  <section class="fase saida" id="fase-saida" hidden>
+    <div class="wrap" style="padding:clamp(3rem,10vh,7rem) 0 5rem">
+      <div class="sheet sheet--r" id="saida-sheet">
+        <span class="tape tape--tl" aria-hidden="true"></span>
+        <div id="saida-form">
+          <h2 class="ph ph--sheet">Valeu.</h2>
+          <p class="body" style="margin-top:.8rem">Suas respostas já ajudam a decidir o que construir primeiro. Nada muda na sua conta eshows.</p>
+          <p class="q q--sm" id="saida-q" style="margin-top:1.4rem"></p>
+          <textarea class="input" id="saida-text" maxlength="300" placeholder="Opcional. Uma frase já ajuda." aria-labelledby="saida-q"></textarea>
+          <div class="nav"><span></span><button class="cta cta--ghost" type="button" id="saida-send">Enviar e sair</button></div>
+        </div>
+        <div id="saida-done" hidden>
+          <h2 class="ph ph--sheet">Obrigado.</h2>
+          <p class="body" style="margin-top:.8rem">Pode fechar a página. Se mudar de ideia, o link continua valendo.</p>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
-    <footer class="ed-footer">
-      <img src="assets/eshows-logo-white.png" alt="eshows">
-      <span>Entrar na fila não muda sua conta e não garante acesso.</span>
-    </footer>
-  </div>
-</div>
+<dialog class="lightbox" id="lightbox" aria-label="Tela ampliada">
+  <button class="close" id="lightbox-close" type="button">Fechar</button>
+  <figure class="mock" style="margin:0"><div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div><video id="lightbox-video" muted loop playsinline controls></video></figure>
+</dialog>
 
-<div id="lightbox-slot"></div>
-
-<script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/runner.js"></script>
+<script src="js/phases.js"></script>
+<script src="js/app.js" defer></script>
+<script>(function(){var s=document.createElement("script");s.src="vendor/gsap.min.js";s.onload=function(){var t=document.createElement("script");t.src="vendor/SplitText.min.js";document.head.appendChild(t)};document.head.appendChild(s)})();</script>
 </body>
 </html>

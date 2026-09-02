@@ -1,0 +1,242 @@
+/* Orquestração das fases: intro, conceito, bis, saída, bumpers e movimento. */
+(function (root) {
+  var ED = root.ED, A = ED.api, Q = ED.questions;
+  var conn = navigator.connection || {};
+  var reduced = root.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ED.env = {
+    reduced: reduced,
+    saveData: !!conn.saveData,
+    lowEnd: (navigator.hardwareConcurrency || 4) <= 4 && /(^|-)(2g|3g)$/.test(conn.effectiveType || ''),
+    mobile: root.matchMedia('(max-width:860px)').matches
+  };
+  var FASES = ['loading', 'invalid', 'intro', 'parte', 'conceito', 'bis', 'saida'];
+  var STAGE = { intro: 1, parte1: 2, conceito: 3, parte2: 4, bis: 5 };
+  var LABEL = { parte1: '2 · você', conceito: '3 · a ideia', parte2: '4 · preço', bis: '5 · bis' };
+  var TITLE = { parte1: 'Sobre você e seus shows', conceito: 'O que a eshows está construindo', parte2: 'O preço, e o que você acha', bis: 'Bis' };
+  var showcaseReady = false, bisReady = false, saidaReady = false;
+
+  function el(id) { return document.getElementById(id); }
+
+  function show(name, msg) {
+    FASES.forEach(function (f) {
+      var s = el('fase-' + f), on = f === name;
+      s.hidden = !on;
+      s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      if (on) s.removeAttribute('inert'); else s.setAttribute('inert', '');
+    });
+    if (name === 'invalid' && msg) el('invalid-msg').textContent = msg;
+    root.scrollTo({ top: 0, behavior: 'instant' });
+    if (name !== 'parte') {
+      var h = el('fase-' + name).querySelector('h1, h2');
+      if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    }
+    document.body.classList.toggle('lights-down', name === 'conceito');
+  }
+
+  function setSetlist(stage) {
+    var n = STAGE[stage];
+    document.querySelectorAll('#side-setl li').forEach(function (li, i) { li.classList.toggle('is-done', i + 1 < n); li.classList.toggle('is-now', i + 1 === n); });
+    document.querySelectorAll('#mtop i').forEach(function (seg, i) { seg.classList.toggle('is-done', i + 1 < n); seg.classList.toggle('is-now', i + 1 === n); });
+    el('mtop-label').textContent = LABEL[stage] || '';
+  }
+
+  function bumper(stage) {
+    return new Promise(function (resolve) {
+      if (reduced) return resolve();
+      var b = document.createElement('div');
+      b.className = 'bumper on-floor'; b.setAttribute('role', 'status');
+      b.innerHTML = '<div class="sheet"><span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>' +
+        '<p class="ph ph--sheet">' + TITLE[stage] + '</p><p class="pk num" style="margin-top:.9rem">' + STAGE[stage] + ' de 5</p></div>';
+      document.body.appendChild(b);
+      setTimeout(function () { b.style.transition = 'opacity .25s'; b.style.opacity = '0'; setTimeout(function () { b.remove(); resolve(); }, 260); }, 1000);
+    });
+  }
+
+  /* ── Fase 1 ─────────────────────────────────────────────────────────── */
+  function intro() {
+    show('intro');
+    var d = new Date(); el('intro-date').textContent = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+    if (!reduced) {
+      var sheet = el('intro-sheet');
+      sheet.classList.add('anim-drop');
+      sheet.querySelectorAll('.tape').forEach(function (t, i) { t.classList.add('anim-fade', i ? 'd4' : 'd3'); });
+      var title = el('intro-title');
+      if (root.gsap && root.SplitText) {
+        root.gsap.registerPlugin(root.SplitText);
+        var split = root.SplitText.create(title, { type: 'lines', linesClass: 'ln' });
+        root.gsap.from(split.lines, { y: 26, opacity: 0, fontStretch: '100%', duration: .9, ease: 'expo.out', stagger: .07, delay: .1 });
+        root.gsap.from('#fase-intro .intro__text .body, #fase-intro .intro__promises', { y: 12, opacity: 0, duration: .7, ease: 'expo.out', stagger: .08, delay: .5 });
+      } else {
+        title.classList.add('anim-rise');
+      }
+    }
+    el('start').addEventListener('click', function () {
+      if (ED.state.started) return;
+      A.track('intro_start');
+      if (ED.state.opening) { ED.state.startRequested = true; el('start').textContent = 'Abrindo o convite…'; el('start').disabled = true; return; }
+      startPart1();
+    });
+  }
+  function startPart1() {
+    if (ED.state.started) return; ED.state.started = true;
+    el('start').disabled = false; el('start').textContent = 'Começar';
+    bumper('parte1').then(function () { ED.runner.start('p1_nome'); });
+  }
+
+  /* ── Fase 3 ─────────────────────────────────────────────────────────── */
+  function shotSrc(key, ext) {
+    var phone = key === 'epk' || ED.env.mobile;
+    return 'assets/shots/' + key + (phone && key !== 'epk' ? '-m' : '') + '.' + ext;
+  }
+  function setShot(key) {
+    var mock = el('mock'), video = el('mock-video');
+    var phone = key === 'epk' || ED.env.mobile;
+    mock.classList.toggle('mock--phone', phone);
+    video.poster = shotSrc(key, 'webp');
+    video.setAttribute('data-key', key);
+    if (ED.env.saveData || ED.env.lowEnd) { video.removeAttribute('src'); video.load(); return; }
+    var src = shotSrc(key, 'mp4');
+    if (video.getAttribute('src') !== src) { video.src = src; video.load(); }
+    var p = video.play(); if (p && p.catch) p.catch(function () {});
+  }
+  function initShowcase() {
+    if (showcaseReady) return; showcaseReady = true;
+    var items = Array.prototype.slice.call(document.querySelectorAll('#inlist li'));
+    var lockUntil = 0;
+    function activate(li) {
+      items.forEach(function (n) { n.classList.toggle('is-on', n === li); });
+      setShot(li.getAttribute('data-shot'));
+    }
+    items.forEach(function (li) { li.addEventListener('click', function () { lockUntil = Date.now() + 900; activate(li); li.scrollIntoView({ block: 'center', behavior: reduced ? 'instant' : 'smooth' }); }); });
+    if ('IntersectionObserver' in root) {
+      var io = new IntersectionObserver(function (entries) {
+        if (Date.now() < lockUntil) return;
+        var best = null;
+        entries.forEach(function (en) { if (en.isIntersecting && en.intersectionRatio >= .6 && (!best || en.intersectionRatio > best.intersectionRatio)) best = en; });
+        if (best) activate(best.target);
+      }, { threshold: [.6, .9], rootMargin: ED.env.mobile ? '-46% 0px -28% 0px' : '-30% 0px -30% 0px' });
+      items.forEach(function (li) { io.observe(li); });
+    }
+    var showcase = el('showcase');
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { setShot(items[0].getAttribute('data-shot')); A.track('showcase_seen'); seen.disconnect(); } });
+    }, { threshold: .2 });
+    seen.observe(showcase);
+    var dlg = el('lightbox'), dv = el('lightbox-video');
+    el('zoom').addEventListener('click', function () {
+      var key = el('mock-video').getAttribute('data-key') || 'epk';
+      dlg.querySelector('.mock').classList.toggle('mock--phone', key === 'epk' || ED.env.mobile);
+      dv.poster = shotSrc(key, 'webp'); dv.src = shotSrc(key, 'mp4'); dv.load();
+      dlg.showModal(); var p = dv.play(); if (p && p.catch) p.catch(function () {});
+      A.track('lightbox_open', { key: key });
+    });
+    el('lightbox-close').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', function () { dv.pause(); dv.removeAttribute('src'); dv.load(); });
+    var plans = el('plans');
+    plans.querySelectorAll('.plan').forEach(function (p) {
+      var key = p.getAttribute('data-plan');
+      p.addEventListener('pointerenter', function () { plans.setAttribute('data-focus', key); });
+      p.addEventListener('focusin', function () { plans.setAttribute('data-focus', key); });
+      p.addEventListener('click', function () { plans.setAttribute('data-focus', plans.getAttribute('data-focus') === key ? '' : key); A.track('plan_focus', { plan: key }); });
+    });
+    plans.addEventListener('pointerleave', function () { plans.removeAttribute('data-focus'); });
+    plans.addEventListener('focusout', function (e) { if (!plans.contains(e.relatedTarget)) plans.removeAttribute('data-focus'); });
+    el('to-parte2').addEventListener('click', function () {
+      A.track('to_parte2');
+      el('mock-video').pause();
+      bumper('parte2').then(function () { ED.runner.start('p2_sentido'); });
+    });
+  }
+  function conceito() {
+    show('conceito');
+    setSetlist('conceito');
+    initShowcase();
+    A.track('concept_seen');
+    if (!reduced && root.gsap) {
+      root.gsap.from('#conceito-title', { y: 24, opacity: 0, duration: .9, ease: 'expo.out' });
+      root.gsap.from('#mock', { y: 40, opacity: 0, duration: .8, ease: 'expo.out', delay: .2 });
+    }
+  }
+
+  /* ── envio do núcleo ────────────────────────────────────────────────── */
+  function submitCore() {
+    if (ED.state.submitted) return Promise.resolve();
+    var a = ED.state.answers, arr = Object.keys(a).filter(function (k) { return a[k] !== undefined; }).map(function (k) { return { question_id: k, value: a[k] }; });
+    if (!arr.length) return Promise.resolve();
+    return A.call('submit', { answers: arr.slice(0, 40), event_id: A.uid(), client_ts: new Date().toISOString() })
+      .then(function () { ED.state.submitted = true; })
+      .catch(function () {});
+  }
+  function complete() { return A.call('complete', { event_id: A.uid() }).catch(function () {}); }
+
+  function toPhase(n, fromQ) {
+    if (n.phase === 'conceito') { A.track('gate_a_yes'); conceito(); return; }
+    if (n.phase === 'reveal') { ED.runner.renderReveal(); return; }
+    if (n.phase === 'bis') {
+      ED.state.exit = n.exit || null;
+      if (n.exit) A.track(n.exit === 'gate_c' ? 'gate_c_none' : n.exit + '_no', {}, fromQ && fromQ.id);
+      submitCore();
+      if (n.exit) saida(n.exit); else bis();
+    }
+  }
+
+  /* ── Fase 5 · Bis ───────────────────────────────────────────────────── */
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+  function bis() {
+    show('bis'); setSetlist('bis');
+    if (bisReady) return; bisReady = true;
+    var name = el('c-name'), wa = el('c-wa'), err = el('c-err'), form = el('contact-form'), group = el('c-purpose');
+    if (ED.state.answers.p1_nome) name.value = ED.state.answers.p1_nome;
+    group.addEventListener('click', function (e) {
+      var li = e.target.closest('li[role="radio"]'); if (!li) return;
+      group.querySelectorAll('li').forEach(function (n) { n.setAttribute('aria-checked', 'false'); var r = n.querySelector('.ring'); if (r) r.remove(); });
+      li.setAttribute('aria-checked', 'true');
+      li.insertAdjacentHTML('beforeend', '<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6,21 C3,7 38,2 60,4 C90,7 98,14 96,23 C93,34 60,38 38,37 C14,36 6,32 6,21"/></svg>');
+    });
+    group.addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && e.target.matches('li')) { e.preventDefault(); e.target.click(); } });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); err.hidden = true;
+      var purpose = (group.querySelector('[aria-checked="true"]') || {}).getAttribute ? group.querySelector('[aria-checked="true"]').getAttribute('data-value') : 'meeting';
+      if (!name.value.trim()) { err.textContent = 'Falta o nome do projeto.'; err.hidden = false; name.focus(); return; }
+      if (digits(wa.value).length < 10) { err.textContent = 'Confere o WhatsApp: precisa do DDD e do número.'; err.hidden = false; wa.focus(); return; }
+      if (!el('c-privacy').checked) { err.textContent = 'Falta marcar que leu o aviso de privacidade.'; err.hidden = false; el('c-privacy').focus(); return; }
+      var btn = el('c-send'); btn.disabled = true; btn.textContent = 'Enviando…';
+      submitCore().then(function () {
+        return A.call('contact', { name: name.value.trim(), whatsapp: digits(wa.value), purpose: purpose, privacy_ack: true, whatsapp_opt_in: true, interview_opt_in: purpose === 'meeting', event_id: A.uid() });
+      }).then(function () { return A.call('waitlist', { event_id: A.uid() }); })
+        .then(function () { return complete(); })
+        .then(function () {
+          el('bis-form').hidden = true; el('bis-done').hidden = false;
+          el('bis-done-msg').textContent = purpose === 'meeting'
+            ? 'A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por montar isso com a gente.'
+            : 'Quando abrir, você é dos primeiros a saber, pelo WhatsApp. Obrigado por montar isso com a gente.';
+          document.querySelectorAll('#side-setl li, #intro-sheet .setl li').forEach(function (li) { li.classList.remove('is-now'); li.classList.add('is-done'); });
+          el('bis-done').querySelector('h2').focus();
+        })
+        .catch(function () { btn.disabled = false; btn.textContent = 'Entrar na lista'; err.textContent = 'Não foi. Tenta de novo em alguns segundos.'; err.hidden = false; });
+    });
+  }
+
+  /* ── Saída pelos portões ────────────────────────────────────────────── */
+  var EXIT_Q = { gate_a: 'Se quiser, conta em uma frase: por que hoje isso não faz sentido pra você?', gate_b: 'Se quiser, conta em uma frase: o que não encaixou?', gate_c: 'Se quiser, conta em uma frase: o que faria você mudar de ideia?' };
+  function saida(exit) {
+    show('saida'); setSetlist('bis');
+    el('saida-q').textContent = EXIT_Q[exit] || EXIT_Q.gate_a;
+    if (saidaReady) return; saidaReady = true;
+    el('saida-send').addEventListener('click', function () {
+      var t = el('saida-text').value.trim(), btn = el('saida-send'); btn.disabled = true;
+      var p = Promise.resolve();
+      if (t) p = A.call('answer', { question_id: Q.EXIT_QUESTION[ED.state.exit] || 'p1_porque_nao', value: t, event_id: A.uid(), client_ts: new Date().toISOString() }).catch(function () {});
+      p.then(submitCore).then(complete).then(function () {
+        el('saida-form').hidden = true; el('saida-done').hidden = false; el('saida-done').querySelector('h2').focus();
+      });
+    });
+  }
+  function saidaDone() {
+    show('saida'); setSetlist('bis');
+    el('saida-form').hidden = true; el('saida-done').hidden = false;
+  }
+
+  ED.phases = { show: show, setSetlist: setSetlist, bumper: bumper, intro: intro, startPart1: startPart1, conceito: conceito, toPhase: toPhase, bis: bis, saida: saida, saidaDone: saidaDone, submitCore: submitCore };
+})(window);
