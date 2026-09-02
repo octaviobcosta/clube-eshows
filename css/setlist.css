@@ -354,9 +354,9 @@ dialog.lightbox .close{position:fixed;top:1rem;right:1rem;background:var(--paper
   .tour__step{min-height:54svh;padding:1rem 0 2rem}
   .tour__step .t{font-size:clamp(1.9rem,8vw,2.6rem)}
 }
-.fallback{display:none}
+.rev .wrap.fallback{display:none}
 html.no-gsap .tour{display:none}
-html.no-gsap .fallback{display:block}
+html.no-gsap .rev .wrap.fallback{display:block}
 html.no-gsap .showcase{display:grid}
 @media (max-width:860px){html.no-gsap .showcase{display:none}html.no-gsap .carousel{display:flex}}
 .lines--big li{font-size:clamp(1.8rem,3.4vw,3rem)}
