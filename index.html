@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="robots" content="noindex,nofollow">
-<title>eshows · uma ferramenta nova pra artistas</title>
-<meta name="description" content="A eshows está construindo uma ferramenta nova pra artistas. Antes de terminar, quer ouvir você: uns 6 minutos, no seu ritmo, com uma revelação no final.">
-<meta property="og:title" content="eshows · uma ferramenta nova pra artistas, montada com você">
-<meta property="og:description" content="Uns 6 minutos, no seu ritmo, com uma revelação no final.">
+<title>eshows · uma ferramenta nova para artistas</title>
+<meta name="description" content="Estamos construindo uma ferramenta nova para artistas. E queremos que você faça parte dessa construção. Em uns 6 minutos, você conta o que faz diferença de verdade e vê o que está sendo construído.">
+<meta property="og:title" content="eshows · uma ferramenta nova para artistas, construída com você">
+<meta property="og:description" content="Em uns 6 minutos, você conta o que faz diferença de verdade. No final, a gente mostra o que está sendo construído.">
 <meta property="og:image" content="https://octaviobcosta.github.io/clube-eshows/assets/og.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/eshows-icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-900c.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/setlist.css?v=20260902b">
+<link rel="stylesheet" href="css/setlist.css?v=20260902c">
 </head>
 <body class="ed">
 <!--
 DIREÇÃO · Setlist colada no chão do palco · sorteio impeccable seed cf518853 (scope direction, mode persuade), índice 4 da lista de 7 mundos
-MUNDO: folha impressa clara (a conversa) presa com fita gaffer laranja sobre o chão escuro do palco (a revelação). Papel, fita, marcador, carimbo. Zero degradê de cor.
-PRIMEIRA DOBRA: chão de palco, título em condensada gigante, a folha "Set de hoje" com os cinco itens da noite e o botão de fita "Começar".
+MUNDO: folha impressa clara (a conversa) presa com fita gaffer laranja sobre o palco escuro de um bar antes do show (a revelação). Papel, fita, marcador, carimbo. Zero degradê de cor.
+PRIMEIRA DOBRA: palco de bar ao fundo, título em condensada gigante, o combinado, a folha "Set de hoje" com os cinco itens da noite e o botão de fita "Começar".
 CAMINHO: cada fase é uma folha nova que cai no chão. A mini-setlist é o progresso: itens riscados a marcador, o atual com "você tá aqui".
 INTERAÇÃO-ASSINATURA: escolher uma opção desenha um círculo de marcador ao redor dela. O preço chega como carimbo.
 RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito aparece no máximo quatro vezes na página.
@@ -39,29 +39,34 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
 
   <!-- ═══ Fase 1 · Intro ═══ -->
   <section class="fase on-floor" id="fase-intro" hidden>
-    <img class="intro__brand" src="assets/eshows-logo-white-480.png" alt="eshows" width="240" height="70">
+    <img class="intro__brand" src="assets/eshows-logo-white-480.png?v=20260902c" alt="eshows" width="480" height="141">
     <div class="wrap intro">
       <div class="intro__text">
-        <h1 class="ph ph--hero" id="intro-title">Uma ferramenta nova pra artistas. <span class="ink-tape">Montada com você.</span></h1>
-        <p class="body">A eshows está construindo isso agora. Antes de terminar, quer ouvir quem vive de música: uns 6 minutos, no seu ritmo, com uma revelação no final.</p>
-        <ul class="intro__promises">
-          <li>Não muda nada na sua conta eshows</li>
-          <li>Não é venda</li>
-          <li><a href="privacidade.html" target="_blank" rel="noreferrer">Suas respostas ficam com a gente</a></li>
-        </ul>
+        <h1 class="ph ph--hero" id="intro-title">Estamos construindo uma ferramenta nova para artistas. <span class="ink-tape">E queremos que você faça parte dessa construção.</span></h1>
+        <p class="body">Em uns 6 minutos, você conta o que faz diferença de verdade. No final, a gente mostra o que está sendo construído.</p>
+        <div class="combinado">
+          <p class="ph ph--small">Antes de começar, um combinado.</p>
+          <ul class="combinado__list">
+            <li>Responder não muda em nada sua conta, suas propostas nem sua posição na eshows.</li>
+            <li>Isto não é uma venda. Você vai ver uma proposta em estudo e um preço. Responda o que você pensa de verdade.</li>
+            <li>Isto é um produto novo, somado ao que a eshows já faz. Seus shows atuais pela plataforma continuam sem nenhuma mudança.</li>
+          </ul>
+          <p class="fine">Suas respostas são analisadas em conjunto, sob responsabilidade da eshows. Podemos cruzar com o histórico da sua conta na plataforma. Você pode pedir acesso ou remoção a qualquer momento. <a href="privacidade.html" target="_blank" rel="noreferrer">Aviso de privacidade completo</a>.</p>
+        </div>
       </div>
       <div class="sheet" id="intro-sheet">
         <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
         <div class="sheet__head"><span class="pk">setlist · <span id="intro-date">hoje</span></span><span class="pk num">6 min</span></div>
         <p class="ph ph--sheet">Set de hoje</p>
         <ol class="setl" aria-label="As cinco partes desta conversa">
-          <li class="is-now"><span class="n">1</span><span class="t">Uma conversa rápida</span></li>
-          <li><span class="n">2</span><span class="t">Sobre você e seus shows</span></li>
+          <li class="is-now"><span class="n">1</span><span class="t">Um combinado rápido</span></li>
+          <li><span class="n">2</span><span class="t">Como funciona hoje</span></li>
           <li><span class="n">3</span><span class="t">O que a eshows está construindo</span></li>
           <li><span class="n">4</span><span class="t">O preço, e o que você acha</span></li>
-          <li><span class="n">5</span><span class="t">Bis</span></li>
+          <li><span class="n">5</span><span class="t">Seu próximo passo</span></li>
         </ol>
-        <div class="intro__cta"><button class="cta" id="start" type="button">Começar</button><span class="hand" aria-hidden="true">uns 6 min</span></div>
+        <div class="intro__cta"><button class="cta" id="start" type="button">Começar agora</button><span class="hand" aria-hidden="true">uns 6 min</span></div>
+        <p class="fine" style="margin-top:1.2rem">Perguntas opcionais podem ser puladas. Você para quando quiser.</p>
       </div>
     </div>
   </section>
@@ -69,14 +74,14 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <!-- ═══ Fases 2 e 4 · uma pergunta por folha ═══ -->
   <section class="fase" id="fase-parte" hidden>
     <aside class="side on-floor" aria-label="Onde você está no set">
-      <img class="side__brand" src="assets/eshows-logo-white-480.png" alt="eshows" width="240" height="70">
+      <img class="side__brand" src="assets/eshows-logo-white-480.png?v=20260902c" alt="eshows" width="480" height="141">
       <span class="pk">set de hoje</span>
       <ol class="setl" id="side-setl">
-        <li><span class="n">1</span><span class="t">Uma conversa rápida</span></li>
-        <li><span class="n">2</span><span class="t">Sobre você e seus shows</span></li>
+        <li><span class="n">1</span><span class="t">Um combinado rápido</span></li>
+        <li><span class="n">2</span><span class="t">Como funciona hoje</span></li>
         <li><span class="n">3</span><span class="t">O que a eshows está construindo</span></li>
         <li><span class="n">4</span><span class="t">O preço, e o que você acha</span></li>
-        <li><span class="n">5</span><span class="t">Bis</span></li>
+        <li><span class="n">5</span><span class="t">Seu próximo passo</span></li>
       </ol>
     </aside>
     <div class="mtop" id="mtop" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><b id="mtop-label"></b></div>
@@ -89,63 +94,112 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <!-- ═══ Fase 3 · O que a eshows está construindo ═══ -->
   <section class="fase on-floor" id="fase-conceito" hidden>
     <div class="wrap conceito">
-      <header style="display:grid;gap:1.2rem;max-width:760px">
-        <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
-        <p class="body">Seis ferramentas pra você conseguir e administrar os seus próprios clientes. Quem atende, negocia e fecha continua sendo você.</p>
-      </header>
-
-      <div class="showcase" id="showcase">
-        <ul class="inlist showcase__list" id="inlist" aria-label="As seis ferramentas">
-          <li data-shot="epk" class="is-on"><span class="ch">CH 1</span><span><span class="t">Perfil e marca</span><span class="d">Seu EPK numa página: fotos, vídeos, release e repertório. Manda o link, não o PDF.</span></span></li>
-          <li data-shot="crm"><span class="ch">CH 2</span><span><span class="t">Clientes</span><span class="d">Quem pediu preço, o que foi conversado, quanto você cobrou, quando voltar a falar.</span></span></li>
-          <li data-shot="ia"><span class="ch">CH 3</span><span><span class="t">Inteligência</span><span class="d">Preço sugerido por tipo de evento, casas compatíveis, melhor hora de oferecer data livre.</span></span></li>
-          <li data-shot="contrato"><span class="ch">CH 4</span><span><span class="t">Contrato e pagamento</span><span class="d">Contrato assinado no celular, sinal em custódia liberado depois do show.</span></span></li>
-          <li data-shot="numeros"><span class="ch">CH 5</span><span><span class="t">Números</span><span class="d">Faturamento do mês, shows tocados, taxa de fechamento, previsão.</span></span></li>
-          <li data-shot="growth"><span class="ch">CH 6</span><span><span class="t">Alcance</span><span class="d">Campanhas pra quem já contratou você. Agenda nova chega primeiro a eles.</span></span></li>
-        </ul>
-        <div class="showcase__stage">
-          <figure class="mock" id="mock" style="margin:0">
-            <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
-            <video id="mock-video" muted loop playsinline preload="none" poster="assets/shots/epk.webp" aria-label="Tela da ferramenta"></video>
-            <button class="mock__zoom" id="zoom" type="button">Ampliar</button>
-          </figure>
+      <div class="chapters">
+        <div class="chapter">
+          <h2 class="ph ph--hero" id="conceito-title">A estrutura de quem vive de música.</h2>
+          <p class="body">Clientes, contratos, pagamentos e os números da carreira em um lugar só. É isso que a eshows está construindo.</p>
+        </div>
+        <div class="chapter">
+          <h3 class="ph ph--sect">Pra crescer, sempre foi preciso alguém.</h3>
+          <p class="body"><b>Antes.</b> Empresário, agente, escritório. Alguém decide seu preço, alguém fala com o cliente, alguém leva um pedaço.</p>
+          <p class="body"><b>Ou sozinho.</b> Vídeo de celular, contrato baixado da internet, orçamento por áudio às onze da noite.</p>
+        </div>
+        <div class="chapter">
+          <h3 class="ph ph--sect">Nunca teve uma terceira opção. <span class="ink-tape">A eshows está construindo a terceira.</span></h3>
+          <p class="body">Queremos fortalecer artistas com estrutura. Estrutura pra você cobrar o valor que achar justo e construir sua jornada com menos obstáculos.</p>
+        </div>
+        <div class="chapter">
+          <h3 class="ph ph--sect">Pra isso, pensamos em seis ferramentas.</h3>
+          <p class="body">Perfil profissional, clientes, preço, contrato, pagamento e divulgação. Tudo dentro do mesmo escritório. A ordem de lançamento vai ser definida pelas respostas desta pesquisa.</p>
         </div>
       </div>
 
       <div>
-        <h2 class="ph ph--sect">Dois jeitos de entrar.</h2>
+        <div class="showcase" id="showcase">
+          <ul class="inlist showcase__list" id="inlist" aria-label="As seis ferramentas">
+            <li data-shot="epk" class="is-on"><span class="ch">CH 1</span><span><span class="t">Perfil e marca</span><span class="d">Seu EPK numa página: fotos, vídeos, release e repertório. Manda o link, não o PDF.</span></span></li>
+            <li data-shot="crm"><span class="ch">CH 2</span><span><span class="t">Clientes</span><span class="d">Quem pediu preço, o que foi conversado, quanto você cobrou, quando voltar a falar.</span></span></li>
+            <li data-shot="ia"><span class="ch">CH 3</span><span><span class="t">Inteligência</span><span class="d">Preço sugerido por tipo de evento, casas compatíveis, melhor hora de oferecer data livre.</span></span></li>
+            <li data-shot="contrato"><span class="ch">CH 4</span><span><span class="t">Contrato e pagamento</span><span class="d">Contrato assinado no celular, sinal em custódia liberado depois do show.</span></span></li>
+            <li data-shot="numeros"><span class="ch">CH 5</span><span><span class="t">Números</span><span class="d">Faturamento do mês, shows tocados, taxa de fechamento, previsão.</span></span></li>
+            <li data-shot="growth"><span class="ch">CH 6</span><span><span class="t">Alcance</span><span class="d">Campanhas pra quem já contratou você. Agenda nova chega primeiro a eles.</span></span></li>
+          </ul>
+          <div class="showcase__stage">
+            <figure class="mock mock--phone" id="mock" style="margin:0">
+              <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
+              <video id="mock-video" muted loop playsinline preload="none" poster="assets/shots/epk.webp" aria-label="Tela da ferramenta"></video>
+              <button class="mock__zoom" id="zoom" type="button">Ampliar</button>
+            </figure>
+          </div>
+        </div>
+        <div class="carousel" id="carousel" hidden aria-label="As seis ferramentas"></div>
+      </div>
+
+      <div class="chapters">
+        <div class="chapter">
+          <h3 class="ph ph--sect">Sua carreira, do seu jeito.</h3>
+          <ul class="lines">
+            <li>Você define o preço</li>
+            <li>Você escolhe o evento</li>
+            <li>Você fala com o cliente</li>
+            <li>O que você fechar é seu</li>
+          </ul>
+        </div>
+        <div class="chapter">
+          <h3 class="ph ph--sect">A gente monta a estrutura. <span class="ink-tape">Você fecha.</span></h3>
+          <!-- Caixa normal de propósito: em caixa alta o par "Agente" / "A gente" perde a distinção que carrega a frase. -->
+          <p class="pledge"><b>Agente</b> traz e leva um pedaço.<br><b>A gente</b> monta e não leva nada.</p>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="ph ph--sect">Os dois planos, lado a lado.</h2>
+        <p class="body" style="margin-top:.8rem">Os dois planos têm o escritório completo. A diferença do Assistido é gente da eshows dentro da sua operação.</p>
         <div class="plans" id="plans">
           <article class="plan plan--solo" tabindex="0" data-plan="solo">
             <span class="tape tape--tl tape--dark" aria-hidden="true"></span>
             <h3 class="plan__name">Solo</h3>
-            <p class="plan__tag">Você monta e toca sozinho.</p>
+            <p class="plan__tag">Operação própria.</p>
             <ul class="plan__list">
-              <li><span>As seis ferramentas</span></li>
-              <li><span>Você configura no seu ritmo</span></li>
-              <li><span>Você cria e roda suas campanhas</span></li>
-              <li><span>Canal de ajuda</span></li>
-              <li class="no"><span>Campanhas gerenciadas pela eshows</span></li>
-              <li class="no"><span>Fundo de mídia pra eventos de ticket maior</span></li>
-              <li class="no"><span>Revisão de rota com gente da eshows</span></li>
+              <li><span>As seis ferramentas do escritório</span></li>
+              <li><span>Implantação: você monta, no seu ritmo</span></li>
+              <li><span>Campanhas de divulgação: você cria e roda</span></li>
+              <li><span>Contatos: os que suas campanhas gerarem</span></li>
+              <li><span>Suporte: canal de ajuda da eshows</span></li>
+              <li class="no"><span>Prestação de contas das campanhas</span></li>
+              <li class="no"><span>Revisão de rota com a eshows</span></li>
             </ul>
           </article>
           <article class="plan plan--assist" tabindex="0" data-plan="assist">
             <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
             <h3 class="plan__name">Assistido</h3>
-            <p class="plan__tag">A eshows entra junto com você.</p>
+            <p class="plan__tag">Implantação e campanhas com a eshows dentro da sua operação.</p>
             <p class="plan__slots">30 vagas na primeira turma</p>
             <ul class="plan__list">
-              <li><span>As seis ferramentas, implantadas junto</span></li>
-              <li><span><span class="hl">Fundo de campanhas gerido pela eshows</span>, mirando corporativo e evento social</span></li>
-              <li><span>Oportunidades concretas de negociação chegam no seu escritório</span></li>
-              <li><span>Prestação de contas: quanto foi investido, o que voltou, o que não fechou e por quê</span></li>
-              <li><span>Perfil ideal pra esse tipo de evento, construído junto</span></li>
-              <li><span>Quem atende, negocia e fecha continua sendo você</span></li>
+              <li><span>As seis ferramentas do escritório</span></li>
+              <li><span>Implantação feita junto com a eshows</span></li>
+              <li><span><span class="hl">Campanhas gerenciadas pela eshows</span>, com um fundo de mídia mirando corporativo e evento social</span></li>
+              <li><span>Contatos qualificados entregues no seu escritório a cada ciclo</span></li>
+              <li><span>Prestação de contas: custo, alcance e resultado de cada ciclo, abertos pra você</span></li>
+              <li><span>Suporte com prioridade, com quem acompanha sua operação de perto</span></li>
+              <li><span>Revisão de rota: você e a eshows revisam os números e ajustam juntos</span></li>
             </ul>
             <span class="hand" aria-hidden="true">Não é pra todo mundo. Mas pode ser pra você.</span>
           </article>
         </div>
-        <p class="fine" style="margin-top:1.4rem;max-width:62ch">Mensalidade fixa nos dois planos. Sem percentual sobre o cachê, sem show garantido. Os seus shows de bares e restaurantes na eshows continuam como estão.</p>
+        <p class="fine" style="margin-top:1.4rem;max-width:62ch">Contato qualificado: pessoa ou empresa identificada, com necessidade real, que aceita conversar dentro de uma faixa de preço aprovada por você. Não é show garantido.</p>
+        <p class="fine" style="margin-top:.5rem;max-width:62ch">Valores em estudo para o lançamento. O que está firmado: mensalidade fixa, sem percentual sobre o cachê, sem volume garantido de shows.</p>
+      </div>
+
+      <div>
+        <h2 class="ph ph--sect">Perguntas honestas.</h2>
+        <div class="faq" style="margin-top:1rem">
+          <details><summary>A eshows vai me arrumar shows?</summary><p>Não é essa a promessa. O escritório existe para você conseguir e administrar seus próprios shows. As campanhas gerenciadas do Assistido trazem contatos para o seu escritório, mas quem atende, negocia e fecha é você.</p></details>
+          <details><summary>A eshows fica com parte do cachê?</summary><p>Não. A cobrança é uma mensalidade fixa. Sem percentual, sem taxa por show.</p></details>
+          <details><summary>E os meus shows de bares e restaurantes?</summary><p>Continuam exatamente como são hoje. O escritório é um produto novo, somado ao que a eshows já faz: nada muda nos shows que você fecha pela plataforma nem no app gratuito.</p></details>
+          <details><summary>As seis ferramentas ficam prontas no lançamento?</summary><p>A lista do primeiro dia sai desta pesquisa: o que a base mais precisa entra primeiro. Quem está na primeira turma recebe essa lista antes de pagar qualquer coisa.</p></details>
+          <details><summary>A eshows vira meu empresário?</summary><p>Não. Quem tem empresário, agente ou escritório segue com eles numa boa. A proposta é dar estrutura e controle a você, sem substituir ninguém.</p></details>
+        </div>
       </div>
 
       <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
@@ -155,29 +209,29 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
     </div>
   </section>
 
-  <!-- ═══ Fase 5 · Bis ═══ -->
+  <!-- ═══ Fase 5 · Seu próximo passo ═══ -->
   <section class="fase bis" id="fase-bis" hidden>
     <div class="wrap" style="padding:clamp(3rem,10vh,7rem) 0 5rem">
       <div class="sheet" id="bis-sheet">
         <span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>
-                <div id="bis-form">
-          <h2 class="ph ph--sheet">Quer entrar na primeira turma?</h2>
-          <p class="body" style="margin-top:.8rem">A gente está chamando 30 artistas pra montar isso junto. Deixa seu contato e escolhe como prefere seguir.</p>
+        <div id="bis-form">
+          <h2 class="ph ph--sheet">Entra na primeira turma.</h2>
+          <p class="body" style="margin-top:.8rem">Sem compromisso e sem pagamento agora. A gente está chamando 30 artistas para construir isso junto. Deixa seu WhatsApp e escolhe como prefere seguir.</p>
           <form class="form" id="contact-form" novalidate>
             <div class="field"><label for="c-name">Nome do projeto</label><input class="input" id="c-name" name="name" type="text" maxlength="120" autocomplete="name" required></div>
             <div class="field"><label for="c-wa">Seu WhatsApp</label><input class="input" id="c-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(31) 9 9999-9999" maxlength="20" required></div>
             <ul class="opts" role="radiogroup" aria-label="Como prefere seguir" id="c-purpose">
-              <li role="radio" tabindex="0" aria-checked="true" data-value="meeting">Quero uma conversa de 15 min como membro fundador</li>
-              <li role="radio" tabindex="0" aria-checked="false" data-value="updates">Só me avisa quando abrir</li>
+              <li role="radio" tabindex="0" aria-checked="true" data-value="meeting">Quero uma conversa de 15 minutos como membro fundador</li>
+              <li role="radio" tabindex="0" aria-checked="false" data-value="updates">Só me avisa quando lançar</li>
             </ul>
             <label class="check"><input type="checkbox" id="c-privacy" required><span>Li o <a href="privacidade.html" target="_blank" rel="noreferrer">aviso de privacidade</a>. Meu contato fica separado das respostas.</span></label>
             <p class="err" id="c-err" hidden></p>
-            <div class="nav" style="border-top:0;padding-top:0"><span></span><button class="cta" type="submit" id="c-send">Entrar na lista</button></div>
+            <div class="nav" style="border-top:0;padding-top:0"><span class="fine">Entrar na lista não muda sua conta e não garante acesso.</span><button class="cta" type="submit" id="c-send">Entrar na lista</button></div>
           </form>
         </div>
         <div id="bis-done" hidden>
           <h2 class="ph ph--sheet">Fechado.</h2>
-          <p class="body" style="margin-top:.8rem" id="bis-done-msg">A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por montar isso com a gente.</p>
+          <p class="body" style="margin-top:.8rem" id="bis-done-msg">A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por fazer parte dessa construção.</p>
           <span class="hand" style="display:block;margin-top:1rem" aria-hidden="true">a gente te chama</span>
         </div>
       </div>
@@ -190,14 +244,14 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
       <div class="sheet sheet--r" id="saida-sheet">
         <span class="tape tape--tl" aria-hidden="true"></span>
         <div id="saida-form">
-          <h2 class="ph ph--sheet">Valeu.</h2>
-          <p class="body" style="margin-top:.8rem">Suas respostas já ajudam a decidir o que construir primeiro. Nada muda na sua conta eshows.</p>
+          <h2 class="ph ph--sheet">Obrigado pelas respostas.</h2>
+          <p class="body" style="margin-top:.8rem">Elas vão ser usadas para decidir o que construir primeiro. Nada muda na sua conta eshows.</p>
           <p class="q q--sm" id="saida-q" style="margin-top:1.4rem"></p>
           <textarea class="input" id="saida-text" maxlength="300" placeholder="Opcional. Uma frase já ajuda." aria-labelledby="saida-q"></textarea>
           <div class="nav"><span></span><button class="cta cta--ghost" type="button" id="saida-send">Enviar e sair</button></div>
         </div>
         <div id="saida-done" hidden>
-          <h2 class="ph ph--sheet">Obrigado.</h2>
+          <h2 class="ph ph--sheet">Valeu.</h2>
           <p class="body" style="margin-top:.8rem">Pode fechar a página. Se mudar de ideia, o link continua valendo.</p>
         </div>
       </div>
@@ -210,11 +264,11 @@ RISCO: kitsch de letra de mão. Disciplina: a folha é impressa, o manuscrito ap
   <figure class="mock" style="margin:0"><div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div><video id="lightbox-video" muted loop playsinline controls></video></figure>
 </dialog>
 
-<script src="js/api.js?v=20260902b"></script>
-<script src="js/questions.js?v=20260902b"></script>
-<script src="js/runner.js?v=20260902b"></script>
-<script src="js/phases.js?v=20260902b"></script>
-<script src="js/app.js?v=20260902b" defer></script>
+<script src="js/api.js?v=20260902c"></script>
+<script src="js/questions.js?v=20260902c"></script>
+<script src="js/runner.js?v=20260902c"></script>
+<script src="js/phases.js?v=20260902c"></script>
+<script src="js/app.js?v=20260902c" defer></script>
 <script>(function(){var s=document.createElement("script");s.src="vendor/gsap.min.js";s.onload=function(){var t=document.createElement("script");t.src="vendor/SplitText.min.js";document.head.appendChild(t)};document.head.appendChild(s)})();</script>
 </body>
 </html>

@@ -11,8 +11,8 @@
   };
   var FASES = ['loading', 'invalid', 'intro', 'parte', 'conceito', 'bis', 'saida'];
   var STAGE = { intro: 1, parte1: 2, conceito: 3, parte2: 4, bis: 5 };
-  var LABEL = { parte1: '2 · você', conceito: '3 · a ideia', parte2: '4 · preço', bis: '5 · bis' };
-  var TITLE = { parte1: 'Sobre você e seus shows', conceito: 'O que a eshows está construindo', parte2: 'O preço, e o que você acha', bis: 'Bis' };
+  var LABEL = { parte1: '2 · como funciona hoje', conceito: '3 · a ideia', parte2: '4 · o preço', bis: '5 · próximo passo' };
+  var TITLE = { parte1: 'Como funciona hoje', conceito: 'O que a eshows está construindo', parte2: 'O preço, e o que você acha', bis: 'Seu próximo passo' };
   var showcaseReady = false, bisReady = false, saidaReady = false;
 
   function el(id) { return document.getElementById(id); }
@@ -99,9 +99,35 @@
     if (video.getAttribute('src') !== src) { video.src = src; video.load(); }
     var p = video.play(); if (p && p.catch) p.catch(function () {});
   }
+  function buildCarousel(items) {
+    var track = el('carousel'); if (!track || track.childElementCount) return;
+    track.hidden = false;
+    items.forEach(function (li) {
+      var key = li.getAttribute('data-shot'), t = li.querySelector('.t').textContent, d = li.querySelector('.d').textContent, ch = li.querySelector('.ch').textContent;
+      var slide = document.createElement('article'); slide.className = 'slide';
+      slide.innerHTML = '<figure class="mock mock--phone" style="margin:0"><video muted loop playsinline preload="none" poster="' + shotSrc(key, 'webp') + '" data-key="' + key + '" aria-label="Tela: ' + t + '"></video></figure>' +
+        '<div><span class="ch">' + ch + '</span><p class="t">' + t + '</p><p class="d">' + d + '</p></div>';
+      track.appendChild(slide);
+    });
+    var hint = document.createElement('p'); hint.className = 'carousel__hint'; hint.textContent = 'Arrasta pro lado pra ver as seis'; track.insertAdjacentElement('afterend', hint);
+    if ('IntersectionObserver' in root && !(ED.env.saveData || ED.env.lowEnd)) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var v = en.target.querySelector('video');
+          if (en.isIntersecting && en.intersectionRatio >= .6) {
+            if (!v.getAttribute('src')) { v.src = shotSrc(v.getAttribute('data-key'), 'mp4'); v.load(); }
+            var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+            A.track('slide_seen', { key: v.getAttribute('data-key') });
+          } else { v.pause(); }
+        });
+      }, { root: track, threshold: [.6] });
+      track.querySelectorAll('.slide').forEach(function (sl) { io.observe(sl); });
+    }
+  }
   function initShowcase() {
     if (showcaseReady) return; showcaseReady = true;
     var items = Array.prototype.slice.call(document.querySelectorAll('#inlist li'));
+    if (ED.env.mobile) { buildCarousel(items); }
     var lockUntil = 0;
     function activate(li) {
       items.forEach(function (n) { n.classList.toggle('is-on', n === li); });
@@ -119,9 +145,9 @@
     }
     var showcase = el('showcase');
     var seen = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { setShot(items[0].getAttribute('data-shot')); A.track('showcase_seen'); seen.disconnect(); } });
+      entries.forEach(function (en) { if (en.isIntersecting) { if (!ED.env.mobile) setShot(items[0].getAttribute('data-shot')); A.track('showcase_seen'); seen.disconnect(); } });
     }, { threshold: .2 });
-    seen.observe(showcase);
+    seen.observe(ED.env.mobile ? el('carousel') : showcase);
     var dlg = el('lightbox'), dv = el('lightbox-video');
     el('zoom').addEventListener('click', function () {
       var key = el('mock-video').getAttribute('data-key') || 'epk';
@@ -209,8 +235,8 @@
         .then(function () {
           el('bis-form').hidden = true; el('bis-done').hidden = false;
           el('bis-done-msg').textContent = purpose === 'meeting'
-            ? 'A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por montar isso com a gente.'
-            : 'Quando abrir, você é dos primeiros a saber, pelo WhatsApp. Obrigado por montar isso com a gente.';
+            ? 'A gente te chama pelo WhatsApp pra marcar a conversa. Obrigado por fazer parte dessa construção.'
+            : 'Quando o escritório for lançado, você fica sabendo primeiro, pelo WhatsApp. Obrigado por fazer parte dessa construção.';
           document.querySelectorAll('#side-setl li, #intro-sheet .setl li').forEach(function (li) { li.classList.remove('is-now'); li.classList.add('is-done'); });
           el('bis-done').querySelector('h2').focus();
         })

@@ -3,7 +3,18 @@
   var ED = root.ED, Q = ED.questions, F = ED.flow, A = ED.api;
   var folha, revealEl, current = null, history = [], temp = {};
   var reduced = root.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var RING = '<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6,21 C3,7 38,2 60,4 C90,7 98,14 96,23 C93,34 60,38 38,37 C14,36 6,32 6,21"/></svg>';
+  var RING = '<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M6,21 C3,7 38,2 60,4 C90,7 98,14 96,23 C93,34 60,38 38,37 C14,36 6,32 6,21"/></svg>';
+  /* Desenha o círculo de marcador medindo o traço de verdade (funciona sem pathLength, iOS incluído). */
+  function drawRing(li, animate) {
+    li.insertAdjacentHTML('beforeend', RING);
+    var path = li.querySelector('.ring path');
+    if (!path || !path.getTotalLength) return;
+    var L = path.getTotalLength();
+    path.style.strokeDasharray = L + ' ' + L;
+    if (!animate || reduced) { path.style.strokeDashoffset = '0'; return; }
+    path.style.strokeDashoffset = String(L);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { path.style.transition = 'stroke-dashoffset .38s cubic-bezier(.23,1,.32,1)'; path.style.strokeDashoffset = '0'; }); });
+  }
   var TAPES = '<span class="tape tape--tl" aria-hidden="true"></span><span class="tape tape--tr" aria-hidden="true"></span>';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -27,7 +38,7 @@
       opts.map(function (o) {
         var sel = multi ? (selected || []).indexOf(o.id) >= 0 : selected === o.id;
         var dis = disabled && disabled.indexOf(o.id) >= 0;
-        return '<li role="' + (multi ? 'checkbox' : 'radio') + '" tabindex="0" data-value="' + esc(o.id) + '" aria-checked="' + (sel ? 'true' : 'false') + '"' + (dis ? ' aria-disabled="true"' : '') + '>' + esc(o.label) + (sel && !multi ? RING : '') + '</li>';
+        return '<li role="' + (multi ? 'checkbox' : 'radio') + '" tabindex="0" data-value="' + esc(o.id) + '" aria-checked="' + (sel ? 'true' : 'false') + '"' + (dis ? ' aria-disabled="true"' : '') + (sel && !multi ? ' data-ring="1"' : '') + '>' + esc(o.label) + '</li>';
       }).join('') + '</ul>';
   }
 
@@ -80,11 +91,21 @@
     return html;
   }
 
+  var SETLIST = ['Um combinado rápido', 'Como funciona hoje', 'O que a eshows está construindo', 'O preço, e o que você acha', 'Seu próximo passo'];
+  function sheetSetlist(qd) {
+    var now = qd.part === 1 ? 2 : 4;
+    return '<div class="sheet__setl" aria-hidden="true"><ol class="setl">' + SETLIST.map(function (txt, i) {
+      var n = i + 1, cls = n < now ? ' class="is-done"' : (n === now ? ' class="is-now"' : '');
+      return '<li' + cls + '><span class="n">' + n + '</span><span class="t">' + txt + '</span></li>';
+    }).join('') + '</ol></div>';
+  }
+
   function paint(id, fromBack) {
     current = id; temp = {};
     var qd = Q.byId[id];
     folha.hidden = false; revealEl.hidden = true;
-    folha.innerHTML = render(qd);
+    folha.innerHTML = render(qd) + sheetSetlist(qd);
+    folha.querySelectorAll('li[data-ring]').forEach(function (li) { drawRing(li, false); });
     folha.className = 'sheet ' + (history.length % 2 ? 'sheet--r' : '');
     updateCta();
     var stage = qd.part === 1 ? 'parte1' : 'parte2';
@@ -131,7 +152,7 @@
     var group = li.parentNode, name = group.getAttribute('data-name');
     group.querySelectorAll('li').forEach(function (n) { n.setAttribute('aria-checked', 'false'); var r = n.querySelector('.ring'); if (r) r.remove(); });
     li.setAttribute('aria-checked', 'true');
-    li.insertAdjacentHTML('beforeend', RING);
+    drawRing(li, true);
     temp[name] = li.getAttribute('data-value');
     var qd = q();
     if (name === qd.id) commit(qd.id, temp[name]);
@@ -144,7 +165,7 @@
     }
     if (qd.kind === 'dual' && !qd.fields.every(function (f) { return (temp[f.id] || answers()[f.id]) != null; })) return;
     if (qd.noAuto) { updateCta(); return; }
-    setTimeout(function () { if (current === qd.id) advance(qd); }, reduced ? 0 : 450);
+    setTimeout(function () { if (current === qd.id) advance(qd); }, reduced ? 0 : 650);
   }
 
   function toggleCheck(li) {
