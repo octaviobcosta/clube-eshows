@@ -33,7 +33,7 @@
       note: { id: 'p2_porque', placeholder: 'Se quiser, conta em uma frase', maxlength: 300 } },
     { id: 'p2_pesou', part: 2, kind: 'single', label: 'O que pesou?', options: [
       { id: 'preco', label: 'Preço' }, { id: 'nao_preciso', label: 'Não preciso disso' }, { id: 'confianca', label: 'Ainda não confio' }, { id: 'outro', label: 'Outro' } ] },
-    { id: 'p2_falta', part: 2, kind: 'text', label: 'O que precisaria acontecer pra você assinar hoje, sem pensar duas vezes?', optional: true, maxlength: 300, placeholder: 'Opcional. Uma frase já ajuda.' }
+    { id: 'p2_falta', part: 2, kind: 'text', label: 'Você sentiu falta de alguma funcionalidade que não contemplamos no produto?', optional: true, maxlength: 300, placeholder: 'Opcional. Uma frase já ajuda.' }
   ];
 
   var LIKERT = [ { id: '1', label: 'Com certeza não' }, { id: '2', label: 'Provavelmente não' }, { id: '3', label: 'Talvez' }, { id: '4', label: 'Provavelmente sim' }, { id: '5', label: 'Com certeza sim' } ];
