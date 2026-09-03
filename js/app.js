@@ -26,20 +26,25 @@
     if (rp.phase === 'bis') { ED.state.exit = rp.exit || null; if (rp.exit) P.saida(rp.exit); else P.bis(); }
   }
 
-  var src = new URLSearchParams(location.search).get('src') || 'publico';
-  var ready = A.TOKEN ? Promise.resolve() : A.start(src);
-  ready.then(function () { return A.call('open', { event_id: A.uid() }); }).then(function (r) {
-    ED.state.answers = r.savedAnswers || {};
-    ED.state.displayName = r.displayName || '';
-    ED.state.opening = false;
-    A.track('questionnaire_v3', { version: 3, viewport: window.innerWidth + 'x' + window.innerHeight });
-    route(r);
-  }).catch(function (e) {
-    ED.state.opening = false;
-    var msg = null;
-    if (e && (e.status === 403 || e.status === 401)) { A.setToken(''); msg = 'Esta sessão expirou. Recarrega a página pra começar de novo.'; }
-    if (e && e.status === 404) msg = 'Este link não é válido. Confere se ele veio completo na mensagem.';
-    if (!e || !e.status || e.status >= 500) msg = 'Não deu pra abrir agora. Confere a conexão e recarrega a página.';
-    P.show('invalid', msg);
-  });
+  var params = new URLSearchParams(location.search);
+  var src = params.get('src') || 'publico', fromUrl = !!params.get('t');
+  function boot(retried) {
+    var ready = A.TOKEN ? Promise.resolve() : A.start(src);
+    return ready.then(function () { return A.call('open', { event_id: A.uid() }); }).then(function (r) {
+      ED.state.answers = r.savedAnswers || {};
+      ED.state.displayName = r.displayName || '';
+      ED.state.opening = false;
+      A.track('questionnaire_v3', { version: 3, viewport: window.innerWidth + 'x' + window.innerHeight });
+      route(r);
+    }).catch(function (e) {
+      var rejected = e && (e.status === 400 || e.status === 401 || e.status === 403 || e.status === 404);
+      /* token guardado no navegador que não vale mais (expirou, foi revogado, ficou corrompido): descarta e recomeça em modo público */
+      if (rejected && !fromUrl && !retried && A.TOKEN) { A.setToken(''); return boot(true); }
+      ED.state.opening = false;
+      var msg = 'Não deu pra abrir agora. Confere a conexão e recarrega a página.';
+      if (rejected) { A.setToken(''); msg = fromUrl ? 'Este link expirou ou não é válido. Abre a página sem o código do convite pra começar de novo.' : 'Esta sessão expirou. Recarrega a página pra começar de novo.'; }
+      P.show('invalid', msg);
+    });
+  }
+  boot(false);
 })();
