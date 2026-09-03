@@ -1,7 +1,16 @@
-/* Cliente da Edge Function ed-api. Autoridade = token do convite (?t=). */
+/* Cliente da Edge Function ed-api. Autoridade = token do convite (?t=, localStorage ou criado pelo start). */
 (function (root) {
   var API = 'https://osahwimcceppufdcaovv.supabase.co/functions/v1/ed-api';
+  var KEY = 'ed_token';
   var TOKEN = new URLSearchParams(location.search).get('t') || '';
+  if (!TOKEN) { try { TOKEN = localStorage.getItem(KEY) || ''; } catch (e) {} }
+  else { try { localStorage.setItem(KEY, TOKEN); } catch (e) {} }
+  /* modo público: sem token na URL, o servidor cria um convite anônimo (start) e o token fica só neste navegador */
+  function setToken(t) { TOKEN = t || ''; root.ED.api.TOKEN = TOKEN; try { if (TOKEN) localStorage.setItem(KEY, TOKEN); else localStorage.removeItem(KEY); } catch (e) {} }
+  function start(source) {
+    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'start', source: source || 'publico' }), credentials: 'omit' })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.token) { var err = new Error(j.error || 'Falha'); err.status = r.status; throw err; } setToken(j.token); return j; }); });
+  }
   var queue = [], timer = null;
 
   function uid() {
@@ -24,6 +33,8 @@
 
   function flush() {
     if (!queue.length) return;
+    /* enquanto o open ainda não criou a instância no servidor, eventos dariam 409: espera mais um pouco */
+    if (root.ED.state && root.ED.state.opening) { clearTimeout(timer); timer = setTimeout(flush, 800); return; }
     var batch = queue.splice(0, 40);
     var body = JSON.stringify({ action: 'events', token: TOKEN, events: batch });
     /* fetch keepalive em vez de sendBeacon: o beacon manda credenciais e a função não responde Allow-Credentials */
@@ -40,5 +51,5 @@
   document.addEventListener('visibilitychange', function () { if (document.hidden) flush(); });
 
   root.ED = root.ED || {};
-  root.ED.api = { API: API, TOKEN: TOKEN, uid: uid, call: call, track: track, flush: flush };
+  root.ED.api = { API: API, TOKEN: TOKEN, uid: uid, call: call, track: track, flush: flush, start: start, setToken: setToken };
 })(window);

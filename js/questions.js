@@ -43,7 +43,7 @@
   Q.forEach(function (q) { byId[q.id] = q; });
 
   var parts = [
-    { n: 1, title: 'Sobre você e seus shows', ids: Q.filter(function (q) { return q.part === 1; }).map(function (q) { return q.id; }) },
+    { n: 1, title: 'Como funciona hoje', ids: Q.filter(function (q) { return q.part === 1; }).map(function (q) { return q.id; }) },
     { n: 2, title: 'Sua percepção', ids: ['p2_sentido', 'p2_esperado', '__reveal', 'p2_int_solo', 'p2_int_assist', 'p2_vs_esperado', 'p2_escolha', 'p2_pesou', 'p2_falta'] }
   ];
 
